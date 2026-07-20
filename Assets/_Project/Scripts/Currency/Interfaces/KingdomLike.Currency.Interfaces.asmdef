@@ -1,0 +1,14 @@
+{
+    "name": "KingdomLike.Currency.Interfaces",
+    "rootNamespace": "KingdomLike.Currency.Interfaces",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

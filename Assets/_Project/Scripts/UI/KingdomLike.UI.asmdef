@@ -1,0 +1,22 @@
+{
+    "name": "KingdomLike.UI",
+    "rootNamespace": "KingdomLike.UI",
+    "references": [
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:59568b0f8687be4499bdaa3bbc5c0586",
+        "GUID:07668497c187c9c46a487d106686cddb",
+        "GUID:1b9c7e7410f9bfa498f7b88bdf536709",
+        "GUID:ff112e9221811d444afe94eb43c8ef8f",
+        "GUID:957b6bf0f94ac614d96243cfa30a0898"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

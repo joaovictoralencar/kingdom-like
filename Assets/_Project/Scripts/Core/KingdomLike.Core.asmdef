@@ -1,0 +1,21 @@
+{
+    "name": "KingdomLike.Core",
+    "rootNamespace": "",
+    "references": [
+        "GUID:07668497c187c9c46a487d106686cddb",
+        "GUID:59568b0f8687be4499bdaa3bbc5c0586",
+        "GUID:d044e4ffb345b51498155d06e602e97f",
+        "GUID:f0a1b964e56e3424a8ef69ae9ed9944c",
+        "GUID:957b6bf0f94ac614d96243cfa30a0898",
+        "GUID:ff112e9221811d444afe94eb43c8ef8f"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
