@@ -432,6 +432,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4406c50ed7098b74ebb93036152beeb4, type: 3}
+--- !u!114 &284745103 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 661905691806593266, guid: d7f139f6ac7e49049a90a9061ebf5cac, type: 3}
+  m_PrefabInstance: {fileID: 1689543409}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba5a72471bb67f44da7e11c63f5e4f10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.Components.CurrencyComponent
 --- !u!1001 &338226930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -779,7 +790,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041fb0c87c8f5b747909ae367beb422e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: HelloDev.Bootstrap::HelloDev.Bootstrap.GameBootstrap
-  groups: []
+  groups:
+  - enabled: 1
+    groupName: Essentials
+    systems:
+    - {fileID: 419175227}
+  - enabled: 1
+    groupName: Data Layer
+    systems: []
+  - enabled: 1
+    groupName: Game Systems
+    systems:
+    - {fileID: 284745103}
+  - enabled: 1
+    groupName: UI
+    systems: []
+  - enabled: 1
+    groupName: Audio
+    systems: []
   enableDebugLogging: 0
   initializationTimeout: 10
   persistent: 1
@@ -989,6 +1017,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8999400126639994450, guid: 4406c50ed7098b74ebb93036152beeb4, type: 3}
+      propertyPath: _startDelay
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1081,21 +1113,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1454902353420201326, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
-      propertyPath: stats.Array.data[0].value.ConstantValue
-      value: 500
-      objectReference: {fileID: 0}
-    - target: {fileID: 1454902353420201326, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
-      propertyPath: stats.Array.data[0].maxValue.ConstantValue
-      value: 500
-      objectReference: {fileID: 0}
     - target: {fileID: 1559090657042264986, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
       propertyPath: m_Name
       value: pfb_Horse
       objectReference: {fileID: 0}
     - target: {fileID: 1560986023071476146, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.3231826
+      value: -12.13
       objectReference: {fileID: 0}
     - target: {fileID: 1560986023071476146, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1103,7 +1127,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1560986023071476146, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.00017356286
+      value: -4.07
       objectReference: {fileID: 0}
     - target: {fileID: 1560986023071476146, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1133,34 +1157,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3379739879261032631, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
-      propertyPath: m_TranslationOffsets.Array.data[0].x
-      value: -0.13003087
-      objectReference: {fileID: 0}
-    - target: {fileID: 3379739879261032631, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
-      propertyPath: m_TranslationOffsets.Array.data[0].y
-      value: 0.13748682
-      objectReference: {fileID: 0}
     - target: {fileID: 5821524873796384128, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
       propertyPath: playerInput
       value: 
       objectReference: {fileID: 1851898414}
-    - target: {fileID: 8289338543356868797, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.007999897
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610758423787972208, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610758424968507995, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.0009994507
-      objectReference: {fileID: 0}
-    - target: {fileID: 8610758424968507995, guid: d1ebe444eb9c2af4f9eb55a052feb930, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.6914753
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1363,7 +1363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1003109465510362310, guid: d7f139f6ac7e49049a90a9061ebf5cac, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5
+      value: -7.97
       objectReference: {fileID: 0}
     - target: {fileID: 1003109465510362310, guid: d7f139f6ac7e49049a90a9061ebf5cac, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1396,6 +1396,10 @@ PrefabInstance:
     - target: {fileID: 1008767000821139900, guid: d7f139f6ac7e49049a90a9061ebf5cac, type: 3}
       propertyPath: m_Name
       value: pfb_Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340356356702990489, guid: d7f139f6ac7e49049a90a9061ebf5cac, type: 3}
+      propertyPath: Editor_Tabs1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

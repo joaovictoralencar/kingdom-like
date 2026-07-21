@@ -182,7 +182,7 @@ namespace MalbersAnimations.Utilities
             return false;
         }
 
-        public void Interact(Collider other) => Interact(-1, other.gameObject);
+        public void Interact(Collider other) => Interact(-1, other.attachedRigidbody != null ? other.attachedRigidbody.gameObject : other.gameObject);
 
         public virtual void Interact() => Interact(-1, null);
 

@@ -14847,6 +14847,7 @@ GameObject:
   - component: {fileID: 8637451844478517702}
   - component: {fileID: 7945973801625395685}
   - component: {fileID: 3750980341334015625}
+  - component: {fileID: 8999400126639994450}
   m_Layer: 30
   m_Name: pfb_Coin
   m_TagString: Untagged
@@ -14910,7 +14911,7 @@ MonoBehaviour:
       m_Bits: 1048576
     Variable: {fileID: 0}
   triggerInteraction: 1
-  UseOnce: 1
+  UseOnce: 0
   DisableAfterUse: 0
   m_Destroy: 1
   DestroyAfter: 1.5
@@ -14944,7 +14945,7 @@ MonoBehaviour:
   OnRigidBodyEnter:
     m_PersistentCalls:
       m_Calls: []
-  tabIndex: 0
+  tabIndex: 2
   references:
     version: 2
     RefIds: []
@@ -15009,7 +15010,7 @@ MonoBehaviour:
   Description: Interactable Element that invoke events when an Interactor interact
     with it
   ShowDescription: 1
-  Editor_Tabs1: 0
+  Editor_Tabs1: 1
   references:
     version: 2
     RefIds: []
@@ -15026,8 +15027,59 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Currency::KingdomLike.Currency.InteractableCurrency
   _amount: 1
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 0
+  _groundRaycastDistance: 5
   _currencyData: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
   _interactable: {fileID: 7945973801625395685}
+  _moveToTarget: {fileID: 8999400126639994450}
+--- !u!114 &8999400126639994450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6737202416822758494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48939350ffcd1a24caeaa0fea7cf4b15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.MoveToTarget
+  _speed: 25
+  _minDistance: 0.01
+  _targetOffset: {x: 0, y: 0.7, z: 0}
+  _startDelay: 0.25
+  _speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _speedCurveDuration: 1
+  _scaleActivationRadius: 0.5
+  _endScaleRatio: 0.3
+  _onTargetReached:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8359455358871513399
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 {
     "name": "KingdomLike.Core",
-    "rootNamespace": "",
+    "rootNamespace": "KingdomLike.Core",
     "references": [
         "GUID:07668497c187c9c46a487d106686cddb",
         "GUID:59568b0f8687be4499bdaa3bbc5c0586",
