@@ -16,3 +16,12 @@ MonoBehaviour:
   items:
   - {fileID: 8300000, guid: 7d8841af2f83bbe4da4e012b59bec5e7, type: 3}
   - {fileID: 8300000, guid: 77b7b6f0150f62d4187cbd4fda2cb4ad, type: 3}
+  - {fileID: 8300000, guid: 7d8841af2f83bbe4da4e012b59bec5e7, type: 3}
+  pitch:
+    minValue: 1
+    maxValue: 1
+  volume:
+    minValue: 1
+    maxValue: 1
+  SpatialBlend: 1
+  PlayRandom: 1
