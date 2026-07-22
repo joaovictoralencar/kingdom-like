@@ -4,7 +4,7 @@ using KingdomLike.Currency.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace KingdomLike.Events
+namespace KingdomLike.Currency
 {
     [CreateAssetMenu(
         fileName = "SO_CurrencyValueChangedEvent_",
@@ -18,11 +18,6 @@ namespace KingdomLike.Events
             Raise(parameter);
         }
 #endif
-    }
-
-    [Serializable]
-    public abstract class CurrencyEventUpdate : GameEvent_SO<CurrencyValueChangedEvent>
-    {
     }
 
     [Serializable]

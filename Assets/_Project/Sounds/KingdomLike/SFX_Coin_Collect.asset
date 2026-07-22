@@ -34,7 +34,7 @@ MonoBehaviour:
     Locale:
       m_Code: 
     AudioClip: {fileID: 8300000, guid: 760c4a5aa53444aa4bf4a7ad277e3252, type: 3}
-    Volume: 1
+    Volume: 2
     Delay: 0
     StartPosition: 0
     EndPosition: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
     Locale:
       m_Code: 
     AudioClip: {fileID: 8300000, guid: a2c1fae09bf6049f6bbd0badd73e68eb, type: 3}
-    Volume: 1
+    Volume: 2
     Delay: 0
     StartPosition: 0
     EndPosition: 0
@@ -66,7 +66,7 @@ MonoBehaviour:
     Locale:
       m_Code: 
     AudioClip: {fileID: 8300000, guid: 16aa7a5781f644bdfaea56a25045fcd7, type: 3}
-    Volume: 1
+    Volume: 2
     Delay: 0
     StartPosition: 0
     EndPosition: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
     Locale:
       m_Code: 
     AudioClip: {fileID: 8300000, guid: 12c777749f94f4917bf05f129703f66d, type: 3}
-    Volume: 1
+    Volume: 2
     Delay: 0
     StartPosition: 0
     EndPosition: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
     Locale:
       m_Code: 
     AudioClip: {fileID: 8300000, guid: 61d406b7e73d543828ae22723594d428, type: 3}
-    Volume: 1
+    Volume: 2
     Delay: 0
     StartPosition: 0
     EndPosition: 0
@@ -114,7 +114,7 @@ MonoBehaviour:
     Locale:
       m_Code: 
     AudioClip: {fileID: 8300000, guid: 4db9e05bd48c84164b12c801ea4dadea, type: 3}
-    Volume: 1
+    Volume: 2
     Delay: 0
     StartPosition: 0
     EndPosition: 0

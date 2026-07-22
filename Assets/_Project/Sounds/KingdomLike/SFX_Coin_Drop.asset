@@ -34,7 +34,7 @@ MonoBehaviour:
     Locale:
       m_Code: 
     AudioClip: {fileID: 8300000, guid: a721c6003a3b4416bbdf0d5bba4bf1a6, type: 3}
-    Volume: 1
+    Volume: 2
     Delay: 0
     StartPosition: 0
     EndPosition: 0
@@ -50,7 +50,7 @@ MonoBehaviour:
     Locale:
       m_Code: 
     AudioClip: {fileID: 8300000, guid: fdf2a0b27f7d54e90894f2c5de9b9503, type: 3}
-    Volume: 1
+    Volume: 2
     Delay: 0
     StartPosition: 0
     EndPosition: 0

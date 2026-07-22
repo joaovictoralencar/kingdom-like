@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using HelloDev.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -53,21 +54,17 @@ namespace KingdomLike.Utils
             _context = context;
         }
 
-        public Task InitializeAsync()
+        public async UniTask InitializeAsync()
         {
             if (IsInitialized)
-                return Task.CompletedTask;
+                return;
 
             IDDatabase.Initialize(_entries);
 
             _isInitialized = true;
 
-            Logger.LogVerbose(
-                LogId,
-                $"Initialized ID database with {IDDatabase.Count} entries.",
-                this);
+            Logger.LogVerbose(LogId, $"Initialized ID database with {IDDatabase.Count} entries.", this);
 
-            return Task.CompletedTask;
         }
 
         #endregion

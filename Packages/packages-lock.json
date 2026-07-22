@@ -12,39 +12,39 @@
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.hellodev.utils": "https://github.com/joaovictoralencar/hellodev-utils.git#v1.0.7"
+        "com.hellodev.utils": "1.1.1"
       },
-      "hash": "4a5c21225bcda6c9c55645eef790be36edf886ac"
+      "hash": "3ecd239fa09fbb3683a38dc02d987a996ae7f2a9"
     },
     "com.hellodev.conditions": {
       "version": "https://github.com/joaovictoralencar/hellodev-conditions.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.hellodev.utils": "https://github.com/joaovictoralencar/hellodev-utils.git#v1.0.7",
-        "com.hellodev.events": "https://github.com/joaovictoralencar/hellodev-events.git#v1.1.0",
-        "com.hellodev.ids": "https://github.com/joaovictoralencar/hellodev-ids.git#v1.1.1"
+        "com.hellodev.utils": "1.1.1",
+        "com.hellodev.events": "1.2.1",
+        "com.hellodev.ids": "1.2.1"
       },
-      "hash": "c9106c8f26ab93260c1679be14fe321007487835"
+      "hash": "f05318a65839619f7672c770a1927516e11d561d"
     },
     "com.hellodev.events": {
       "version": "https://github.com/joaovictoralencar/hellodev-events.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.hellodev.utils": "https://github.com/joaovictoralencar/hellodev-utils.git#v1.0.7"
+        "com.hellodev.utils": "1.1.1"
       },
-      "hash": "a2d9497475b3ac7ba6482897dd107b1f4b88eef6"
+      "hash": "32221611707f2fef6c025086c24e3e3d484218a2"
     },
     "com.hellodev.ids": {
       "version": "https://github.com/joaovictoralencar/hellodev-ids.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.hellodev.utils": "https://github.com/joaovictoralencar/hellodev-utils.git#v1.0.7",
+        "com.hellodev.utils": "1.1.1",
         "com.unity.localization": "1.5.11"
       },
-      "hash": "068e0783f23a07c197e053e4f880f54839acba60"
+      "hash": "7f0bca4eff0d6d36caaf7baa6615560be30940af"
     },
     "com.hellodev.loaders": {
       "version": "https://github.com/joaovictoralencar/hellodev-loaders.git",
@@ -53,18 +53,20 @@
       "dependencies": {
         "com.unity.addressables": "2.3.1",
         "com.cysharp.unitask": "2.5.11",
-        "com.hellodev.utils": "https://github.com/joaovictoralencar/hellodev-utils.git#v1.0.7"
+        "com.hellodev.utils": "1.1.0"
       },
-      "hash": "68d12d5bf698651a63449d9d6c0baef0ac835219"
+      "hash": "fc3f50eb2979548c441da59b80f3b3d99b33e7a0"
     },
     "com.hellodev.saving": {
       "version": "https://github.com/joaovictoralencar/com.hellodev.saving.git",
       "depth": 0,
       "source": "git",
       "dependencies": {
-        "com.hellodev.utils": "https://github.com/joaovictoralencar/hellodev-utils.git#v1.0.7"
+        "com.hellodev.utils": "1.1.1",
+        "com.hellodev.bootstrap": "1.5.1",
+        "com.cysharp.unitask": "2.5.11"
       },
-      "hash": "22b14162394a0495c9aa928d3952222f3041e09d"
+      "hash": "fbeffc8fc91d42d31d74e78426c18bc2f734b241"
     },
     "com.hellodev.ui": {
       "version": "https://github.com/joaovictoralencar/hellodev-ui.git",
@@ -72,21 +74,23 @@
       "source": "git",
       "dependencies": {
         "com.unity.ugui": "1.0.0",
-        "com.hellodev.utils": "1.1.0",
+        "com.hellodev.utils": "1.1.1",
         "com.hellodev.loaders": "1.1.0",
         "com.kyrylokuzyk.primetween": "1.0.0",
         "com.unity.inputsystem": "1.0.0",
         "com.unity.localization": "1.0.0",
         "com.unity.addressables": "1.19.19"
       },
-      "hash": "9fd22a3cbd7da765e3ac00b8a879742504ed9085"
+      "hash": "eb23828dcc101db99eddd5e9fa6b85aeb2c847e7"
     },
     "com.hellodev.utils": {
-      "version": "https://github.com/joaovictoralencar/hellodev-utils.git#v1.1.0",
+      "version": "https://github.com/joaovictoralencar/hellodev-utils.git",
       "depth": 0,
       "source": "git",
-      "dependencies": {},
-      "hash": "d254653f1ae631fcab9ccb7ca36d76b86e694ccd"
+      "dependencies": {
+        "com.cysharp.unitask": "2.5.11"
+      },
+      "hash": "a05ea09842771c5747591a37e187eca801cacaba"
     },
     "com.kyrylokuzyk.primetween": {
       "version": "file:../Assets/Plugins/PrimeTween/internal/com.kyrylokuzyk.primetween.tgz",
@@ -126,7 +130,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
-      "version": "1.8.29",
+      "version": "1.8.30",
       "depth": 0,
       "source": "registry",
       "dependencies": {

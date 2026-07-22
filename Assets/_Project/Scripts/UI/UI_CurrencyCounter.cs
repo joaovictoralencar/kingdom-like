@@ -1,5 +1,5 @@
 using KingdomLike.Currency.Data;
-using KingdomLike.Events;
+using KingdomLike.Currency;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;

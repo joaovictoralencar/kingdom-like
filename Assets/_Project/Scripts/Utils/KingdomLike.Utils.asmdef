@@ -3,7 +3,8 @@
     "rootNamespace": "KingdomLike.Utils",
     "references": [
         "GUID:e6d1fe33c4ca9384c8ad414eda55db62",
-        "GUID:07668497c187c9c46a487d106686cddb"
+        "GUID:07668497c187c9c46a487d106686cddb",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

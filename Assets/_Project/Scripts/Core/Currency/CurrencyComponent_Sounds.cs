@@ -27,7 +27,7 @@ namespace KingdomLike.Core.Currency
 
             _currencyComponent.OnCollectionStarted += HandleCollectionStarted;
 
-            _currencyComponent.OnCollected += HandleCollected;
+            _currencyComponent.OnTargetReached += HandleCollected;
 
             _currencyComponent.OnCollectionCancelled += HandleCollectionCancelled;
         }
@@ -41,7 +41,7 @@ namespace KingdomLike.Core.Currency
 
             _currencyComponent.OnCollectionStarted -= HandleCollectionStarted;
 
-            _currencyComponent.OnCollected -= HandleCollected;
+            _currencyComponent.OnTargetReached -= HandleCollected;
 
             _currencyComponent.OnCollectionCancelled -= HandleCollectionCancelled;
         }
@@ -56,7 +56,7 @@ namespace KingdomLike.Core.Currency
             PlaySound(_collectionStartSound, follow: true);
         }
 
-        private void HandleCollected()
+        private void HandleCollected(CurrencyComponent currencyComponent)
         {
             PlaySound(_collectSound, follow: false);
         }

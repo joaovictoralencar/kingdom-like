@@ -236,7 +236,7 @@ namespace KingdomLike.Core
         {
             if (_breathingPlayer == null)
                 return;
-            if (SoundManager.Instance) _breathingPlayer.Stop();
+            if (SoundManager.HasInstance) _breathingPlayer.Stop();
             _breathingPlayer = null;
         }
 
