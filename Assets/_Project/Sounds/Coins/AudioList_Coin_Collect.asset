@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfe5bbd0cfa2b84fb1e7dca44d18bb9, type: 3}
+  m_Name: AudioList_Coin_Collect
+  m_EditorClassIdentifier: 
+  Description: Store a Collection of AudioClip
+  items:
+  - {fileID: 8300000, guid: 760c4a5aa53444aa4bf4a7ad277e3252, type: 3}
+  - {fileID: 8300000, guid: a2c1fae09bf6049f6bbd0badd73e68eb, type: 3}
+  - {fileID: 8300000, guid: 16aa7a5781f644bdfaea56a25045fcd7, type: 3}
+  - {fileID: 8300000, guid: 12c777749f94f4917bf05f129703f66d, type: 3}
+  - {fileID: 8300000, guid: 61d406b7e73d543828ae22723594d428, type: 3}
+  - {fileID: 8300000, guid: 4db9e05bd48c84164b12c801ea4dadea, type: 3}
+  pitch:
+    minValue: 1
+    maxValue: 1
+  volume:
+    minValue: 1
+    maxValue: 1
+  SpatialBlend: 1
+  PlayRandom: 1

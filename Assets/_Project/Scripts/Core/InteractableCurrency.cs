@@ -4,10 +4,12 @@ using KingdomLike.Currency.Data;
 using MalbersAnimations.HAP;
 using MalbersAnimations.Utilities;
 using Sirenix.OdinInspector;
+using System;
 using UnityEngine;
 
 namespace KingdomLike.Currency
 {
+    [RequireComponent(typeof(Collider))]
     public class InteractableCurrency : MonoBehaviour
     {
         [FoldoutGroup("Settings")]
@@ -39,33 +41,62 @@ namespace KingdomLike.Currency
         [SerializeField]
         private MoveToTarget _moveToTarget;
 
+        [FoldoutGroup("References")]
+        [Tooltip("Visual representation of the coin. Hidden as soon as collection succeeds, before the object is destroyed.")]
+        [SerializeField]
+        private GameObject _visual;
+
+        private Collider _collider;
         private PlayerCurrencyComponent _pendingReceiver;
         private bool _isCollecting;
 
+        /// <summary>Fired once collection succeeds, right before the object is destroyed.</summary>
+        public event Action OnCollected;
+
+        /// <summary>Fired when the coin spawns (OnEnable) and when a collection attempt fails and it drops back to the ground.</summary>
+        public event Action OnDrop;
+
+        /// <summary>Fired when a valid interactor starts collecting this currency.</summary>
+        public event Action<GameObject> OnInteract;
+
+        private void Awake()
+        {
+            _collider = GetComponent<Collider>();
+        }
+
         private void OnEnable()
         {
-            _interactable.OnInteractWithGO.AddListener(OnInteract);
+            _interactable.OnInteractWithGO.AddListener(HandleInteract);
             _moveToTarget.OnTargetReached.AddListener(OnTargetReached);
+
+            if (_visual != null)
+                _visual.SetActive(true);
+
+            if (_collider != null)
+                _collider.enabled = true;
+
+            OnDrop?.Invoke();
         }
 
         private void OnDisable()
         {
-            _interactable.OnInteractWithGO.RemoveListener(OnInteract);
+            _interactable.OnInteractWithGO.RemoveListener(HandleInteract);
             _moveToTarget.OnTargetReached.RemoveListener(OnTargetReached);
         }
 
-        private void OnInteract(GameObject interactable)
+        private void HandleInteract(GameObject interactable)
         {
             if (_isCollecting || interactable == null)
                 return;
+
             Mount mount = interactable.GetComponentInChildren<Mount>();
             if (mount)
             {
                 interactable = mount.Rider.gameObject;
             }
-            
+
             PlayerCurrencyComponent playerCurrencyComponent = interactable.GetComponentInChildren<PlayerCurrencyComponent>();
-            
+
             if (playerCurrencyComponent == null)
                 return;
 
@@ -75,6 +106,8 @@ namespace KingdomLike.Currency
             _pendingReceiver = playerCurrencyComponent;
             _isCollecting = true;
             _moveToTarget.SetTarget(interactable.transform);
+
+            OnInteract?.Invoke(interactable);
         }
 
         private void OnTargetReached()
@@ -87,7 +120,7 @@ namespace KingdomLike.Currency
                 return;
             }
 
-            OnCollected();
+            Collected();
         }
 
         private void DropToGround()
@@ -96,10 +129,19 @@ namespace KingdomLike.Currency
             {
                 transform.position = hit.point;
             }
+
+            OnDrop?.Invoke();
         }
 
-        protected virtual void OnCollected()
+        protected virtual void Collected()
         {
+            if (_visual != null)
+                _visual.SetActive(false);
+
+            if (_collider != null)
+                _collider.enabled = false;
+
+            OnCollected?.Invoke();
             Destroy(gameObject);
         }
     }

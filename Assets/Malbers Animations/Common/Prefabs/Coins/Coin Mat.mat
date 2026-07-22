@@ -220,10 +220,10 @@ Material:
     - _ZWrite: 1
     - _ZWriteControl: 0
     m_Colors:
-    - _BaseColor: {r: 0.9547169, g: 0.93141454, b: 0.17833383, a: 1}
-    - _Color: {r: 0.95471686, g: 0.93141454, b: 0.17833379, a: 1}
+    - _BaseColor: {r: 1, g: 0.98346674, b: 0.34528297, a: 1}
+    - _Color: {r: 1, g: 0.9834667, b: 0.34528294, a: 1}
     - _DoubleSidedConstants: {r: 1, g: 1, b: -1, a: 0}
-    - _EmissionColor: {r: 1.0115821, g: 1.0592736, b: 0.0219849, a: 1}
+    - _EmissionColor: {r: 0.716976, g: 0.74901956, b: 0, a: 1}
     - _Emission_Color: {r: 0.35686275, g: 0.21176471, b: 0.0627451, a: 1}
     - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
   m_BuildTextureStacks: []

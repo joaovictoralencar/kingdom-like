@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdfe5bbd0cfa2b84fb1e7dca44d18bb9, type: 3}
+  m_Name: Horse Grass Steps
+  m_EditorClassIdentifier: 
+  Description: Store a Collection of AudioClip
+  items:
+  - {fileID: 8300000, guid: d63a577245de5704086f720844e53699, type: 3}
+  - {fileID: 8300000, guid: ed15bdd12157d9c44be0299b18d14b34, type: 3}
+  - {fileID: 8300000, guid: a3c5ac76780868646a0a5b0b3184866d, type: 3}
+  pitch:
+    minValue: 1
+    maxValue: 1
+  volume:
+    minValue: 1
+    maxValue: 1
+  SpatialBlend: 1
+  PlayRandom: 1
