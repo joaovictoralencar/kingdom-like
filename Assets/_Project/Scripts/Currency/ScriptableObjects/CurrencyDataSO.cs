@@ -1,4 +1,5 @@
 using KingdomLike.Currency.Interfaces;
+using KingdomLike.Utils;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -8,30 +9,25 @@ namespace KingdomLike.Currency.Data
     [CreateAssetMenu(
         fileName = "SO_CurrencyData_",
         menuName = "KingdomLike/Scriptable Objects/CurrencyDataSO")]
-    public class CurrencyDataSO : ScriptableObject
+    public class CurrencyDataSO : ScriptableObjectWithID
     {
-        [PreviewField(64, ObjectFieldAlignment.Left)]
-        [SerializeField]
+        [SerializeField, FoldoutGroup("Data")] [PreviewField(64, ObjectFieldAlignment.Left)]
         private Sprite _icon;
 
-        [SerializeField]
+        [SerializeField, FoldoutGroup("Localization")]
         private LocalizedString _localizedName;
 
-        [ShowIf("@_localizedName.IsEmpty")]
-        [SerializeField]
+        [ShowIf("@_localizedName.IsEmpty")] [SerializeField, FoldoutGroup("Localization")]
         private string _displayName;
 
-        [SerializeReference]
+        [SerializeReference, FoldoutGroup("Factory Settings")]
         private CurrencyFactory _currencyFactory;
 
         public Sprite Icon => _icon;
 
         public LocalizedString LocalizedName => _localizedName;
 
-        public string DisplayName =>
-            _localizedName.IsEmpty
-                ? _displayName
-                : _localizedName.GetLocalizedString();
+        public string DisplayName => _localizedName.IsEmpty ? _displayName : _localizedName.GetLocalizedString();
 
         public ICurrency CreateCurrency()
         {

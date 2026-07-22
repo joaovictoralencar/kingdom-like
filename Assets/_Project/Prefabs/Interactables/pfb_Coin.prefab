@@ -15012,7 +15012,6 @@ MonoBehaviour:
     m_Bits: 0
   _groundRaycastDistance: 5
   _currencyData: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
-  _interactable: {fileID: 7945973801625395685}
   _moveToTarget: {fileID: 8999400126639994450}
   _visual: {fileID: 0}
 --- !u!114 &8999400126639994450
@@ -15081,8 +15080,8 @@ MonoBehaviour:
     _entity: {fileID: 11400000, guid: a645f43a5748e764f9f262be47306197, type: 2}
     ID: 0
     <DebugObject>k__BackingField: {fileID: 6737202416822758494}
-  _onInteractSound:
-    _entity: {fileID: 11400000, guid: 6a3fb386e1485194fa5709298dae4ad8, type: 2}
+  _collectionStartSound:
+    _entity: {fileID: 0}
     ID: 0
     <DebugObject>k__BackingField: {fileID: 6737202416822758494}
 --- !u!136 &3763504942852943294

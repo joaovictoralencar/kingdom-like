@@ -1,0 +1,17 @@
+{
+    "name": "KingdomLike.Utils",
+    "rootNamespace": "KingdomLike.Utils",
+    "references": [
+        "GUID:e6d1fe33c4ca9384c8ad414eda55db62",
+        "GUID:07668497c187c9c46a487d106686cddb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
