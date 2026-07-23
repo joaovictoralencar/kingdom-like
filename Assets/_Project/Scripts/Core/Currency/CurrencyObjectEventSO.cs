@@ -5,10 +5,9 @@ using UnityEngine;
 namespace KingdomLike.Currency
 {
     [CreateAssetMenu(
-        fileName = "SO_CurrencyObjectEvent_",
+        fileName = "SO_Event_CurrencyObject_",
         menuName = "KingdomLike/Scriptable Objects/Events/Currency Object Event")]
-    public class CurrencyObjectEventSO :
-        GameEvent_SO<CurrencyComponent>
+    public class CurrencyObjectEventSO : GameEvent_SO<CurrencyComponent>
     {
 #if UNITY_EDITOR && ODIN_INSPECTOR
 

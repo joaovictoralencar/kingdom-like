@@ -25,7 +25,7 @@
         "com.hellodev.events": "1.2.1",
         "com.hellodev.ids": "1.2.1"
       },
-      "hash": "f05318a65839619f7672c770a1927516e11d561d"
+      "hash": "53b47c734ae80c9a89973886dd96bb78d1b71791"
     },
     "com.hellodev.events": {
       "version": "https://github.com/joaovictoralencar/hellodev-events.git",
@@ -322,6 +322,16 @@
         "com.unity.mathematics": "1.2.1",
         "com.unity.modules.imgui": "1.0.0",
         "com.unity.settings-manager": "1.0.3"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.terrain-tools": {
+      "version": "5.3.2",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.terrain": "1.0.0",
+        "com.unity.modules.terrainphysics": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },

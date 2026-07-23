@@ -23,5 +23,7 @@ namespace KingdomLike.Currency.Interfaces
 
         void SetMax(int max);
         void SetMin(int min);
+        
+        bool Has(int requiredAmount);
     }
 }

@@ -36,6 +36,11 @@ namespace KingdomLike.Currency
 
             OnValueChanged?.Invoke(previousValue, Value);
         }
+        
+        public bool Has(int requiredAmount)
+        {
+            return Value >= requiredAmount;
+        }
 
         public void Add(int amount)
         {

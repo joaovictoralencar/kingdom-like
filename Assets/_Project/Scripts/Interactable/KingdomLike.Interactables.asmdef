@@ -1,0 +1,24 @@
+{
+    "name": "KingdomLike.Interactables",
+    "rootNamespace": "KingdomLike.Interactables",
+    "references": [
+        "GUID:07668497c187c9c46a487d106686cddb",
+        "GUID:d044e4ffb345b51498155d06e602e97f",
+        "GUID:59568b0f8687be4499bdaa3bbc5c0586",
+        "GUID:8c7086e7e6ffd9947af479ea1eab33b4",
+        "GUID:adf82addfe31a024698d007ba69ba52f",
+        "GUID:957b6bf0f94ac614d96243cfa30a0898",
+        "GUID:ff112e9221811d444afe94eb43c8ef8f",
+        "GUID:cd34736d98c821c49b590ed8ee35e0fb",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
