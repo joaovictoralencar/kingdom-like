@@ -153,6 +153,12 @@ namespace KingdomLike.Core.Components
         }
 
         #endregion
+
+        private void Start()
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
+        }
     }
 
     [Serializable]
