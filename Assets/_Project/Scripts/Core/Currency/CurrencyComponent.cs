@@ -32,7 +32,7 @@ namespace KingdomLike.Currency
         private MoveToTarget _moveToTarget;
 
         [FoldoutGroup("Events")] [Required] [SerializeField]
-        private CurrencyObjectEventSO _despawnRequested;
+        private CurrencyPoolManagerLocatorSO _currencyPoolManagerLocator;
 
         #endregion
 
@@ -117,7 +117,8 @@ namespace KingdomLike.Currency
 
             _state = CurrencyState.Collected;
             OnTargetReached?.Invoke(this);
-            _despawnRequested.Raise(this);
+            
+            _currencyPoolManagerLocator.Get().ReturnToPool(this);
         }
 
         #endregion

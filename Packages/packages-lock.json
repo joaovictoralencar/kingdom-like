@@ -90,7 +90,7 @@
       "dependencies": {
         "com.cysharp.unitask": "2.5.11"
       },
-      "hash": "a05ea09842771c5747591a37e187eca801cacaba"
+      "hash": "b0721c5c7ac328eb7c0d09bd6fe39355102b22eb"
     },
     "com.kyrylokuzyk.primetween": {
       "version": "file:../Assets/Plugins/PrimeTween/internal/com.kyrylokuzyk.primetween.tgz",

@@ -2,6 +2,8 @@
     "name": "KingdomLike.Interactables",
     "rootNamespace": "KingdomLike.Interactables",
     "references": [
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
+        "GUID:80ecb87cae9c44d19824e70ea7229748",
         "GUID:07668497c187c9c46a487d106686cddb",
         "GUID:d044e4ffb345b51498155d06e602e97f",
         "GUID:59568b0f8687be4499bdaa3bbc5c0586",
@@ -10,7 +12,9 @@
         "GUID:957b6bf0f94ac614d96243cfa30a0898",
         "GUID:ff112e9221811d444afe94eb43c8ef8f",
         "GUID:cd34736d98c821c49b590ed8ee35e0fb",
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:4fbfb4ba6a25bcd4684e6b0c2ea54a51",
+        "GUID:111d4e39aeddad44898002abada9c174"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

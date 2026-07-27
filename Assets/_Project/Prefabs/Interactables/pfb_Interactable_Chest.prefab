@@ -62,6 +62,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3776720182818959544, guid: 64f3b513fa000a0498393e22641ab142, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3465273787504873611}
+    - targetCorrespondingSourceObject: {fileID: 3776720182818959544, guid: 64f3b513fa000a0498393e22641ab142, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8162151645892909884}
   m_SourcePrefab: {fileID: 100100000, guid: 64f3b513fa000a0498393e22641ab142, type: 3}
 --- !u!4 &3357214736550408221 stripped
 Transform:
@@ -92,9 +95,51 @@ MonoBehaviour:
   _interactConditions: []
   _autoInteract: 0
   _useOnce: 1
+  _onFocus:
+    m_PersistentCalls:
+      m_Calls: []
+  _onUnfocus:
+    m_PersistentCalls:
+      m_Calls: []
+  _onInteract:
+    m_PersistentCalls:
+      m_Calls: []
   _currencyType: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
   _requiredAmount: 1
+  _rewardAmount: 20
+  _focusSoundID:
+    _entity: {fileID: 11400000, guid: 42da324cdc620c24ba82cb89a6ee6849, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8868818745410728954}
+  _openSoundID:
+    _entity: {fileID: 11400000, guid: 4cc4a245f6d1f21418a7e546d9f01f06, type: 2}
+    ID: 0
+    <DebugObject>k__BackingField: {fileID: 8868818745410728954}
   _animator: {fileID: 1993071972145274416}
+--- !u!114 &8162151645892909884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8868818745410728954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3f5e99613c86d54585bebe44daf8e25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: KingdomLike.Interactables::KingdomLike.Interactables.ChestCurrencyRewardSpawner
+  _chest: {fileID: 3465273787504873611}
+  _currencyPoolManagerLocator: {fileID: 11400000, guid: 6690e70dc6d3fd44c9c81943a72f871a, type: 2}
+  _radius: 2
+  _groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  _raycastHeight: 5
+  _raycastDistance: 20
+  _arcDuration: 0.6
+  _arcHeight: 2
+  _ease: 6
+  _delayBetweenSpawns: 0.01
 --- !u!1001 &9187533953049875189
 PrefabInstance:
   m_ObjectHideFlags: 0

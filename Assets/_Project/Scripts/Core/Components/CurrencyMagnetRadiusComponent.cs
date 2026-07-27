@@ -41,7 +41,7 @@ namespace KingdomLike.Core.Components
         private EntityCurrencyComponent _entityCurrencyComponent;
 
         [FoldoutGroup("Events")] [Required] [SerializeField]
-        private CurrencyObjectEventSO _despawnRequested;
+        private CurrencyPoolManagerLocatorSO _currencyPoolManagerLocator;
 
         #endregion
 
@@ -60,15 +60,8 @@ namespace KingdomLike.Core.Components
             _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);
 
             CheckForCurrenciesAsync(_cancellationTokenSource.Token).Forget();
-
-            _despawnRequested.AddListener(OnDespawnRequested);
         }
-
-        private void OnDespawnRequested(CurrencyComponent currencyComponent)
-        {
-            if (_detectedCurrencies.Contains(currencyComponent)) _detectedCurrencies.Remove(currencyComponent);
-        }
-
+        
 
         private void OnDisable()
         {
@@ -79,27 +72,23 @@ namespace KingdomLike.Core.Components
             _detectedCurrencies.Clear();
         }
 
+        #if UNITY_EDITOR
         private void OnDrawGizmosSelected()
         {
-            Gizmos.DrawWireSphere(
-                transform.position,
-                _radius);
+            Gizmos.DrawWireSphere(transform.position, _radius);
         }
-
+        #endif
         #endregion
 
         #region Detection
 
-        private async UniTaskVoid CheckForCurrenciesAsync(
-            CancellationToken cancellationToken)
+        private async UniTaskVoid CheckForCurrenciesAsync(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
                 CheckForCurrencies();
 
-                await UniTask.Delay(
-                    System.TimeSpan.FromSeconds(_checkInterval),
-                    cancellationToken: cancellationToken);
+                await UniTask.Delay(System.TimeSpan.FromSeconds(_checkInterval), cancellationToken: cancellationToken);
             }
         }
 
@@ -149,6 +138,8 @@ namespace KingdomLike.Core.Components
         private void OnCurrencyTargetReached(CurrencyComponent currencyComponent)
         {
             _entityCurrencyComponent.Add(currencyComponent.CurrencyData.Amount);
+            if (_detectedCurrencies.Contains(currencyComponent)) _detectedCurrencies.Remove(currencyComponent);
+            _currencyPoolManagerLocator.Get().ReturnToPool(currencyComponent);
         }
 
         private bool CanCollect(CurrencyComponent currency)

@@ -70,9 +70,8 @@ namespace KingdomLike.Debugging
 
             if (_currencyPoolManager == null)
             {
-                Debug.LogError(
-                    $"[{nameof(CurrencyPoolTestSpawner)}] " +
-                    "CurrencyPoolManager is not assigned.",
+                Debug.LogError($"[{nameof(CurrencyPoolTestSpawner)}] " +
+                               "CurrencyPoolManager is not assigned.",
                     this);
 
                 return;
@@ -80,9 +79,8 @@ namespace KingdomLike.Debugging
 
             if (_currencyData == null)
             {
-                Debug.LogError(
-                    $"[{nameof(CurrencyPoolTestSpawner)}] " +
-                    "CurrencyDataSO is not assigned.",
+                Debug.LogError($"[{nameof(CurrencyPoolTestSpawner)}] " +
+                               "CurrencyDataSO is not assigned.",
                     this);
 
                 return;
@@ -90,9 +88,8 @@ namespace KingdomLike.Debugging
 
             if (!_currencyPoolManager.IsInitialized)
             {
-                Debug.LogWarning(
-                    $"[{nameof(CurrencyPoolTestSpawner)}] " +
-                    "CurrencyPoolManager is not initialized yet.",
+                Debug.LogWarning($"[{nameof(CurrencyPoolTestSpawner)}] " +
+                                 "CurrencyPoolManager is not initialized yet.",
                     this);
 
                 return;

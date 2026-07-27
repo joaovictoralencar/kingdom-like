@@ -14888,7 +14888,7 @@ MonoBehaviour:
   _groundRaycastDistance: 5
   _currencyData: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
   _moveToTarget: {fileID: 8999400126639994450}
-  _despawnRequested: {fileID: 11400000, guid: 9d51ce16bd37de24eb750e7e2f35c534, type: 2}
+  _currencyPoolManagerLocator: {fileID: 11400000, guid: 6690e70dc6d3fd44c9c81943a72f871a, type: 2}
 --- !u!114 &8999400126639994450
 MonoBehaviour:
   m_ObjectHideFlags: 0

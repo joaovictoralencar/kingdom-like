@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace KingdomLike.Interactables
 {
@@ -22,6 +23,20 @@ namespace KingdomLike.Interactables
         [Header("Behavior")]
         [SerializeField] private bool _autoInteract;
         [SerializeField] private bool _useOnce;
+
+        [Header("Events")]
+        [SerializeField] private UnityEvent<IInteractor> _onFocus = new();
+        [SerializeField] private UnityEvent<IInteractor> _onUnfocus = new();
+        [SerializeField] private UnityEvent<IInteractor> _onInteract = new();
+
+        /// <summary>Raised right after <see cref="OnFocus"/> runs (only if overrides call base).</summary>
+        public UnityEvent<IInteractor> OnFocusEvent => _onFocus;
+
+        /// <summary>Raised right after <see cref="OnUnfocus"/> runs (only if overrides call base).</summary>
+        public UnityEvent<IInteractor> OnUnfocusEvent => _onUnfocus;
+
+        /// <summary>Raised right after a successful interaction, always fires regardless of subclass.</summary>
+        public UnityEvent<IInteractor> OnInteractEvent => _onInteract;
 
         private readonly List<IInteractor> _interactorsInRange = new();
         private Collider _collider;
@@ -69,6 +84,7 @@ namespace KingdomLike.Interactables
                 return;
 
             OnInteract(interactor);
+            _onInteract.Invoke(interactor);
 
             if (!_useOnce)
                 return;
@@ -86,6 +102,7 @@ namespace KingdomLike.Interactables
         /// <param name="interactor">The interactor focusing this interactable.</param>
         public virtual void OnFocus(IInteractor interactor)
         {
+            _onFocus.Invoke(interactor);
         }
 
         /// <summary>
@@ -94,6 +111,7 @@ namespace KingdomLike.Interactables
         /// <param name="interactor">The interactor no longer focusing this interactable.</param>
         public virtual void OnUnfocus(IInteractor interactor)
         {
+            _onUnfocus.Invoke(interactor);
         }
 
         /// <summary>
