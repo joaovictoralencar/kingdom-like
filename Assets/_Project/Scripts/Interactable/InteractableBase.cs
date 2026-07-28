@@ -84,6 +84,7 @@ namespace KingdomLike.Interactables
                 return;
 
             OnInteract(interactor);
+            _onUnfocus.Invoke(interactor);
             _onInteract.Invoke(interactor);
 
             if (!_useOnce)

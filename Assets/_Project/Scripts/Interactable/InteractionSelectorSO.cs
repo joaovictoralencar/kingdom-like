@@ -14,8 +14,6 @@ namespace KingdomLike.Interactables
         /// <param name="interactor">The interactor selecting an interactable.</param>
         /// <param name="interactables">The available interaction candidates.</param>
         /// <returns>The selected interactable, or null when none can be selected.</returns>
-        public abstract IInteractable Select(
-            IInteractor interactor,
-            IReadOnlyList<IInteractable> interactables);
+        public abstract IInteractable Select(IInteractor interactor, IReadOnlyList<IInteractable> interactables);
     }
 }

@@ -7,13 +7,10 @@ namespace KingdomLike.Interactables
     /// Base class for entities capable of detecting, selecting,
     /// focusing, and interacting with interactables.
     /// </summary>
-    public abstract class InteractionAgentBase :
-        MonoBehaviour,
-        IInteractionCandidate,
-        IFocusableInteractor
+    public abstract class InteractionAgentBase : MonoBehaviour, IInteractionCandidate, IFocusableInteractor
     {
-        [Header("Interaction")]
-        [SerializeField] private InteractionSelectorSO _interactionSelector;
+        [Header("Interaction")] [SerializeField]
+        private InteractionSelectorSO _interactionSelector;
 
         private readonly List<IInteractable> _interactionCandidates = new();
 
@@ -68,19 +65,13 @@ namespace KingdomLike.Interactables
                 return;
             }
 
-            IInteractable selectedInteractable =
-                _interactionSelector.Select(
-                    this,
-                    _interactionCandidates);
+            IInteractable selectedInteractable = _interactionSelector.Select(this, _interactionCandidates);
 
-            if (selectedInteractable == _focusedInteractable)
-                return;
+            if (selectedInteractable == _focusedInteractable) return;
 
-            if (_focusedInteractable != null)
-                ClearFocusedInteractable(_focusedInteractable);
+            if (_focusedInteractable != null) ClearFocusedInteractable(_focusedInteractable);
 
-            if (selectedInteractable != null)
-                SetFocusedInteractable(selectedInteractable);
+            if (selectedInteractable != null) SetFocusedInteractable(selectedInteractable);
         }
 
         public void SetFocusedInteractable(IInteractable interactable)
@@ -88,11 +79,11 @@ namespace KingdomLike.Interactables
             if (interactable == null)
                 return;
 
-            if (_focusedInteractable == interactable)
-                return;
+            if (_focusedInteractable == interactable) return;
+            
+            if (!interactable.CanFocus(this)) return;
 
-            if (_focusedInteractable != null)
-                ClearFocusedInteractable(_focusedInteractable);
+            if (_focusedInteractable != null) ClearFocusedInteractable(_focusedInteractable);
 
             _focusedInteractable = interactable;
 
@@ -121,7 +112,7 @@ namespace KingdomLike.Interactables
                 return;
 
             _focusedInteractable.Interact(this);
-
+            ClearFocusedInteractable(_focusedInteractable);
             RefreshInteractionCandidates();
         }
 
@@ -132,19 +123,16 @@ namespace KingdomLike.Interactables
 
         private void ClearAllInteractionCandidates()
         {
-            if (_focusedInteractable != null)
-                ClearFocusedInteractable(_focusedInteractable);
+            if (_focusedInteractable != null) ClearFocusedInteractable(_focusedInteractable);
 
             _interactionCandidates.Clear();
         }
-        
-        protected virtual void OnInteractableFocused(
-            IInteractable interactable)
+
+        protected virtual void OnInteractableFocused(IInteractable interactable)
         {
         }
 
-        protected virtual void OnInteractableUnfocused(
-            IInteractable interactable)
+        protected virtual void OnInteractableUnfocused(IInteractable interactable)
         {
         }
     }
