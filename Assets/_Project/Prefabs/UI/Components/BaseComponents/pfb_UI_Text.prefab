@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 8698506221739492333}
   - component: {fileID: 4617816267961817696}
   - component: {fileID: 3746226138787461354}
-  - component: {fileID: 4932915479383068618}
   - component: {fileID: 9125783995308624359}
+  - component: {fileID: 4932915479383068618}
+  - component: {fileID: 6712037895871744311}
   m_Layer: 5
   m_Name: pfb_UI_Text
   m_TagString: Untagged
@@ -69,8 +70,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Coins: '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3926f59ff5e675b4f82db41a55b26635, type: 2}
+  m_sharedMaterial: {fileID: -6688302170103774899, guid: 3926f59ff5e675b4f82db41a55b26635, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -94,8 +95,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 24
+  m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -139,20 +140,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &4932915479383068618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5304357540997903324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fac171ba43df1243a05888ab6cbba0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: HelloDev.UI::HelloDev.UI.Default.TMPFontBinder
-  style: {fileID: 0}
-  target: {fileID: 3746226138787461354}
 --- !u!114 &9125783995308624359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,3 +180,36 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
+--- !u!114 &4932915479383068618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5304357540997903324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fac171ba43df1243a05888ab6cbba0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HelloDev.UI::HelloDev.UI.Default.TMPFontBinder
+  style: {fileID: 11400000, guid: 6e403201bbcae1f4b9f41fb37ff93228, type: 2}
+  target: {fileID: 3746226138787461354}
+--- !u!114 &6712037895871744311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5304357540997903324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f5edc142a98fdc4a81d890dd93e81c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: HelloDev.UI::HelloDev.UI.Default.TMPColourBinder
+  slot: {fileID: 11400000, guid: 5215f9c1f43cb144894e9c2bc72921cc, type: 2}
+  useDirectColour: 0
+  directColour: {fileID: 0}
+  fallbackColour: {r: 1, g: 1, b: 1, a: 1}
+  applyInEditor: 1
+  editorPreviewDatabase: {fileID: 0}
+  target: {fileID: 0}

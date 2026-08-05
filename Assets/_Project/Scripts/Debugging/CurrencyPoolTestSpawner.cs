@@ -17,14 +17,14 @@ namespace KingdomLike.Debugging
         private CurrencyPoolManager _currencyPoolManager;
 
         [Required] [SerializeField] private CurrencyDataSO _currencyData;
-        
+
         #endregion
 
         #region Configuration
 
         [Title("Spawn Configuration")] [MinValue(0)] [SerializeField]
         private float _radius = 5f;
-        
+
         [MinValue(1)] [SerializeField] private int _currenciesPerPress = 1;
 
         #endregion
@@ -70,27 +70,21 @@ namespace KingdomLike.Debugging
 
             if (_currencyPoolManager == null)
             {
-                Debug.LogError($"[{nameof(CurrencyPoolTestSpawner)}] " +
-                               "CurrencyPoolManager is not assigned.",
-                    this);
+                Debug.LogError($"[{nameof(CurrencyPoolTestSpawner)}] CurrencyPoolManager is not assigned.", this);
 
                 return;
             }
 
             if (_currencyData == null)
             {
-                Debug.LogError($"[{nameof(CurrencyPoolTestSpawner)}] " +
-                               "CurrencyDataSO is not assigned.",
-                    this);
+                Debug.LogError($"[{nameof(CurrencyPoolTestSpawner)}] CurrencyDataSO is not assigned.", this);
 
                 return;
             }
 
-            if (!_currencyPoolManager.IsInitialized)
+            if (!_currencyPoolManager)
             {
-                Debug.LogWarning($"[{nameof(CurrencyPoolTestSpawner)}] " +
-                                 "CurrencyPoolManager is not initialized yet.",
-                    this);
+                Debug.LogWarning($"[{nameof(CurrencyPoolTestSpawner)}] CurrencyPoolManager is not initialized yet.", this);
 
                 return;
             }
@@ -99,27 +93,17 @@ namespace KingdomLike.Debugging
 
             try
             {
-                Vector3 center =
-                    _currencyPoolManager.transform.position;
+                Vector3 center = _currencyPoolManager.transform.position;
 
                 for (int i = 0; i < _currenciesPerPress; i++)
                 {
-                    _destroyCancellationToken
-                        .ThrowIfCancellationRequested();
+                    _destroyCancellationToken.ThrowIfCancellationRequested();
 
-                    Vector2 randomOffset =
-                        UnityEngine.Random.insideUnitCircle * _radius;
+                    Vector2 randomOffset = UnityEngine.Random.insideUnitCircle * _radius;
 
-                    Vector3 spawnPosition = new(
-                        center.x + randomOffset.x,
-                        center.y,
-                        center.z + randomOffset.y);
+                    Vector3 spawnPosition = new(center.x + randomOffset.x, center.y, center.z + randomOffset.y);
 
-                    await _currencyPoolManager.SpawnAsync(
-                        _currencyData,
-                        spawnPosition,
-                        Quaternion.identity,
-                        _destroyCancellationToken);
+                    await _currencyPoolManager.SpawnAsync(_currencyData, spawnPosition, Quaternion.identity, _destroyCancellationToken);
                 }
             }
             catch (OperationCanceledException)

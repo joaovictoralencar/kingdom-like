@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using HelloDev.Loader;
-using HelloDev.Saving;
+using HelloDev.Saving.Core;
+using HelloDev.Saving.Interfaces;
 using KingdomLike.Currency;
 using KingdomLike.Currency.Data;
 using KingdomLike.Utils;
@@ -14,11 +15,11 @@ using Logger = HelloDev.Logging.Logger;
 
 namespace KingdomLike.Core.Currency
 {
-    public class CurrencyPoolManager : BootstrappedSaveableSystem<CurrencyPoolSnapshot>, ICurrencyPoolManager
+    public class CurrencyPoolManager : SavableMonoBehaviour<CurrencyPoolState>, ICurrencyPoolManager
     {
         private const string LogId = "Currency.Pool";
 
-        #region Configuration
+        #region Nested Types
 
         [Serializable]
         private class CurrencyPoolConfiguration
@@ -29,24 +30,23 @@ namespace KingdomLike.Core.Currency
             [Required]
             public AssetReferenceGameObject PrefabReference;
 
-            [MinValue(0)] [BoxGroup("Pool Size")] public int InitialPoolSize = 20;
+            [MinValue(0)]
+            [BoxGroup("Pool Size")]
+            public int InitialPoolSize = 20;
 
-            [MinValue(0)] [BoxGroup("Pool Size")] [Tooltip("0 means unlimited.")]
+            [MinValue(0)]
+            [BoxGroup("Pool Size")]
+            [Tooltip("0 means unlimited.")]
             public int MaxPoolSize;
         }
 
         private class CurrencyPool
         {
             public readonly CurrencyPoolConfiguration Configuration;
+            public readonly Queue<CurrencyComponent> AvailableCurrencies = new();
+            public readonly HashSet<CurrencyComponent> AllCurrencies = new();
 
-            public readonly Queue<CurrencyComponent>
-                AvailableCurrencies = new();
-
-            public readonly HashSet<CurrencyComponent>
-                AllCurrencies = new();
-
-            public CurrencyPool(
-                CurrencyPoolConfiguration configuration)
+            public CurrencyPool(CurrencyPoolConfiguration configuration)
             {
                 Configuration = configuration;
             }
@@ -54,74 +54,78 @@ namespace KingdomLike.Core.Currency
 
         #endregion
 
-        #region Data
+        #region Serialized Fields
 
-        [FoldoutGroup("Pool Configurations")] [ListDrawerSettings(ShowFoldout = true, DraggableItems = true)] [SerializeField]
+        [TabGroup("Main", "Configuration")]
+        [BoxGroup("Main/Configuration/Pools")]
+        [ListDrawerSettings(ShowFoldout = true, DraggableItems = true)]
+        [SerializeField]
         private List<CurrencyPoolConfiguration> _currencyPools = new();
 
-        #endregion
-
-        #region References
-
-        [FoldoutGroup("References")] [Required] [SerializeField]
-        private Transform _poolParent;
-        
-        [FoldoutGroup("References")] [Required] [SerializeField]
-        private CurrencyPoolManagerLocatorSO _currencyPoolLocator;
-
-        #endregion
-
-        #region Bootstrap
-
-        [FoldoutGroup("Bootstrap")] [SerializeField]
+        [BoxGroup("Main/Configuration/Bootstrap")]
+        [SerializeField]
         private bool _selfInitialize = true;
 
-        #endregion
+        [TabGroup("Main", "References")]
+        [BoxGroup("Main/References/Scene Components")]
+        [Required]
+        [SerializeField]
+        private Transform _poolParent;
 
-        #region Runtime
-
-        private readonly Dictionary<Guid, CurrencyPool> _pools = new();
-
-        private readonly Dictionary<CurrencyComponent, CurrencyPool> _currencyToPool = new();
-
-        private readonly HashSet<CurrencyComponent> _activeCurrencies = new();
+        [BoxGroup("Main/References/Assets")]
+        [Required]
+        [SerializeField]
+        private CurrencyPoolManagerLocatorSO _currencyPoolLocator;
 
         #endregion
 
         #region Properties
 
-        public override string SystemKey => "CurrencyPool";
+        public override string ModuleId { get; protected set; } = "Pools";
+        public override IUnifiedSaveManager SaveManager => UnifiedSaveManagerBehaviour.Instance.Manager;
+
+        #endregion
+
+        #region Runtime State
+
+        private readonly Dictionary<Guid, CurrencyPool> _pools = new();
+        private readonly Dictionary<CurrencyComponent, CurrencyPool> _currencyToPool = new();
+        private readonly HashSet<CurrencyComponent> _activeCurrencies = new();
 
         #endregion
 
         #region Unity Lifecycle
 
-        private void OnEnable()
+        protected override async void Awake()
         {
-            if (SelfInitialize && !IsInitialized)
+            base.Awake();
+
+            if (_selfInitialize)
             {
-                InitializeAsync().Forget();
+                await InitializeAsync();
             }
         }
-        
+
+        protected override void OnDestroy()
+        {
+            Shutdown();
+
+            if (_currencyPoolLocator != null)
+            {
+                _currencyPoolLocator.Unregister(this);
+            }
+
+            base.OnDestroy();
+        }
+
         #endregion
-        
 
         #region Initialization
 
-        public override async UniTask InitializeAsync()
+        public async UniTask InitializeAsync()
         {
-            if (IsInitialized)
-                return;
-
-            await Loader.InitializeAsync();
-
             await InitializePoolsAsync();
-
-            await base.InitializeAsync();
-
             _currencyPoolLocator.Register(this);
-
             Logger.LogVerbose(LogId, $"Initialized {_pools.Count} currency pools.", this);
         }
 
@@ -145,7 +149,6 @@ namespace KingdomLike.Core.Currency
                 if (configuration.CurrencyData.Id == null)
                 {
                     Logger.LogError(LogId, $"Currency {configuration.CurrencyData.name} does not have an ID.", this);
-
                     continue;
                 }
 
@@ -164,7 +167,6 @@ namespace KingdomLike.Core.Currency
                 }
 
                 CurrencyPool pool = new(configuration);
-
                 _pools.Add(currencyId, pool);
 
                 await PrewarmPoolAsync(pool);
@@ -194,7 +196,6 @@ namespace KingdomLike.Core.Currency
             if (currencyData == null)
             {
                 Logger.LogError(LogId, "Cannot spawn currency because the CurrencyDataSO is null.", this);
-
                 return null;
             }
 
@@ -241,6 +242,15 @@ namespace KingdomLike.Core.Currency
             _activeCurrencies.Add(currency);
 
             return currency;
+        }
+
+        private async UniTask RestoreCurrencyAsync(Guid currencyId, Vector3 position, Quaternion rotation)
+        {
+            CurrencyComponent currency = await SpawnAsync(currencyId, position, rotation);
+            if (currency == null)
+            {
+                Logger.LogError(LogId, $"Failed to restore currency {currencyId}.", this);
+            }
         }
 
         #endregion
@@ -322,27 +332,11 @@ namespace KingdomLike.Core.Currency
 
         #endregion
 
-        #region Save Lifecycle
+        #region State Management (Save / Load)
 
-        public override void OnBeforeSave()
+        protected override CurrencyPoolState SaveState()
         {
-        }
-
-        public override void OnAfterSave(bool success)
-        {
-        }
-
-        public override void OnBeforeLoad()
-        {
-        }
-
-        public override void OnAfterLoad(bool success)
-        {
-        }
-
-        protected override CurrencyPoolSnapshot Capture()
-        {
-            CurrencyPoolSnapshot snapshot = new();
+            CurrencyPoolState state = new();
 
             foreach (CurrencyComponent currency in _activeCurrencies)
             {
@@ -357,7 +351,7 @@ namespace KingdomLike.Core.Currency
                     continue;
                 }
 
-                snapshot.SpawnedCurrencies.Add(new SpawnedCurrencySnapshot
+                state.SpawnedCurrencies.Add(new SpawnedCurrencyState
                 {
                     CurrencyId = currency.CurrencyData.Id.Id.ToString(),
                     Position = currency.transform.position,
@@ -365,19 +359,19 @@ namespace KingdomLike.Core.Currency
                 });
             }
 
-            Logger.LogVerbose(LogId, $"Captured {snapshot.SpawnedCurrencies.Count} active currency instances.", this);
-            return snapshot;
+            Logger.LogVerbose(LogId, $"Captured {state.SpawnedCurrencies.Count} active currency instances.", this);
+            return state;
         }
 
-        protected override async UniTask<bool> Restore(CurrencyPoolSnapshot snapshot)
+        protected override async UniTask LoadState(CurrencyPoolState state)
         {
-            if (snapshot == null)
+            if (state == null)
             {
-                Logger.LogError(LogId, "Cannot restore currency pool because the snapshot is null.", this);
-                return false;
+                Logger.LogError(LogId, "Cannot restore currency pool because the state is null.", this);
+                return;
             }
 
-            foreach (SpawnedCurrencySnapshot savedCurrency in snapshot.SpawnedCurrencies)
+            foreach (SpawnedCurrencyState savedCurrency in state.SpawnedCurrencies)
             {
                 if (!Guid.TryParse(savedCurrency.CurrencyId, out Guid currencyId))
                 {
@@ -394,26 +388,15 @@ namespace KingdomLike.Core.Currency
                 await RestoreCurrencyAsync(currencyId, savedCurrency.Position, savedCurrency.Rotation);
             }
 
-            Logger.LogVerbose(LogId, $"Restoring {snapshot.SpawnedCurrencies.Count} currency instances.", this);
-            return true;
-        }
-
-        private async UniTask RestoreCurrencyAsync(Guid currencyId, Vector3 position, Quaternion rotation)
-        {
-            CurrencyComponent currency = await SpawnAsync(currencyId, position, rotation);
-            if (currency == null)
-            {
-                Logger.LogError(LogId, $"Failed to restore currency {currencyId}.", this);
-            }
+            Logger.LogVerbose(LogId, $"Restoring {state.SpawnedCurrencies.Count} currency instances.", this);
         }
 
         #endregion
 
-        #region Bootstrap
+        #region Cleanup
 
-        public override void Shutdown()
+        public void Shutdown()
         {
-            base.Shutdown();
             _activeCurrencies.Clear();
             _currencyToPool.Clear();
             _pools.Clear();
@@ -421,26 +404,16 @@ namespace KingdomLike.Core.Currency
         }
 
         #endregion
-
-        #region Cleanup
-
-        protected override void OnDestroy()
-        {
-            Shutdown();
-            base.OnDestroy();
-        }
-
-        #endregion
     }
 
     [Serializable]
-    public class CurrencyPoolSnapshot
+    public class CurrencyPoolState
     {
-        public List<SpawnedCurrencySnapshot> SpawnedCurrencies = new();
+        public List<SpawnedCurrencyState> SpawnedCurrencies = new();
     }
 
     [Serializable]
-    public class SpawnedCurrencySnapshot
+    public class SpawnedCurrencyState
     {
         public string CurrencyId;
         public Vector3 Position;

@@ -55,7 +55,7 @@
         "com.cysharp.unitask": "2.5.11",
         "com.hellodev.utils": "1.1.0"
       },
-      "hash": "fc3f50eb2979548c441da59b80f3b3d99b33e7a0"
+      "hash": "4ba7426bc2170426114d37d2e42195ce915d30b6"
     },
     "com.hellodev.saving": {
       "version": "https://github.com/joaovictoralencar/com.hellodev.saving.git",
@@ -66,7 +66,7 @@
         "com.hellodev.bootstrap": "1.5.1",
         "com.cysharp.unitask": "2.5.11"
       },
-      "hash": "fbeffc8fc91d42d31d74e78426c18bc2f734b241"
+      "hash": "c167e93ff31e2e87d2d0e6729119500d4d3faeef"
     },
     "com.hellodev.ui": {
       "version": "https://github.com/joaovictoralencar/hellodev-ui.git",

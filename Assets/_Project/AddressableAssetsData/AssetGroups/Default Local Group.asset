@@ -16,12 +16,12 @@ MonoBehaviour:
   m_GUID: e90bc0f54c2c0444eb854f137c2006f4
   m_SerializeEntries:
   - m_GUID: 4406c50ed7098b74ebb93036152beeb4
-    m_Address: Assets/_Project/Prefabs/Interactables/pfb_Coin.prefab
+    m_Address: pfb_Coin
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ecc24c17678975341afe0c928f95882c
-    m_Address: Assets/_Project/Prefabs/Interactables/M_Coin.mat
+    m_Address: M_Coin
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
