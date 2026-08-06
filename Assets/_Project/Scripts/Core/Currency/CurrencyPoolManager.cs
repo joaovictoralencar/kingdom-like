@@ -24,19 +24,13 @@ namespace KingdomLike.Core.Currency
         [Serializable]
         private class CurrencyPoolConfiguration
         {
-            [Required]
-            public CurrencyDataSO CurrencyData;
+            [Required] public CurrencyDataSO CurrencyData;
 
-            [Required]
-            public AssetReferenceGameObject PrefabReference;
+            [Required] public AssetReferenceGameObject PrefabReference;
 
-            [MinValue(0)]
-            [BoxGroup("Pool Size")]
-            public int InitialPoolSize = 20;
+            [MinValue(0)] [BoxGroup("Pool Size")] public int InitialPoolSize = 20;
 
-            [MinValue(0)]
-            [BoxGroup("Pool Size")]
-            [Tooltip("0 means unlimited.")]
+            [MinValue(0)] [BoxGroup("Pool Size")] [Tooltip("0 means unlimited.")]
             public int MaxPoolSize;
         }
 
@@ -56,25 +50,16 @@ namespace KingdomLike.Core.Currency
 
         #region Serialized Fields
 
-        [TabGroup("Main", "Configuration")]
-        [BoxGroup("Main/Configuration/Pools")]
-        [ListDrawerSettings(ShowFoldout = true, DraggableItems = true)]
-        [SerializeField]
+        [TabGroup("Main", "Configuration")] [BoxGroup("Main/Configuration/Pools")] [ListDrawerSettings(ShowFoldout = true, DraggableItems = true)] [SerializeField]
         private List<CurrencyPoolConfiguration> _currencyPools = new();
 
-        [BoxGroup("Main/Configuration/Bootstrap")]
-        [SerializeField]
+        [BoxGroup("Main/Configuration/Bootstrap")] [SerializeField]
         private bool _selfInitialize = true;
 
-        [TabGroup("Main", "References")]
-        [BoxGroup("Main/References/Scene Components")]
-        [Required]
-        [SerializeField]
+        [TabGroup("Main", "References")] [BoxGroup("Main/References/Scene Components")] [Required] [SerializeField]
         private Transform _poolParent;
 
-        [BoxGroup("Main/References/Assets")]
-        [Required]
-        [SerializeField]
+        [BoxGroup("Main/References/Assets")] [Required] [SerializeField]
         private CurrencyPoolManagerLocatorSO _currencyPoolLocator;
 
         #endregion
@@ -98,12 +83,11 @@ namespace KingdomLike.Core.Currency
 
         protected override async void Awake()
         {
-            base.Awake();
-
             if (_selfInitialize)
             {
                 await InitializeAsync();
             }
+            base.Awake();
         }
 
         protected override void OnDestroy()
@@ -208,7 +192,7 @@ namespace KingdomLike.Core.Currency
             return await SpawnAsync(currencyData.Id.Id, position, rotation, cancellationToken);
         }
 
-        public async UniTask<CurrencyComponent> SpawnAsync(Guid currencyId, Vector3 position, Quaternion rotation, CancellationToken cancellationToken = default)
+        public async UniTask<CurrencyComponent> SpawnAsync(Guid currencyId, Vector3 position, Quaternion rotation = default, CancellationToken cancellationToken = default)
         {
             if (!_pools.TryGetValue(currencyId, out CurrencyPool pool))
             {
@@ -239,6 +223,7 @@ namespace KingdomLike.Core.Currency
 
             currency.transform.SetPositionAndRotation(position, rotation);
             currency.gameObject.SetActive(true);
+
             _activeCurrencies.Add(currency);
 
             return currency;
@@ -247,6 +232,7 @@ namespace KingdomLike.Core.Currency
         private async UniTask RestoreCurrencyAsync(Guid currencyId, Vector3 position, Quaternion rotation)
         {
             CurrencyComponent currency = await SpawnAsync(currencyId, position, rotation);
+
             if (currency == null)
             {
                 Logger.LogError(LogId, $"Failed to restore currency {currencyId}.", this);
@@ -328,6 +314,11 @@ namespace KingdomLike.Core.Currency
         public int GetAvailableCount(Guid currencyId)
         {
             return _pools.TryGetValue(currencyId, out CurrencyPool pool) ? pool.AvailableCurrencies.Count : 0;
+        }
+
+        public async UniTask<bool> SaveAsync(CancellationToken cancellationToken)
+        {
+            return await SaveOnActiveSlotAsync().AttachExternalCancellation(cancellationToken);
         }
 
         #endregion

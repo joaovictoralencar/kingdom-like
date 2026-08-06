@@ -3766,8 +3766,7 @@ MonoBehaviour:
     systems: []
   - enabled: 1
     groupName: Game Systems
-    systems:
-    - {fileID: 1689543411}
+    systems: []
   - enabled: 1
     groupName: UI
     systems: []
@@ -7822,6 +7821,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.Currency.CurrencyPoolManager
   _saveId: 47c29df416f94e628fb863ddc50b674e
+  _loadAfterRegister: 1
   _currencyPools:
   - CurrencyData: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
     PrefabReference:
@@ -12222,17 +12222,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1003109465510362310, guid: d7f139f6ac7e49049a90a9061ebf5cac, type: 3}
   m_PrefabInstance: {fileID: 1689543409}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1689543411 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 661905691806593266, guid: d7f139f6ac7e49049a90a9061ebf5cac, type: 3}
-  m_PrefabInstance: {fileID: 1689543409}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba5a72471bb67f44da7e11c63f5e4f10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.Components.CurrencyComponent
 --- !u!1001 &1717881083
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -92,9 +92,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5a72471bb67f44da7e11c63f5e4f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.Components.CurrencyComponent
-  _saveId: 
+  _saveId: 39e52b10fb144d5583ff1a180eacd7cb
+  _loadAfterRegister: 1
   _currencyData: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
-  _currencyValueChangedEvent: {fileID: 11400000, guid: 6c8bee691a9a4a54d853d25152917b69, type: 2}
+  _currencyVariableSO: {fileID: 11400000, guid: 409e31641a0efb9458228ff6d70e4e2c, type: 2}
 --- !u!114 &5830103817581668970
 MonoBehaviour:
   m_ObjectHideFlags: 0

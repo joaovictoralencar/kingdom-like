@@ -2,6 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using HelloDev.Saving.Core;
 using HelloDev.Saving.Interfaces;
+using HelloDev.Variables;
 using KingdomLike.Currency;
 using KingdomLike.Currency.Data;
 using KingdomLike.Currency.Interfaces;
@@ -19,9 +20,9 @@ namespace KingdomLike.Core.Components
 
         [FoldoutGroup("Data"), Required, SerializeField]
         private CurrencyDataSO _currencyData;
-
-        [FoldoutGroup("Data"), Required, SerializeField]
-        private CurrencyValueChangedEventSO _currencyValueChangedEvent;
+        
+        [FoldoutGroup("Data"), SerializeField]
+        private IntVariable_SO _currencyVariableSO;
 
         #endregion
 
@@ -121,13 +122,31 @@ namespace KingdomLike.Core.Components
 
         public bool CanReceive(CurrencyDataSO currencyData) => currencyData == _currencyData;
 
-        public void Add(int amount) => _currency.Add(amount);
+        public void Add(int amount)
+        {
+            _currency.Add(amount);
+            SaveOnActiveSlotAsync();
+        }
 
-        public bool TryAdd(int amount) => _currency.TryAdd(amount);
+        public bool TryAdd(int amount)
+        {
+            bool success = _currency.TryAdd(amount);
+            if (success) SaveOnActiveSlotAsync();
+            return success;
+        }
 
-        public void Remove(int amount) => _currency.Remove(amount);
+        public void Remove(int amount)
+        {
+            _currency.Remove(amount);
+            SaveOnActiveSlotAsync();
+        }
 
-        public bool TryRemove(int amount) => _currency.TryRemove(amount);
+        public bool TryRemove(int amount)
+        {
+            bool success = _currency.TryRemove(amount);
+            if (success) SaveOnActiveSlotAsync();
+            return success;
+        }
 
         #endregion
 
@@ -153,15 +172,10 @@ namespace KingdomLike.Core.Components
 
         private void PublishValueChanged(int previousValue, int newValue)
         {
-            if (_currencyValueChangedEvent == null)
+            if (_currencyVariableSO == null)
                 return;
 
-            _currencyValueChangedEvent.Raise(new CurrencyValueChangedEvent
-            {
-                CurrencyData = _currencyData,
-                PreviousValue = previousValue,
-                Value = newValue
-            });
+            _currencyVariableSO.SetValue(newValue);
         }
 
         #endregion

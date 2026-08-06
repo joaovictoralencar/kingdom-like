@@ -1,3 +1,4 @@
+using HelloDev.Variables;
 using KingdomLike.Currency.Data;
 using KingdomLike.Currency;
 using Sirenix.OdinInspector;
@@ -12,7 +13,7 @@ namespace KingdomLike.UI
     {
         [FoldoutGroup("Data")]
         [SerializeField]
-        private CurrencyValueChangedEventSO _currencyValueChangedEvent;
+        private IntVariable_SO _playerCurrencyVariableSO;
 
         [FoldoutGroup("Data")]
         [SerializeField]
@@ -32,9 +33,9 @@ namespace KingdomLike.UI
 
         private void OnEnable()
         {
-            if (_currencyValueChangedEvent != null)
+            if (_playerCurrencyVariableSO != null)
             {
-                _currencyValueChangedEvent.AddListener(OnCurrencyValueChanged);
+                _playerCurrencyVariableSO.OnValueChanged.AddListener(OnCurrencyValueChanged);
             }
 
             SetupUI();
@@ -42,9 +43,9 @@ namespace KingdomLike.UI
 
         private void OnDisable()
         {
-            if (_currencyValueChangedEvent != null)
+            if (_playerCurrencyVariableSO != null)
             {
-                _currencyValueChangedEvent.RemoveListener(OnCurrencyValueChanged);
+                _playerCurrencyVariableSO.OnValueChanged.RemoveListener(OnCurrencyValueChanged);
             }
         }
 
@@ -69,17 +70,19 @@ namespace KingdomLike.UI
             {
                 _currencyNameLocalizeStringEvent.StringReference = _currencyData.LocalizedName;
             }
+            
+            if (_playerCurrencyVariableSO != null)
+            {
+                OnCurrencyValueChanged(_playerCurrencyVariableSO.Value);
+            }
         }
 
-        private void OnCurrencyValueChanged(CurrencyValueChangedEvent currencyEvent)
+        private void OnCurrencyValueChanged(int newValue)
         {
-            if (currencyEvent.CurrencyData != _currencyData)
-                return;
-
             if (_currencyText == null)
                 return;
 
-            _currencyText.text = currencyEvent.Value.ToString();
+            _currencyText.text = newValue.ToString();
         }
     }
 }

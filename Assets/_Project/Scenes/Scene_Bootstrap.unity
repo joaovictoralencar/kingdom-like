@@ -215,7 +215,7 @@ MonoBehaviour:
   prettyPrint: 1
   persistent: 1
   testSlotKey: test_save
-  autoLoadOnStart: 0
+  autoLoadOnStart: 1
   OnBeforeSave:
     m_PersistentCalls:
       m_Calls: []
@@ -228,6 +228,8 @@ MonoBehaviour:
   OnAfterLoad:
     m_PersistentCalls:
       m_Calls: []
+  enableAutoSave: 0
+  autoSaveDelay: 5
 --- !u!1 &562826364
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,7 +274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa59b0912716d1742b2bc8eabdc030f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.System::KingdomLike.System.Loader.SceneLoader
-  _minLoadingTime: 5
+  _minLoadingTime: 0
   _loadingScreenReference:
     m_AssetGUID: 35754fd8786adb043a1c08dcf4daaf58
     m_SubObjectName: 

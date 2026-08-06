@@ -105,6 +105,8 @@ namespace KingdomLike.Debugging
 
                     await _currencyPoolManager.SpawnAsync(_currencyData, spawnPosition, Quaternion.identity, _destroyCancellationToken);
                 }
+                await _currencyPoolManager.SaveAsync(_destroyCancellationToken);
+
             }
             catch (OperationCanceledException)
             {

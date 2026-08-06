@@ -19,23 +19,25 @@ namespace KingdomLike.Interactables
     {
         #region References
 
-        [Title("References")]
-        [Required] [SerializeField] private ChestInteractable _chest;
+        [Title("References")] [Required] [SerializeField]
+        private ChestInteractable _chest;
+
         [Required] [SerializeField] private CurrencyPoolManagerLocatorSO _currencyPoolManagerLocator;
 
         #endregion
 
         #region Spawn Configuration
 
-        [Title("Spawn Configuration")]
-        [MinValue(0)] [SerializeField] private float _radius = 2f;
+        [Title("Spawn Configuration")] [MinValue(0)] [SerializeField]
+        private float _radius = 2f;
 
         #endregion
 
         #region Ground Detection
 
-        [Title("Ground Detection")]
-        [SerializeField] private LayerMask _groundLayerMask;
+        [Title("Ground Detection")] [SerializeField]
+        private LayerMask _groundLayerMask;
+
         [MinValue(0)] [SerializeField] private float _raycastHeight = 5f;
         [MinValue(0)] [SerializeField] private float _raycastDistance = 20f;
 
@@ -43,8 +45,9 @@ namespace KingdomLike.Interactables
 
         #region Arc Animation
 
-        [Title("Arc Animation")]
-        [MinValue(0)] [SerializeField] private float _arcDuration = 0.6f;
+        [Title("Arc Animation")] [MinValue(0)] [SerializeField]
+        private float _arcDuration = 0.6f;
+
         [MinValue(0)] [SerializeField] private float _arcHeight = 2f;
         [SerializeField] private Ease _ease = Ease.OutQuad;
         [MinValue(0)] [SerializeField] private float _delayBetweenSpawns = 0.03f;
@@ -114,6 +117,8 @@ namespace KingdomLike.Interactables
                     await UniTask.Delay(TimeSpan.FromSeconds(_delayBetweenSpawns), cancellationToken: _destroyCancellationToken);
                 }
             }
+
+            await _currencyPoolManagerLocator.Get().SaveAsync(_destroyCancellationToken);
         }
 
         private Vector3 ResolveGroundPosition(Vector3 candidatePoint, float fallbackY)
