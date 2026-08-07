@@ -145,7 +145,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _currencyType: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
-  _requiredAmount: 1
+  _requiredAmount: 10
   _rewardAmount: 20
   _focusSoundID:
     _entity: {fileID: 11400000, guid: 42da324cdc620c24ba82cb89a6ee6849, type: 2}

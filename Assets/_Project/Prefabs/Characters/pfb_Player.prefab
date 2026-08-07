@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8176185740981601519}
   - component: {fileID: 4078108976491148804}
+  - component: {fileID: 5629094789527229633}
   m_Layer: 2
   m_Name: Interactable
   m_TagString: Untagged
@@ -47,6 +48,20 @@ MonoBehaviour:
   _interactionSelector: {fileID: 11400000, guid: 0336ce8ca8d520a449e439e7e108f9b7, type: 2}
   InteractableFocusedEvent: {fileID: 11400000, guid: 98d4f75dde52ff04f9d6a4c0163bb776, type: 2}
   InteractableUnfocusedEvent: {fileID: 11400000, guid: 8a02bb76f795190468a4f7c12033d198, type: 2}
+  _interactAction: {fileID: 4743306732048843659, guid: d65337a759dd2234caf37eb0e7c27d9e, type: 3}
+--- !u!114 &5629094789527229633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708825085088087885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd69fc5aa6e7ed64a83ba67a20220955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: KingdomLike.Interactables::KingdomLike.Interactables.InteractionHoldController
+  _secondsPerCoin: 0.25
 --- !u!1 &4182213668362044037
 GameObject:
   m_ObjectHideFlags: 0

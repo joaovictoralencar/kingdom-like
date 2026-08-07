@@ -24,9 +24,7 @@ namespace KingdomLike.Interactables
         {
             if (_interactionSelector == null)
             {
-                Debug.LogError(
-                    $"{name} has no interaction selector assigned.",
-                    this);
+                Debug.LogError($"{name} has no interaction selector assigned.", this);
             }
         }
 

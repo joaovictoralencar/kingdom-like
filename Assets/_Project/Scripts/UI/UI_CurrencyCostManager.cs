@@ -30,11 +30,25 @@ namespace KingdomLike.UI
             InteractableUnfocusedEvent.RemoveListener(OnInteractableUnfocused);
         }
 
+        [Header("Hold Visual Config")] [SerializeField]
+        private float _holdVisualScale = 1.15f;
+        [SerializeField] private float _holdShakeMagnitude = 4f;
+
         private void OnInteractableUnfocused(InteractionPayload payload)
         {
             int index = _spawnedCostDisplays.FindIndex(data => data.Interactable == payload.Interactable && data.Interactor == payload.Interactor);
             if (index < 0) return;
             InteractionCostData costData = _spawnedCostDisplays[index];
+
+            // Unsubscribe any hold event handlers
+            if (costData.HoldController != null)
+            {
+                if (costData.ProgressHandler != null) costData.HoldController.OnHoldProgress -= costData.ProgressHandler;
+                if (costData.CancelHandler != null) costData.HoldController.OnHoldCancelled -= costData.CancelHandler;
+                if (costData.CompleteHandler != null) costData.HoldController.OnHoldCompleted -= costData.CompleteHandler;
+                if (costData.StartHandler != null) costData.HoldController.OnHoldStarted -= costData.StartHandler;
+            }
+
             _spawnedCostDisplays.Remove(costData);
             costData.CostDisplay.HideAndDestroy();
         }
@@ -55,35 +69,90 @@ namespace KingdomLike.UI
             GameObject costDisplayGameObject = await Loader.InstantiateAsync(_currencyCostPrefab, _currencyCostContainer);
             UI_CurrencyCostDisplay costDisplay = costDisplayGameObject.GetComponent<UI_CurrencyCostDisplay>();
             
-            _spawnedCostDisplays.Add(new InteractionCostData()
+            var costData = new InteractionCostData()
             {
                 Interactable = interactable,
                 Interactor = payload.Interactor,
                 CostDisplay = costDisplay
-            });
+            };
+
+            _spawnedCostDisplays.Add(costData);
             costDisplay.SetCurrencyCost(currencyCost, costDisplayer.UICostDisplayTarget);
+
+            // Wire up hold controller events if available
+            var holdController = payload.Interactor.InteractorObject.GetComponent<InteractionHoldController>();
+            if (holdController != null)
+            {
+                costData.HoldController = holdController;
+
+                costData.ProgressHandler = (ia, inter, progress) =>
+                {
+                    if (ia == interactable && inter == payload.Interactor)
+                    {
+                        costDisplay.SetProgress(progress);
+                    }
+                };
+
+                costData.CancelHandler = (ia, inter) =>
+                {
+                    if (ia == interactable && inter == payload.Interactor)
+                    {
+                        // Reset visuals and progress but keep the display active
+                        costDisplay.SetProgress(0f);
+                        costDisplay.StopHoldVisuals(true);
+                    }
+                };
+
+                costData.CompleteHandler = (ia, inter) =>
+                {
+                    if (ia == interactable && inter == payload.Interactor)
+                    {
+                        int idx = _spawnedCostDisplays.FindIndex(d => d.Interactable == ia && d.Interactor == inter);
+                        if (idx >= 0)
+                        {
+                            var data = _spawnedCostDisplays[idx];
+                            _spawnedCostDisplays.RemoveAt(idx);
+                            data.CostDisplay.HideAndDestroy();
+
+                            // unsubscribe
+                            if (data.HoldController != null)
+                            {
+                                if (data.ProgressHandler != null) data.HoldController.OnHoldProgress -= data.ProgressHandler;
+                                if (data.CancelHandler != null) data.HoldController.OnHoldCancelled -= data.CancelHandler;
+                                if (data.CompleteHandler != null) data.HoldController.OnHoldCompleted -= data.CompleteHandler;
+                                if (data.StartHandler != null) data.HoldController.OnHoldStarted -= data.StartHandler;
+                            }
+                        }
+                    }
+                };
+
+                // Start handler triggers visuals
+                costData.StartHandler = (ia, inter) =>
+                {
+                    if (ia == interactable && inter == payload.Interactor)
+                    {
+                        costDisplay.StartHoldVisuals(_holdVisualScale, _holdShakeMagnitude);
+                    }
+                };
+
+                holdController.OnHoldProgress += costData.ProgressHandler;
+                holdController.OnHoldCancelled += costData.CancelHandler;
+                holdController.OnHoldCompleted += costData.CompleteHandler;
+                holdController.OnHoldStarted += costData.StartHandler;
+            }
         }
     }
 
-    struct InteractionCostData : IEquatable<InteractionCostData>
+    class InteractionCostData
     {
         public IInteractable Interactable;
         public IInteractor Interactor;
         public UI_CurrencyCostDisplay CostDisplay;
 
-        public bool Equals(InteractionCostData other)
-        {
-            return Equals(Interactable, other.Interactable) && Equals(Interactor, other.Interactor) && Equals(CostDisplay, other.CostDisplay);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is InteractionCostData other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Interactable, Interactor, CostDisplay);
-        }
+        public InteractionHoldController HoldController;
+        public Action<IInteractable, IInteractor, float> ProgressHandler;
+        public Action<IInteractable, IInteractor> CancelHandler;
+        public Action<IInteractable, IInteractor> CompleteHandler;
+        public Action<IInteractable, IInteractor> StartHandler;
     }
 }

@@ -9,12 +9,37 @@ namespace KingdomLike.Interactables
         [SerializeField] private InteractionEventSO InteractableFocusedEvent;
         [SerializeField] private InteractionEventSO InteractableUnfocusedEvent;
 
+        private InteractionHoldController _holdController;
+
+        [SerializeField] private InputActionReference _interactAction;
 
         protected override void Awake()
         {
             base.Awake();
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = false;
+
+            TryGetComponent(out _holdController);
+        }
+
+        private void OnEnable()
+        {
+            if (_interactAction != null && _interactAction.action != null)
+            {
+                _interactAction.action.started += OnInteractStarted;
+                _interactAction.action.canceled += OnInteractCanceled;
+                _interactAction.action.Enable();
+            }
+        }
+
+        protected override void OnDisable()
+        {
+            if (_interactAction != null && _interactAction.action != null)
+            {
+                _interactAction.action.started -= OnInteractStarted;
+                _interactAction.action.canceled -= OnInteractCanceled;
+                _interactAction.action.Disable();
+            }
         }
 
         protected override void OnInteractableFocused(IInteractable interactable)
@@ -49,12 +74,23 @@ namespace KingdomLike.Interactables
             });
         }
 
-        private void Update()
+        private void OnInteractStarted(InputAction.CallbackContext context)
         {
-            if (Keyboard.current.eKey.wasPressedThisFrame)
+            // Prefer hold controller if present. If not present, fall back to immediate interact.
+            if (_holdController != null)
+            {
+                _holdController.TryStartHold(FocusedInteractable);
+            }
+            else
             {
                 Interact();
             }
+        }
+
+        private void OnInteractCanceled(InputAction.CallbackContext context)
+        {
+            if (_holdController != null)
+                _holdController.StopHold();
         }
     }
 }
