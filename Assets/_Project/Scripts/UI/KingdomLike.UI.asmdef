@@ -2,8 +2,12 @@
     "name": "KingdomLike.UI",
     "rootNamespace": "KingdomLike.UI",
     "references": [
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
         "GUID:6055be8ebefd69e48b49212b09b47b2f",
         "GUID:eec0964c48f6f4e40bc3ec2257ccf8c5",
+        "GUID:4307f53044263cf4b835bd812fc161a4",
+        "GUID:80ecb87cae9c44d19824e70ea7229748",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23",
         "GUID:59568b0f8687be4499bdaa3bbc5c0586",
         "GUID:07668497c187c9c46a487d106686cddb",
         "GUID:1924f21e807566945b9552b7bd19f10a",
@@ -12,7 +16,8 @@
         "GUID:71935dead085eaf4d8ee6e12ef7c6567",
         "GUID:957b6bf0f94ac614d96243cfa30a0898",
         "GUID:ff112e9221811d444afe94eb43c8ef8f",
-        "GUID:cd34736d98c821c49b590ed8ee35e0fb"
+        "GUID:cd34736d98c821c49b590ed8ee35e0fb",
+        "GUID:adf82addfe31a024698d007ba69ba52f"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

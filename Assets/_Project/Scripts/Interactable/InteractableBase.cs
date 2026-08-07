@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using KingdomLike.Core;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,23 +10,23 @@ namespace KingdomLike.Interactables
     /// Base class for objects that can be interacted with by IInteractors.
     /// </summary>
     [RequireComponent(typeof(Collider))]
-    public abstract class InteractableBase : MonoBehaviour, IInteractable
+    public abstract class InteractableBase : MonoBehaviour, IInteractable, IInteractionCostDisplayer
     {
-        [Header("Filtering")]
-        [SerializeField] private LayerMask _interactionLayer = ~0;
+        [Header("References")] [SerializeField]
+        private Transform _costDisplayTarget;
 
-        [Header("Focus Conditions")]
-        [SerializeField] private List<InteractionConditionSO> _focusConditions = new();
+        [Header("Filtering")] [SerializeField] private LayerMask _interactionLayer = ~0;
 
-        [Header("Interaction Conditions")]
-        [SerializeField] private List<InteractionConditionSO> _interactConditions = new();
+        [Header("Focus Conditions")] [SerializeField]
+        private List<InteractionConditionSO> _focusConditions = new();
 
-        [Header("Behavior")]
-        [SerializeField] private bool _autoInteract;
+        [Header("Interaction Conditions")] [SerializeField]
+        private List<InteractionConditionSO> _interactConditions = new();
+
+        [Header("Behavior")] [SerializeField] private bool _autoInteract;
         [SerializeField] private bool _useOnce;
 
-        [Header("Events")]
-        [SerializeField] private UnityEvent<IInteractor> _onFocus = new();
+        [Header("Events")] [SerializeField] private UnityEvent<IInteractor> _onFocus = new();
         [SerializeField] private UnityEvent<IInteractor> _onUnfocus = new();
         [SerializeField] private UnityEvent<IInteractor> _onInteract = new();
 
@@ -40,12 +41,15 @@ namespace KingdomLike.Interactables
 
         private readonly List<IInteractor> _interactorsInRange = new();
         private Collider _collider;
+
         private void Awake()
         {
             TryGetComponent(out _collider);
         }
 
         private bool _hasBeenUsed;
+
+        public GameObject InteractorObject => gameObject;
 
         /// <summary>
         /// Determines whether the interactor can focus this interactable.
@@ -91,9 +95,9 @@ namespace KingdomLike.Interactables
                 return;
 
             _hasBeenUsed = true;
-            
+
             RefreshInteractorCandidates();
-            
+
             if (_collider) _collider.enabled = false;
         }
 
@@ -165,7 +169,7 @@ namespace KingdomLike.Interactables
         {
             if (((1 << other.gameObject.layer) & _interactionLayer) == 0)
                 return;
-            
+
             IInteractor interactor = other.GetComponentInChildren<IInteractor>();
 
             if (interactor == null)
@@ -175,9 +179,9 @@ namespace KingdomLike.Interactables
 
             if (interactor == null && other.transform.parent)
             {
-               interactor = other.transform.parent.GetComponentInChildren<IInteractor>();
+                interactor = other.transform.parent.GetComponentInChildren<IInteractor>();
             }
-            
+
             if (interactor == null) return;
 
             if (_interactorsInRange.Contains(interactor))
@@ -205,7 +209,7 @@ namespace KingdomLike.Interactables
             {
                 interactor = other.transform.parent.GetComponentInChildren<IInteractor>();
             }
-            
+
             if (interactor == null) return;
 
             if (!_interactorsInRange.Remove(interactor))
@@ -235,5 +239,7 @@ namespace KingdomLike.Interactables
 
             _interactorsInRange.Clear();
         }
+
+        public Transform UICostDisplayTarget => _costDisplayTarget;
     }
 }

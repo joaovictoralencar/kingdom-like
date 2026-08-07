@@ -24,5 +24,7 @@ namespace KingdomLike.Interactables
     {
         public IInteractable Interactable;
         public IInteractor Interactor;
+        public bool IsInteracting;
+        public bool IsFocused;
     }
 }

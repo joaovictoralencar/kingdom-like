@@ -9,6 +9,14 @@ namespace KingdomLike.Interactables
         [SerializeField] private InteractionEventSO InteractableFocusedEvent;
         [SerializeField] private InteractionEventSO InteractableUnfocusedEvent;
 
+
+        protected override void Awake()
+        {
+            base.Awake();
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
+        }
+
         protected override void OnInteractableFocused(IInteractable interactable)
         {
             base.OnInteractableFocused(interactable);
@@ -19,7 +27,9 @@ namespace KingdomLike.Interactables
             InteractableFocusedEvent.Raise(new InteractionPayload
             {
                 Interactable = interactable,
-                Interactor = this
+                Interactor = this,
+                IsFocused = true,
+                IsInteracting = false
             });
         }
 
@@ -33,7 +43,9 @@ namespace KingdomLike.Interactables
             InteractableUnfocusedEvent.Raise(new InteractionPayload
             {
                 Interactable = interactable,
-                Interactor = this
+                Interactor = this,
+                IsFocused = false,
+                IsInteracting = false
             });
         }
 

@@ -71,6 +71,9 @@ namespace KingdomLike.UI
                 _currencyNameLocalizeStringEvent.StringReference = _currencyData.LocalizedName;
             }
             
+            if (_currencyData.HasColor())
+                _currencyImage.color = _currencyData.Color;
+            
             if (_playerCurrencyVariableSO != null)
             {
                 OnCurrencyValueChanged(_playerCurrencyVariableSO.Value);

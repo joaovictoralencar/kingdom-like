@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: SO_CurrencyData_Coin
   m_EditorClassIdentifier: KingdomLike.Currency::KingdomLike.Currency.Data.CurrencyDataSO
   id: {fileID: 11400000, guid: e29931e2963f9054e88f01c8f9a01414, type: 2}
-  _icon: {fileID: 21300000, guid: f27eddf08552af843a39cf1c2352a8ee, type: 3}
+  _icon: {fileID: -820690859, guid: c169cbfcce16a9a449839bcfc6110880, type: 3}
   _amount: 1
+  _color: {r: 0.95686275, g: 0.8, b: 0.18039216, a: 1}
   _localizedName:
     m_TableReference:
       m_TableCollectionName: 
