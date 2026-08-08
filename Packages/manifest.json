@@ -5,6 +5,7 @@
     "com.hellodev.conditions": "https://github.com/joaovictoralencar/hellodev-conditions.git",
     "com.hellodev.events": "https://github.com/joaovictoralencar/hellodev-events.git",
     "com.hellodev.ids": "https://github.com/joaovictoralencar/hellodev-ids.git",
+    "com.hellodev.input": "https://github.com/joaovictoralencar/com.hellodev.input.git",
     "com.hellodev.loaders": "https://github.com/joaovictoralencar/hellodev-loaders.git",
     "com.hellodev.saving": "https://github.com/joaovictoralencar/com.hellodev.saving.git",
     "com.hellodev.ui": "https://github.com/joaovictoralencar/hellodev-ui.git",

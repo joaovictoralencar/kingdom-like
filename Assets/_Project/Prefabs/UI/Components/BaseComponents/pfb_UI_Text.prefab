@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Coins: '
+  m_text: Text
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3926f59ff5e675b4f82db41a55b26635, type: 2}
   m_sharedMaterial: {fileID: -6688302170103774899, guid: 3926f59ff5e675b4f82db41a55b26635, type: 2}

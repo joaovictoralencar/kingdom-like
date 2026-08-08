@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be72463cdb045a34ea78dfb08da24c12, type: 3}
+  m_Name: SO_UI_TextStyle_KingdomLike_Button
+  m_EditorClassIdentifier: HelloDev.UI::HelloDev.UI.Default.TextStyle_SO
+  fontSlot: {fileID: 11400000, guid: c3f138318e7ad0742b7268d854505de5, type: 2}
+  useDirectFont: 0
+  directFont: {fileID: 0}
+  sizePreset: {fileID: 11400000, guid: 80249302dbe5f7a428a09a54f361686f, type: 2}
+  useCustomSize: 0
+  customSize: 40
+  fontStyle: 17
+  characterSpacing: 0
+  wordSpacing: 0
+  lineSpacing: 0

@@ -57,5 +57,5 @@ MonoBehaviour:
   _currencyCostContainer: {fileID: 595289240447430942}
   InteractableFocusedEvent: {fileID: 11400000, guid: 98d4f75dde52ff04f9d6a4c0163bb776, type: 2}
   InteractableUnfocusedEvent: {fileID: 11400000, guid: 8a02bb76f795190468a4f7c12033d198, type: 2}
-  _holdVisualScale: 1.1
-  _holdShakeMagnitude: 5
+  _holdVisualScale: 1.125
+  _holdShakeMagnitude: 4

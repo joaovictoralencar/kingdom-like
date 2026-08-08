@@ -29,6 +29,12 @@ namespace KingdomLike.UI
         private float _holdTargetScale = 1.15f;
         private float _holdShakeMagnitude = 4f;
 
+        // Cost countdown visuals
+        private int _requiredAmount;
+        private int _lastDisplayedAmount;
+        [SerializeField] private float _costTextPulseScale = 1.18f;
+        [SerializeField] private float _costTextPulseDuration = 0.08f;
+
         private void Awake()
         {
             if (_visualRoot == null)
@@ -63,20 +69,35 @@ namespace KingdomLike.UI
             _currencyImage.sprite = currencyCost.CurrencyType.Icon;
             if (currencyCost.CurrencyType.HasColor())
                 _currencyImage.color = currencyCost.CurrencyType.Color;
-            _costText.text = currencyCost.RequiredAmount.ToString();
+
+            _requiredAmount = currencyCost.RequiredAmount;
+            _lastDisplayedAmount = _requiredAmount;
+            _costText.text = _requiredAmount.ToString();
+
             _target = target;
             fillImage.fillAmount = 0f;
         }
 
         public void SetProgress(float progress)
         {
-            fillImage.fillAmount = Mathf.Clamp01(progress);
+            float clampedProgress = Mathf.Clamp01(progress);
+            fillImage.fillAmount = clampedProgress;
+
+            // update cost countdown based on remaining amount
+            if (_requiredAmount > 0)
+            {
+                int remaining = Mathf.CeilToInt((1f - clampedProgress) * _requiredAmount);
+                remaining = Mathf.Clamp(remaining, 0, _requiredAmount);
+                if (remaining != _lastDisplayedAmount)
+                {
+                    UpdateCostText(remaining);
+                }
+            }
 
             if (_holdingVisualsActive && _visualRoot != null)
             {
                 // scale based on progress between original and target
-                float clamped = Mathf.Clamp01(progress);
-                Vector3 desired = _visualOriginalScale * Mathf.Lerp(1f, _holdTargetScale, clamped);
+                Vector3 desired = _visualOriginalScale * Mathf.Lerp(1f, _holdTargetScale, clampedProgress);
                 // smooth towards desired for nicer visuals
                 _visualRoot.localScale = Vector3.Lerp(_visualRoot.localScale, desired, Time.deltaTime * 18f);
             }
@@ -166,6 +187,20 @@ namespace KingdomLike.UI
             _visualRoot.localScale = _visualOriginalScale;
             _visualRoot.anchoredPosition = _visualOriginalAnchoredPos;
             _restoreCoroutine = null;
+        }
+
+        private void UpdateCostText(int newAmount)
+        {
+            _lastDisplayedAmount = newAmount;
+            _costText.text = newAmount.ToString();
+
+            // pulse animation
+            var tf = _costText.rectTransform;
+            Tween.Scale(tf, tf.localScale, _visualOriginalScale * _costTextPulseScale, _costTextPulseDuration, Ease.OutQuad)
+                .OnComplete(() =>
+                {
+                    Tween.Scale(tf, tf.localScale, _visualOriginalScale, _costTextPulseDuration, Ease.InQuad);
+                });
         }
 
         private void UpdatePosition(CinemachineBrain brain)
