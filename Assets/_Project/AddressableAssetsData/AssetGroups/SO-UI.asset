@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: SO-UI
   m_GUID: 406a059d833f2ca468c19de961c6ef64
   m_SerializeEntries:
+  - m_GUID: b4abee029723d77418028c0fdf088000
+    m_Address: SO_UI_Database_KingdomLike
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c7f2fc33e5061144aa311c31dac1b416
     m_Address: UI
     m_ReadOnly: 0

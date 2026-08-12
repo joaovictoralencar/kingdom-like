@@ -328,12 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: KingdomLike.System::KingdomLike.System.AppStart
   _locator: {fileID: 11400000, guid: e04dead74bd6f6e48b9bf73783413ac6, type: 2}
   ScenesToLoad:
-  - m_AssetGUID: 99c9720ab356a0642a771bea13969a05
-    m_SubObjectName: 
-    m_SubObjectType: 
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 1
-  - m_AssetGUID: dcab1c934440050448cb6e3621ce2b15
+  - m_AssetGUID: 1e1b204ad2f270e40927550067f9eff1
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 

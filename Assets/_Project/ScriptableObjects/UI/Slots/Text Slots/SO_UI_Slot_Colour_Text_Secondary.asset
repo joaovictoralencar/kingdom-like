@@ -17,4 +17,4 @@ MonoBehaviour:
   role: Secondary
   tag: Default
   description: Less intense colour for secondary text
-  defaultColour: {fileID: 11400000, guid: 9eb76000922fcc646985ed6cd1a6f443, type: 2}
+  defaultColour: {fileID: 11400000, guid: eed401ed2de475b4d8b4bd077fbd9ff1, type: 2}

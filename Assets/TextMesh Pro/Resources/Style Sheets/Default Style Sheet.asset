@@ -13,12 +13,6 @@ MonoBehaviour:
   m_Name: Default Style Sheet
   m_EditorClassIdentifier: 
   m_StyleList:
-  - m_Name: Normal
-    m_HashCode: -1183493901
-    m_OpeningDefinition: 
-    m_ClosingDefinition: 
-    m_OpeningTagArray: 
-    m_ClosingTagArray: 
   - m_Name: H1
     m_HashCode: 2425
     m_OpeningDefinition: <size=2em><b><#40ff80>*
@@ -79,3 +73,9 @@ MonoBehaviour:
     m_ClosingDefinition: </color></b>
     m_OpeningTagArray: 3c000000630000006f0000006c0000006f000000720000003d000000230000003800000030000000410000003000000046000000460000003e0000003c000000620000003e000000
     m_ClosingTagArray: 3c0000002f000000630000006f0000006c0000006f000000720000003e0000003c0000002f000000620000003e000000
+  - m_Name: Normal
+    m_HashCode: -1183493901
+    m_OpeningDefinition: 
+    m_ClosingDefinition: 
+    m_OpeningTagArray: 
+    m_ClosingTagArray: 

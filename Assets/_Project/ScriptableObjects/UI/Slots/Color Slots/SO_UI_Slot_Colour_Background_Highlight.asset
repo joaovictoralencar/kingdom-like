@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e871410ccca2b49b250a3e8444dcf0, type: 3}
+  m_Name: SO_UI_Slot_Colour_Background_Highlight
+  m_EditorClassIdentifier: HelloDev.UI::HelloDev.UI.Default.ColourSlot_SO
+  id: 073738611fb940edace4e87808aa618e
+  displayName: 
+  role: 
+  tag: 
+  description: 
+  defaultColour: {fileID: 11400000, guid: 6613df55701ed3f4b9df0bcec25b3790, type: 2}

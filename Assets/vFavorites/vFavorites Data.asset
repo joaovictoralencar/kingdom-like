@@ -54,6 +54,15 @@ MonoBehaviour:
       isAsset: 1
       _id: 1055441578
     - globalId:
+        globalObjectIdString: GlobalObjectId_V1-3-12693181aabbf1f4e9685713fec62a73-11400000-0
+      _typeString: HelloDev.UI.Default.UISelectableStyle_SO, HelloDev.UI, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      _obj: {fileID: 11400000, guid: 12693181aabbf1f4e9685713fec62a73, type: 2}
+      isSceneGameObject: 0
+      isFolder: 0
+      isAsset: 1
+      _id: 1042786385
+    - globalId:
         globalObjectIdString: GlobalObjectId_V1-1-7e90a9385b94d8749b037b82a4ba656e-5304357540997903324-0
       _typeString: UnityEngine.GameObject, UnityEngine.CoreModule, Version=0.0.0.0,
         Culture=neutral, PublicKeyToken=null
