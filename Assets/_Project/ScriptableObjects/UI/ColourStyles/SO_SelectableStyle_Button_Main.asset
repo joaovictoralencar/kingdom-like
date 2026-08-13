@@ -22,8 +22,8 @@ MonoBehaviour:
     Background: {fileID: 11400000, guid: e7a61b4f9e2155348865009bee851b25, type: 2}
     Text: {fileID: 11400000, guid: 78e91f11387524b45920c7b4c1901b0c, type: 2}
   selected:
-    Background: {fileID: 0}
-    Text: {fileID: 0}
+    Background: {fileID: 11400000, guid: e7a61b4f9e2155348865009bee851b25, type: 2}
+    Text: {fileID: 11400000, guid: 5215f9c1f43cb144894e9c2bc72921cc, type: 2}
   disabled:
     Background: {fileID: 0}
     Text: {fileID: 0}

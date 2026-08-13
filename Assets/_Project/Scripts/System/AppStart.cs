@@ -1,3 +1,5 @@
+using System;
+using HelloDev.Logging;
 using KingdomLike.System.Loader;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -9,12 +11,17 @@ namespace KingdomLike.System
     {
         [SerializeField] private SceneLoaderLocatorSO _locator;
         [SerializeField] private AssetReference[] ScenesToLoad;
+
+        [Header("Logger")] [SerializeField] private LoggerSettings_SO _loggerSettings;
+
+        private void Awake()
+        {
+            _loggerSettings?.ApplyToLogger();
+        }
+
         private void Start()
         {
-            foreach (AssetReference scene in ScenesToLoad)
-            {
-                _locator.Get().LoadSceneAsyncForget(scene, LoadSceneMode.Additive, true, false, true);
-            }
+            _locator.Get().LoadSceneAsyncForget(ScenesToLoad, LoadSceneMode.Additive, true, true, true);
         }
     }
 }

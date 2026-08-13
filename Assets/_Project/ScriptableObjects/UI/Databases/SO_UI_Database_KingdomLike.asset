@@ -13,12 +13,17 @@ MonoBehaviour:
   m_Name: SO_UI_Database_KingdomLike
   m_EditorClassIdentifier: HelloDev.UI::HelloDev.UI.Default.UIDatabase_SO
   colourSlots:
+  - {fileID: 11400000, guid: e7a61b4f9e2155348865009bee851b25, type: 2}
+  - {fileID: 11400000, guid: e86f1f5c850052c489e21826fda23e34, type: 2}
+  - {fileID: 11400000, guid: a0c7f7b275d40a24baa255d2c276a97f, type: 2}
   - {fileID: 11400000, guid: 5215f9c1f43cb144894e9c2bc72921cc, type: 2}
   - {fileID: 11400000, guid: 8bd18b53d9bc1d140997947e26f9cf6b, type: 2}
-  - {fileID: 11400000, guid: 78e91f11387524b45920c7b4c1901b0c, type: 2}
-  - {fileID: 11400000, guid: eb780fbe760e19f4ebe79fc42711f522, type: 2}
+  - {fileID: 11400000, guid: 879c9c461724c6145b348f8887369f5e, type: 2}
+  - {fileID: 11400000, guid: 28f200c45547edc438c86a2b18621dcb, type: 2}
   fontSlots:
   - {fileID: 11400000, guid: c3f138318e7ad0742b7268d854505de5, type: 2}
+  - {fileID: 11400000, guid: 40157e065574ecd48968daa27c5748d1, type: 2}
   themes:
+  - {fileID: 11400000, guid: 3b5d5e72a7b855a4183d41a9307b0166, type: 2}
   - {fileID: 11400000, guid: 3b5d5e72a7b855a4183d41a9307b0166, type: 2}
   activeTheme: {fileID: 11400000, guid: 3b5d5e72a7b855a4183d41a9307b0166, type: 2}

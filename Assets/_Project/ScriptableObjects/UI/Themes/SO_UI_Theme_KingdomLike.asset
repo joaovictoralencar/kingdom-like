@@ -13,8 +13,26 @@ MonoBehaviour:
   m_Name: SO_UI_Theme_KingdomLike
   m_EditorClassIdentifier: HelloDev.UI::HelloDev.UI.Default.UITheme_SO
   colourEntries:
+  - Slot: {fileID: 11400000, guid: e7a61b4f9e2155348865009bee851b25, type: 2}
+    Colour: {fileID: 11400000, guid: 6613df55701ed3f4b9df0bcec25b3790, type: 2}
+  - Slot: {fileID: 11400000, guid: e86f1f5c850052c489e21826fda23e34, type: 2}
+    Colour: {fileID: 11400000, guid: aeadba26f168f734c9b4102d16df227f, type: 2}
+  - Slot: {fileID: 11400000, guid: a0c7f7b275d40a24baa255d2c276a97f, type: 2}
+    Colour: {fileID: 11400000, guid: ce26d92b1596fdd46b9ac61aef7204a3, type: 2}
   - Slot: {fileID: 11400000, guid: 5215f9c1f43cb144894e9c2bc72921cc, type: 2}
+    Colour: {fileID: 11400000, guid: eed401ed2de475b4d8b4bd077fbd9ff1, type: 2}
+  - Slot: {fileID: 11400000, guid: 8bd18b53d9bc1d140997947e26f9cf6b, type: 2}
+    Colour: {fileID: 11400000, guid: 30481300c17d22240b997b98b4db27b8, type: 2}
+  - Slot: {fileID: 11400000, guid: 879c9c461724c6145b348f8887369f5e, type: 2}
     Colour: {fileID: 11400000, guid: df028c29b3c3fed429766c2a639a0115, type: 2}
+  - Slot: {fileID: 11400000, guid: 28f200c45547edc438c86a2b18621dcb, type: 2}
+    Colour: {fileID: 11400000, guid: 9eb76000922fcc646985ed6cd1a6f443, type: 2}
+  - Slot: {fileID: 11400000, guid: 78e91f11387524b45920c7b4c1901b0c, type: 2}
+    Colour: {fileID: 11400000, guid: eed401ed2de475b4d8b4bd077fbd9ff1, type: 2}
+  - Slot: {fileID: 11400000, guid: eb780fbe760e19f4ebe79fc42711f522, type: 2}
+    Colour: {fileID: 11400000, guid: aeadba26f168f734c9b4102d16df227f, type: 2}
   fontEntries:
   - Slot: {fileID: 11400000, guid: c3f138318e7ad0742b7268d854505de5, type: 2}
     Font: {fileID: 11400000, guid: 3926f59ff5e675b4f82db41a55b26635, type: 2}
+  - Slot: {fileID: 11400000, guid: 40157e065574ecd48968daa27c5748d1, type: 2}
+    Font: {fileID: 11400000, guid: cb5b136d1f3f8314eaa6ac98991bb469, type: 2}
