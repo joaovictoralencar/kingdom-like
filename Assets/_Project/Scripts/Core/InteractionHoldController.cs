@@ -6,11 +6,12 @@ namespace KingdomLike.Interactables
 {
     /// <summary>
     /// Handles "hold to interact" lifecycle for a single interactor.
-    /// Emits progress events; does NOT touch UI or animations directly.
+    /// Emits progress events without owning UI or gameplay behavior.
     /// </summary>
     public class InteractionHoldController : MonoBehaviour
     {
-        [Tooltip("Seconds of hold required per currency unit.")] [SerializeField]
+        [Tooltip("Seconds of hold required per currency unit.")]
+        [SerializeField]
         private float _secondsPerCoin = 0.25f;
 
         private IFocusableInteractor _agent;
@@ -112,17 +113,14 @@ namespace KingdomLike.Interactables
 
         private bool CanExecuteTarget(IInteractionTarget target)
         {
-            IInteractor interactor = _agent;
-
             IUnlockable unlockable = FindCapability<IUnlockable>(target);
 
             if (unlockable != null && !unlockable.IsUnlocked)
-                return unlockable.CanUnlock(interactor);
+                return unlockable.CanUnlock(_agent);
 
             IInteractable interactable = FindCapability<IInteractable>(target);
 
-            if (interactable != null)
-                return interactable.CanInteract(interactor);
+            if (interactable != null) return interactable.CanInteract(_agent);
 
             return false;
         }
@@ -135,23 +133,23 @@ namespace KingdomLike.Interactables
 
                 if (currencyCost != null)
                 {
-                    EntityCurrencyComponent currencyComp = FindCurrencyComponentOnAgent();
+                    EntityCurrencyComponent currency = FindCurrencyComponentOnAgent();
 
-                    if (currencyComp == null)
+                    if (currency == null)
                     {
                         Debug.LogWarning("Interactor has no EntityCurrencyComponent; cannot start currency-based hold.", this);
-
                         return -1f;
                     }
 
-                    if (currencyComp.CurrencyData != currencyCost.CurrencyType)
+                    if (currency.CurrencyData !=
+                        currencyCost.CurrencyType)
                     {
-                        Debug.LogWarning("Interactor currency type doesn't match target cost type.", this);
+                        Debug.LogWarning("Interactor currency type does not match target cost type.", this);
 
                         return -1f;
                     }
 
-                    if (currencyComp.Currency == null || !currencyComp.Currency.Has(currencyCost.RequiredAmount))
+                    if (currency.Currency == null || !currency.Currency.Has(currencyCost.RequiredAmount))
                     {
                         Debug.LogWarning("Interactor does not have enough currency to start hold.", this);
 
@@ -196,11 +194,13 @@ namespace KingdomLike.Interactables
             try
             {
                 /*
-                 * The agent owns the actual interaction flow.
+                 * The agent owns the state machine:
                  *
-                 * It decides:
-                 * - locked IUnlockable -> Unlock()
-                 * - unlocked IInteractable -> ExecuteInteraction()
+                 * Locked + IUnlockable
+                 *     -> Unlock()
+                 *
+                 * Unlocked + IInteractable
+                 *     -> ExecuteInteraction()
                  */
                 _agent.Interact();
 
@@ -221,8 +221,7 @@ namespace KingdomLike.Interactables
             _duration = 0f;
         }
 
-        private static T FindCapability<T>(IInteractionTarget target)
-            where T : class
+        private static T FindCapability<T>(IInteractionTarget target) where T : class
         {
             if (target is T capability)
                 return capability;
@@ -240,22 +239,22 @@ namespace KingdomLike.Interactables
 
             GameObject go = _agent.InteractorObject;
 
-            EntityCurrencyComponent component = go.GetComponentInParent<EntityCurrencyComponent>();
+            EntityCurrencyComponent currency = go.GetComponentInParent<EntityCurrencyComponent>();
 
-            if (component != null)
-                return component;
+            if (currency != null)
+                return currency;
 
-            component = go.GetComponentInChildren<EntityCurrencyComponent>();
+            currency = go.GetComponentInChildren<EntityCurrencyComponent>();
 
-            if (component != null)
-                return component;
+            if (currency != null)
+                return currency;
 
             if (go.transform.parent != null)
             {
-                component = go.transform.parent.GetComponentInChildren<EntityCurrencyComponent>();
+                currency = go.transform.parent.GetComponentInChildren<EntityCurrencyComponent>();
             }
 
-            return component;
+            return currency;
         }
     }
 }

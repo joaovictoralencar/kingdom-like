@@ -5,12 +5,10 @@ using UnityEngine;
 namespace KingdomLike.Interactables
 {
     /// <summary>
-    /// Chest that can only be unlocked.
+    /// Unlock-only chest.
     ///
-    /// Unlocking opens the chest. Any reward spawning is handled
-    /// by separate components listening to the unlock event.
+    /// Unlocking opens the chest. It has no standard interaction action.
     /// </summary>
-    [RequireComponent(typeof(UnlockableInteractionTarget))]
     public class ChestInteractable : CurrencyUnlockable, IInteractionFocusReceiver
     {
         [Header("Chest")]
@@ -36,13 +34,18 @@ namespace KingdomLike.Interactables
             if (!unlocked)
                 return false;
 
+            OpenChest();
+
+            return true;
+        }
+
+        private void OpenChest()
+        {
             if (_animator != null)
                 _animator.SetTrigger("Open");
 
             BroAudio.Play(_openSoundID);
             BroAudio.Stop(_focusSoundID);
-
-            return true;
         }
 
         public void OnInteractionFocus(IInteractor interactor)
@@ -65,6 +68,22 @@ namespace KingdomLike.Interactables
                 _animator.SetTrigger("Idle");
 
             BroAudio.Stop(_focusSoundID);
+        }
+
+        public override void OnFocus(IInteractor interactor)
+        {
+            base.OnFocus(interactor);
+
+            if (interactor is not null)
+                OnInteractionFocus(interactor);
+        }
+
+        public override void OnUnfocus(IInteractor interactor)
+        {
+            base.OnUnfocus(interactor);
+
+            if (interactor is not null)
+                OnInteractionUnfocus(interactor);
         }
     }
 }

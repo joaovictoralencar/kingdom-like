@@ -6,14 +6,14 @@ namespace KingdomLike.Upgradable
 {
     public class UpgradableBuilding : MonoBehaviour, IUpgradable
     {
+        [field: SerializeField] public int CurrentLevel { get; set; }
+
+        [field: SerializeField] public int MaxLevel { get; set; }
+
         public event Action<int> OnUpgrade;
         public event Action<int> OnDowngrade;
         public event Action OnReset;
         public event Action OnUpgradeMax;
-
-        public int CurrentLevel { get; set; }
-
-        [field: SerializeField] public int MaxLevel { get; set; }
 
         public void Upgrade()
         {
@@ -21,6 +21,7 @@ namespace KingdomLike.Upgradable
                 return;
 
             CurrentLevel++;
+
             OnUpgrade?.Invoke(CurrentLevel);
         }
 
@@ -30,6 +31,7 @@ namespace KingdomLike.Upgradable
                 return;
 
             CurrentLevel--;
+
             OnDowngrade?.Invoke(CurrentLevel);
         }
 
@@ -41,12 +43,14 @@ namespace KingdomLike.Upgradable
         public void Reset()
         {
             CurrentLevel = 0;
+
             OnReset?.Invoke();
         }
 
         public void UpgradeMax()
         {
             CurrentLevel = MaxLevel;
+
             OnUpgradeMax?.Invoke();
         }
 

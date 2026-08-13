@@ -5,12 +5,12 @@ namespace KingdomLike.Interactables
 {
     public class PlayerInteractionAgent : InteractionAgentBase
     {
-        [Header("Interaction Events")]
-        [SerializeField] private InteractionEventSO _interactableFocusedEvent;
+        [Header("Interaction Events")] [SerializeField]
+        private InteractionEventSO _interactableFocusedEvent;
+
         [SerializeField] private InteractionEventSO _interactableUnfocusedEvent;
 
-        [Header("Input")]
-        [SerializeField] private InputActionReference _interactAction;
+        [Header("Input")] [SerializeField] private InputActionReference _interactAction;
 
         private InteractionHoldController _holdController;
 
@@ -52,38 +52,28 @@ namespace KingdomLike.Interactables
         {
             base.OnInteractionTargetFocused(target);
 
-            if (_interactableFocusedEvent == null)
-                return;
-
-            if (target is null)
-                return;
-
-            _interactableFocusedEvent.Raise(new InteractionPayload
-            {
-                Target = target,
-                Interactor = this,
-                IsFocused = true,
-                IsInteracting = false
-            });
+            _interactableFocusedEvent?.Raise(
+                new InteractionPayload
+                {
+                    Target = target,
+                    Interactor = this,
+                    IsFocused = true,
+                    IsInteracting = false
+                });
         }
 
         protected override void OnInteractionTargetUnfocused(IInteractionTarget target)
         {
             base.OnInteractionTargetUnfocused(target);
 
-            if (_interactableUnfocusedEvent == null)
-                return;
-
-            if (target is null)
-                return;
-
-            _interactableUnfocusedEvent.Raise(new InteractionPayload
-            {
-                Target = target,
-                Interactor = this,
-                IsFocused = false,
-                IsInteracting = false
-            });
+            _interactableUnfocusedEvent?.Raise(
+                new InteractionPayload
+                {
+                    Target = target,
+                    Interactor = this,
+                    IsFocused = false,
+                    IsInteracting = false
+                });
         }
 
         private void OnInteractStarted(InputAction.CallbackContext context)
@@ -93,15 +83,8 @@ namespace KingdomLike.Interactables
             if (target == null)
                 return;
 
-            /*
-             * Hold interaction currently belongs to the IInteractable side.
-             *
-             * Unlock-only objects bypass the hold controller and use the
-             * regular interaction flow directly.
-             */
-            if (_holdController != null)
+            if (_holdController != null && _holdController.TryStartHold(target))
             {
-                _holdController.TryStartHold(target);
                 return;
             }
 

@@ -1,18 +1,16 @@
 using System;
+using KingdomLike.Core;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace KingdomLike.Interactables
 {
-    /// <summary>
-    /// Base class responsible exclusively for unlock state and progression.
-    ///
-    /// No interaction-system plumbing is contained here.
-    /// </summary>
-    public abstract class UnlockableBase : MonoBehaviour, IUnlockable
+    public abstract class UnlockableBase : InteractionTargetBase, IUnlockable, IInteractionCostDisplayer
     {
         [Header("Unlock")]
         [SerializeField] private bool _initiallyUnlocked;
+
+        [SerializeField] private Transform _costDisplayTarget;
 
         [Header("Events")]
         [SerializeField] private UnityEvent _onUnlocked = new();
@@ -21,8 +19,12 @@ namespace KingdomLike.Interactables
 
         public event Action OnUnlocked;
 
-        protected virtual void Awake()
+        public Transform UICostDisplayTarget => _costDisplayTarget;
+
+        protected override void Awake()
         {
+            base.Awake();
+
             IsUnlocked = _initiallyUnlocked;
 
             if (IsUnlocked)
@@ -31,10 +33,13 @@ namespace KingdomLike.Interactables
 
         public virtual bool CanUnlock(IInteractor interactor)
         {
+            if (interactor == null)
+                return false;
+
             if (IsUnlocked)
                 return false;
 
-            return interactor != null;
+            return true;
         }
 
         public bool Unlock(IInteractor interactor)
@@ -50,6 +55,20 @@ namespace KingdomLike.Interactables
             return true;
         }
 
+        public virtual bool TryGetInteractionCost(IInteractor interactor, out ICurrencyCost currencyCost)
+        {
+            currencyCost = null;
+
+            if (IsUnlocked)
+                return false;
+
+            if (this is not ICurrencyCost cost)
+                return false;
+
+            currencyCost = cost;
+            return true;
+        }
+
         protected abstract bool TryUnlock(IInteractor interactor);
 
         protected void SetUnlocked()
@@ -61,16 +80,14 @@ namespace KingdomLike.Interactables
 
             OnUnlocked?.Invoke();
             _onUnlocked.Invoke();
+
+            RefreshInteractorCandidates();
         }
 
         protected virtual void OnRestoredAsUnlocked()
         {
         }
 
-        /// <summary>
-        /// Allows the existing save system to capture the unlock state
-        /// without coupling this class to a specific save implementation.
-        /// </summary>
         public UnlockableState CaptureUnlockState()
         {
             return new UnlockableState
@@ -79,9 +96,6 @@ namespace KingdomLike.Interactables
             };
         }
 
-        /// <summary>
-        /// Allows the existing save system to restore the unlock state.
-        /// </summary>
         public void RestoreUnlockState(UnlockableState state)
         {
             bool wasUnlocked = IsUnlocked;
@@ -89,7 +103,10 @@ namespace KingdomLike.Interactables
             IsUnlocked = state.IsUnlocked;
 
             if (!wasUnlocked && IsUnlocked)
+            {
                 OnRestoredAsUnlocked();
+                RefreshInteractorCandidates();
+            }
         }
     }
 

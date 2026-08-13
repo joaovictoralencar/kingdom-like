@@ -10,6 +10,6 @@ namespace KingdomLike.Interactables
     {
         bool CanInteract(IInteractor interactor);
 
-        void ExecuteInteraction(IInteractor interactor);
+        bool ExecuteInteraction(IInteractor interactor);
     }
 }

@@ -4,16 +4,15 @@ using UnityEngine;
 namespace KingdomLike.Interactables
 {
     /// <summary>
-    /// Base class for entities capable of detecting, selecting,
-    /// focusing and executing interaction targets.
+    /// Base interaction agent.
     ///
-    /// The agent owns the interaction flow:
+    /// The agent owns the interaction state transition:
     ///
     /// Locked target:
-    ///     Unlock()
+    ///     IUnlockable.Unlock()
     ///
     /// Unlocked target:
-    ///     ExecuteInteraction()
+    ///     IInteractable.ExecuteInteraction()
     /// </summary>
     public abstract class InteractionAgentBase : MonoBehaviour, IInteractionCandidate, IFocusableInteractor
     {
@@ -34,42 +33,6 @@ namespace KingdomLike.Interactables
             {
                 Debug.LogError($"{name} has no interaction selector assigned.", this);
             }
-        }
-
-        public void AddInteractionCandidate(IInteractable interactable)
-        {
-            if (interactable is not IInteractionTarget target)
-                return;
-
-            AddInteractionTarget(target);
-        }
-
-        public void RemoveInteractionCandidate(IInteractable interactable)
-        {
-            if (interactable is not IInteractionTarget target)
-                return;
-
-            RemoveInteractionTarget(target);
-        }
-
-        public void RefreshInteractionCandidates()
-        {
-            if (_interactionSelector == null)
-            {
-                ClearFocusedTarget(_focusedTarget);
-                return;
-            }
-
-            IInteractionTarget selectedTarget = _interactionSelector.Select(this, _interactionCandidates);
-
-            if (selectedTarget == _focusedTarget)
-                return;
-
-            if (_focusedTarget != null)
-                ClearFocusedTarget(_focusedTarget);
-
-            if (selectedTarget != null)
-                SetFocusedTarget(selectedTarget);
         }
 
         public void AddInteractionTarget(IInteractionTarget target)
@@ -99,6 +62,26 @@ namespace KingdomLike.Interactables
             RefreshInteractionCandidates();
         }
 
+        public void RefreshInteractionCandidates()
+        {
+            if (_interactionSelector == null)
+            {
+                ClearFocusedTarget(_focusedTarget);
+                return;
+            }
+
+            IInteractionTarget selectedTarget = _interactionSelector.Select(this, _interactionCandidates);
+
+            if (selectedTarget == _focusedTarget)
+                return;
+
+            if (_focusedTarget != null)
+                ClearFocusedTarget(_focusedTarget);
+
+            if (selectedTarget != null)
+                SetFocusedTarget(selectedTarget);
+        }
+
         public void SetFocusedTarget(IInteractionTarget target)
         {
             if (target == null)
@@ -110,12 +93,12 @@ namespace KingdomLike.Interactables
             if (!target.CanFocus(this))
                 return;
 
-            if (_focusedTarget != null)
-                ClearFocusedTarget(_focusedTarget);
+            if (_focusedTarget != null) ClearFocusedTarget(_focusedTarget);
 
             _focusedTarget = target;
 
             _focusedTarget.OnFocus(this);
+
             OnInteractionTargetFocused(_focusedTarget);
         }
 
@@ -141,9 +124,7 @@ namespace KingdomLike.Interactables
             if (target == null)
                 return;
 
-            bool actionExecuted = TryExecuteTarget(target);
-
-            if (!actionExecuted)
+            if (!TryExecuteTarget(target))
                 return;
 
             ClearFocusedTarget(target);
@@ -152,32 +133,31 @@ namespace KingdomLike.Interactables
 
         private bool TryExecuteTarget(IInteractionTarget target)
         {
+            if (target == null)
+                return false;
+
             IUnlockable unlockable = FindCapability<IUnlockable>(target);
 
             if (unlockable != null && !unlockable.IsUnlocked)
-            {
                 return unlockable.Unlock(this);
-            }
 
             IInteractable interactable = FindCapability<IInteractable>(target);
 
-            if (interactable != null)
-            {
-                if (unlockable != null && !unlockable.IsUnlocked)
-                    return false;
+            if (interactable == null)
+                return false;
 
-                interactable.ExecuteInteraction(this);
-                return true;
-            }
+            if (!interactable.CanInteract(this))
+                return false;
 
-            return false;
+            interactable.ExecuteInteraction(this);
+
+            return true;
         }
 
-        private static T FindCapability<T>(IInteractionTarget target)
-            where T : class
+        private static T FindCapability<T>(IInteractionTarget target) where T : class
         {
-            if (target is T directCapability)
-                return directCapability;
+            if (target is T capability)
+                return capability;
 
             if (target.InteractorObject == null)
                 return null;

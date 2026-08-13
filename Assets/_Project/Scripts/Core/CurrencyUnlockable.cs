@@ -5,14 +5,16 @@ using UnityEngine;
 namespace KingdomLike.Interactables
 {
     /// <summary>
-    /// Unlock implementation that requires a currency payment.
+    /// Unlockable that requires a currency payment.
     ///
-    /// Currency handling is deliberately kept outside UnlockableBase.
+    /// Currency validation and payment belong here,
+    /// not in UnlockableBase.
     /// </summary>
     public class CurrencyUnlockable : UnlockableBase, ICurrencyCost
     {
         [Header("Currency Cost")]
         [SerializeField] private CurrencyDataSO _currencyType;
+
         [Min(1)]
         [SerializeField] private int _requiredAmount = 1;
 
@@ -30,10 +32,16 @@ namespace KingdomLike.Interactables
             if (currency == null)
                 return false;
 
+            if (_currencyType == null)
+                return false;
+
             if (!currency.CanReceive(_currencyType))
                 return false;
 
-            return currency.Currency != null && currency.Currency.Has(_requiredAmount);
+            if (currency.Currency == null)
+                return false;
+
+            return currency.Currency.Has(_requiredAmount);
         }
 
         protected override bool TryUnlock(IInteractor interactor)
@@ -43,7 +51,13 @@ namespace KingdomLike.Interactables
             if (currency == null)
                 return false;
 
+            if (_currencyType == null)
+                return false;
+
             if (!currency.CanReceive(_currencyType))
+                return false;
+
+            if (currency.Currency == null)
                 return false;
 
             return currency.TryRemove(_requiredAmount);
@@ -69,7 +83,7 @@ namespace KingdomLike.Interactables
             if (currency != null)
                 return currency;
 
-            if (interactorObject.transform.parent)
+            if (interactorObject.transform.parent != null)
             {
                 currency = interactorObject.transform.parent.GetComponentInChildren<EntityCurrencyComponent>();
             }

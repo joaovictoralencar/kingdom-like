@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Interactables::KingdomLike.Interactables.PlayerInteractionAgent
   _interactionSelector: {fileID: 11400000, guid: 0336ce8ca8d520a449e439e7e108f9b7, type: 2}
-  InteractableFocusedEvent: {fileID: 11400000, guid: 98d4f75dde52ff04f9d6a4c0163bb776, type: 2}
-  InteractableUnfocusedEvent: {fileID: 11400000, guid: 8a02bb76f795190468a4f7c12033d198, type: 2}
+  _interactableFocusedEvent: {fileID: 11400000, guid: 98d4f75dde52ff04f9d6a4c0163bb776, type: 2}
+  _interactableUnfocusedEvent: {fileID: 11400000, guid: 8a02bb76f795190468a4f7c12033d198, type: 2}
   _interactAction: {fileID: 4743306732048843659, guid: d65337a759dd2234caf37eb0e7c27d9e, type: 3}
 --- !u!114 &5629094789527229633
 MonoBehaviour:
@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba5a72471bb67f44da7e11c63f5e4f10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.Components.CurrencyComponent
-  _saveId: 39e52b10fb144d5583ff1a180eacd7cb
+  _saveId: 8914ce9fcf994638a583b1c69ef62a1a
   _loadAfterRegister: 1
   _currencyData: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
   _currencyVariableSO: {fileID: 11400000, guid: 409e31641a0efb9458228ff6d70e4e2c, type: 2}

@@ -4,12 +4,15 @@ using UnityEngine;
 namespace KingdomLike.Interactables
 {
     /// <summary>
-    /// Base class for objects that participate in the interaction system.
+    /// Base class for anything that participates in the interaction system.
     ///
-    /// Contains interaction plumbing only:
-    /// range detection, candidate registration and focus handling.
+    /// Responsibilities:
+    /// - Trigger/range detection
+    /// - Interaction candidate registration
+    /// - Focus handling
+    /// - Interaction layer filtering
     ///
-    /// Contains no unlocking or gameplay action logic.
+    /// No unlock or gameplay-action logic belongs here.
     /// </summary>
     [RequireComponent(typeof(Collider))]
     public abstract class InteractionTargetBase : MonoBehaviour, IInteractionTarget
@@ -119,7 +122,7 @@ namespace KingdomLike.Interactables
             if (interactor != null)
                 return interactor;
 
-            if (other.transform.parent)
+            if (other.transform.parent != null)
                 interactor = other.transform.parent.GetComponentInChildren<IInteractor>();
 
             return interactor;

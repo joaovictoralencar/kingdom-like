@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 7871874946868054037}
   - component: {fileID: 3247429903021429369}
   m_Layer: 0
-  m_Name: Image
+  m_Name: IMG_Fill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -309,7 +309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: KingdomLike.UI::KingdomLike.UI.UI_CurrencyCostDisplay
   _currencyImage: {fileID: 2435018115305811357}
   _costText: {fileID: 3196396073486627295}
-  fillImage: {fileID: 8967670736780565944}
+  fillImage: {fileID: 3247429903021429369}
   _visualRoot: {fileID: 5063386193587614975}
   _costTextPulseScale: 1.18
   _costTextPulseDuration: 0.08

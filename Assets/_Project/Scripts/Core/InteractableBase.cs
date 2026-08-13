@@ -1,16 +1,10 @@
 using System.Collections.Generic;
+using KingdomLike.Core;
 using UnityEngine;
 using UnityEngine.Events;
-using KingdomLike.Core;
 
 namespace KingdomLike.Interactables
 {
-    /// <summary>
-    /// Base class for objects that execute an interaction action.
-    ///
-    /// Contains interaction plumbing only.
-    /// Contains no unlocking logic.
-    /// </summary>
     public abstract class InteractableBase : InteractionTargetBase, IInteractable, IInteractionCostDisplayer
     {
         [Header("References")]
@@ -54,36 +48,39 @@ namespace KingdomLike.Interactables
             return EvaluateConditions(_interactConditions, interactor);
         }
 
-        public void ExecuteInteraction(IInteractor interactor)
+        public bool ExecuteInteraction(IInteractor interactor)
         {
             if (!CanInteract(interactor))
-                return;
+                return false;
 
             OnExecuteInteraction(interactor);
-
             _onExecute.Invoke();
 
             if (!_useOnce)
-                return;
+                return true;
 
             _hasBeenUsed = true;
 
             RefreshInteractorCandidates();
 
-            if (InteractionCollider) InteractionCollider.enabled = false;
+            if (InteractionCollider != null)
+                InteractionCollider.enabled = false;
+
+            return true;
+        }
+
+        public virtual bool TryGetInteractionCost(IInteractor interactor, out ICurrencyCost currencyCost)
+        {
+            currencyCost = null;
+
+            if (this is not ICurrencyCost cost)
+                return false;
+
+            currencyCost = cost;
+            return true;
         }
 
         protected abstract void OnExecuteInteraction(IInteractor interactor);
-
-        public override void OnFocus(IInteractor interactor)
-        {
-            base.OnFocus(interactor);
-        }
-
-        public override void OnUnfocus(IInteractor interactor)
-        {
-            base.OnUnfocus(interactor);
-        }
 
         private bool EvaluateConditions(List<InteractionConditionSO> conditions, IInteractor interactor)
         {
