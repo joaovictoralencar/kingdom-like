@@ -4,6 +4,6 @@ namespace KingdomLike.Interactables
 {
     public interface IInteractionSelector
     {
-        IInteractable Select(IInteractor interactor, IReadOnlyList<IInteractable> interactables);
+        IInteractionTarget Select(IInteractor interactor, IReadOnlyList<IInteractionTarget> targets);
     }
 }

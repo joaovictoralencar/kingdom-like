@@ -9,11 +9,11 @@ namespace KingdomLike.Interactables
     public abstract class InteractionSelectorSO : ScriptableObject, IInteractionSelector
     {
         /// <summary>
-        /// Selects the best interactable from the available candidates.
+        /// Selects the best interaction target from a list of candidates.
         /// </summary>
-        /// <param name="interactor">The interactor selecting an interactable.</param>
-        /// <param name="interactables">The available interaction candidates.</param>
-        /// <returns>The selected interactable, or null when none can be selected.</returns>
-        public abstract IInteractable Select(IInteractor interactor, IReadOnlyList<IInteractable> interactables);
+        /// <param name="interactor">The interactor</param>
+        /// <param name="targets">The interaction targets</param>
+        /// <returns></returns>
+        public abstract IInteractionTarget Select(IInteractor interactor, IReadOnlyList<IInteractionTarget> targets);
     }
 }

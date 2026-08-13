@@ -36,7 +36,7 @@ namespace KingdomLike.UI
 
         private void OnInteractableUnfocused(InteractionPayload payload)
         {
-            int index = _spawnedCostDisplays.FindIndex(data => data.Interactable == payload.Interactable && data.Interactor == payload.Interactor);
+            int index = _spawnedCostDisplays.FindIndex(data => data.Interactable == payload.Target && data.Interactor == payload.Interactor);
             if (index < 0) return;
             InteractionCostData costData = _spawnedCostDisplays[index];
 
@@ -58,7 +58,7 @@ namespace KingdomLike.UI
             if (payload is not { IsFocused: true, IsInteracting: false }) return;
             
             //Grab the interactable component from the payload
-            IInteractable interactable = payload.Interactable;
+            IInteractionTarget interactable = payload.Target;
             
             IInteractionCostDisplayer costDisplayer = interactable.InteractorObject.GetComponent<IInteractionCostDisplayer>();
             if (costDisplayer is null) return;
@@ -145,14 +145,14 @@ namespace KingdomLike.UI
 
     class InteractionCostData
     {
-        public IInteractable Interactable;
+        public IInteractionTarget Interactable;
         public IInteractor Interactor;
         public UI_CurrencyCostDisplay CostDisplay;
 
         public InteractionHoldController HoldController;
-        public Action<IInteractable, IInteractor, float> ProgressHandler;
-        public Action<IInteractable, IInteractor> CancelHandler;
-        public Action<IInteractable, IInteractor> CompleteHandler;
-        public Action<IInteractable, IInteractor> StartHandler;
+        public Action<IInteractionTarget, IInteractor, float> ProgressHandler;
+        public Action<IInteractionTarget, IInteractor> CancelHandler;
+        public Action<IInteractionTarget, IInteractor> CompleteHandler;
+        public Action<IInteractionTarget, IInteractor> StartHandler;
     }
 }

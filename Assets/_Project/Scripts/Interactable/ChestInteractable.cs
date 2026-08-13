@@ -1,88 +1,70 @@
 using Ami.BroAudio;
-using KingdomLike.Core.Components;
-using KingdomLike.Currency.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace KingdomLike.Interactables
 {
-    public class ChestInteractable : InteractableBase, ICurrencyCost
+    /// <summary>
+    /// Chest that can only be unlocked.
+    ///
+    /// Unlocking opens the chest. Any reward spawning is handled
+    /// by separate components listening to the unlock event.
+    /// </summary>
+    [RequireComponent(typeof(UnlockableInteractionTarget))]
+    public class ChestInteractable : CurrencyUnlockable, IInteractionFocusReceiver
     {
-        [Header("Cost")] [SerializeField] private CurrencyDataSO _currencyType;
-        [SerializeField] private int _requiredAmount = 1;
-        [MinValue(1)] [SerializeField] private int _rewardAmount = 5;
-        
+        [Header("Chest")]
+        [SerializeField] private Animator _animator;
+
         [SerializeField] private SoundID _focusSoundID;
         [SerializeField] private SoundID _openSoundID;
 
-        public CurrencyDataSO CurrencyType => _currencyType;
-        public int RequiredAmount => _requiredAmount;
-
-        public bool IsOpen { get; private set; }
+        [Header("Reward")]
+        [MinValue(1)]
+        [SerializeField] private int _rewardAmount = 5;
 
         public int RewardAmount
         {
             get => _rewardAmount;
-            set => _rewardAmount = value;
+            set => _rewardAmount = Mathf.Max(1, value);
         }
 
-        [Header("References")] [SerializeField]
-        private Animator _animator;
-
-        protected override void OnInteract(IInteractor interactor)
+        protected override bool TryUnlock(IInteractor interactor)
         {
-            GameObject interactorObject = interactor.InteractorObject;
+            bool unlocked = base.TryUnlock(interactor);
 
-            // Try to find currency component in siblings, parent, or children
-            EntityCurrencyComponent currency = interactorObject.GetComponentInParent<EntityCurrencyComponent>();
+            if (!unlocked)
+                return false;
 
-            if (currency == null)
-            {
-                currency = interactorObject.GetComponentInChildren<EntityCurrencyComponent>();
-            }
+            if (_animator != null)
+                _animator.SetTrigger("Open");
 
-            if (currency == null && interactorObject.transform.parent)
-            {
-                currency = interactorObject.transform.parent.GetComponentInChildren<EntityCurrencyComponent>();
-            }
-
-            if (currency == null)
-            {
-                Debug.LogError("Currency component not found on interactor object");
-                return;
-            }
-
-            currency.Remove(_requiredAmount);
-            OpenChest(interactor);
-        }
-
-        protected virtual void OpenChest(IInteractor interactor)
-        {
-            _animator.SetTrigger("Open");
             BroAudio.Play(_openSoundID);
             BroAudio.Stop(_focusSoundID);
-            IsOpen = true;
+
+            return true;
         }
 
-        public override void OnFocus(IInteractor interactor)
+        public void OnInteractionFocus(IInteractor interactor)
         {
-            base.OnFocus(interactor);
-            //Make chest crumble
-            if (!IsOpen)
-            {
+            if (IsUnlocked)
+                return;
+
+            if (_animator != null)
                 _animator.SetTrigger("Crumble");
-                BroAudio.Play(_focusSoundID);
-            }
+
+            BroAudio.Play(_focusSoundID);
         }
 
-        public override void OnUnfocus(IInteractor interactor)
+        public void OnInteractionUnfocus(IInteractor interactor)
         {
-            base.OnUnfocus(interactor);
-            if (!IsOpen)
-            {
+            if (IsUnlocked)
+                return;
+
+            if (_animator != null)
                 _animator.SetTrigger("Idle");
-                BroAudio.Stop(_focusSoundID);
-            }
+
+            BroAudio.Stop(_focusSoundID);
         }
     }
 }

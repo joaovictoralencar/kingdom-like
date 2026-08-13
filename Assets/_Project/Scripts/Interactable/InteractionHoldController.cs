@@ -10,27 +10,29 @@ namespace KingdomLike.Interactables
     /// </summary>
     public class InteractionHoldController : MonoBehaviour
     {
-        [Tooltip("Seconds of hold required per currency unit.")]
-        [SerializeField]
+        [Tooltip("Seconds of hold required per currency unit.")] [SerializeField]
         private float _secondsPerCoin = 0.25f;
 
         private IFocusableInteractor _agent;
 
         private bool _isHolding;
-        private IInteractable _target;
+        private IInteractionTarget _target;
         private float _duration;
         private float _elapsed;
 
-        public event Action<IInteractable, IInteractor> OnHoldStarted;
-        public event Action<IInteractable, IInteractor, float> OnHoldProgress; // progress 0..1
-        public event Action<IInteractable, IInteractor> OnHoldCancelled;
-        public event Action<IInteractable, IInteractor> OnHoldCompleted;
+        public event Action<IInteractionTarget, IInteractor> OnHoldStarted;
+        public event Action<IInteractionTarget, IInteractor, float> OnHoldProgress;
+        public event Action<IInteractionTarget, IInteractor> OnHoldCancelled;
+        public event Action<IInteractionTarget, IInteractor> OnHoldCompleted;
 
         private void Awake()
         {
             _agent = GetComponent<IFocusableInteractor>();
 
-            if (_agent == null) Debug.LogError($"{nameof(InteractionHoldController)} requires a component that implements IFocusableInteractor on the same GameObject.", this);
+            if (_agent == null)
+            {
+                Debug.LogError($"{nameof(InteractionHoldController)} requires a component that implements IFocusableInteractor on the same GameObject.", this);
+            }
         }
 
         private void Update()
@@ -38,20 +40,19 @@ namespace KingdomLike.Interactables
             if (!_isHolding)
                 return;
 
-            // if focus changed, cancel
-            if (_agent == null || _agent.FocusedInteractable != _target)
+            if (_agent == null || _agent.FocusedTarget != _target)
             {
                 CancelHold();
                 return;
             }
 
-            // progress
             _elapsed += Time.deltaTime;
+
             float progress = _duration <= 0f ? 1f : Mathf.Clamp01(_elapsed / _duration);
 
             try
             {
-                OnHoldProgress?.Invoke(_target, _agent as IInteractor, progress);
+                OnHoldProgress?.Invoke(_target, _agent, progress);
             }
             catch (Exception ex)
             {
@@ -59,12 +60,10 @@ namespace KingdomLike.Interactables
             }
 
             if (progress >= 1f)
-            {
                 CompleteHold();
-            }
         }
 
-        public bool TryStartHold(IInteractable target)
+        public bool TryStartHold(IInteractionTarget target)
         {
             if (_isHolding)
                 return false;
@@ -72,60 +71,33 @@ namespace KingdomLike.Interactables
             if (target == null)
                 return false;
 
-            // validate the target still accepts interaction from this agent
-            if (!target.CanInteract(_agent as IInteractor))
+            if (_agent == null)
                 return false;
 
-            // compute duration from currency cost if present
-            float duration = 0f;
+            if (!CanExecuteTarget(target))
+                return false;
 
-            if (target.InteractorObject != null)
-            {
-                var currencyCost = target.InteractorObject.GetComponent<ICurrencyCost>();
-                if (currencyCost != null)
-                {
-                    // find currency component on the interactor
-                    var currencyComp = FindCurrencyComponentOnAgent();
-                    if (currencyComp == null)
-                    {
-                        Debug.LogWarning("Interactor has no EntityCurrencyComponent; cannot start currency-based hold.", this);
-                        return false;
-                    }
+            float duration = CalculateDuration(target);
 
-                    // ensure the interactor's currency type matches the cost
-                    if (currencyComp.CurrencyData != currencyCost.CurrencyType)
-                    {
-                        Debug.LogWarning("Interactor currency type doesn't match interactable cost type.", this);
-                        return false;
-                    }
-
-                    // ensure enough currency
-                    if (currencyComp.Currency == null || !currencyComp.Currency.Has(currencyCost.RequiredAmount))
-                    {
-                        Debug.LogWarning("Interactor does not have enough currency to start hold.", this);
-                        return false;
-                    }
-
-                    duration = Mathf.Max(0f, _secondsPerCoin * currencyCost.RequiredAmount);
-                }
-            }
-
-            // fallback duration for non-currency interactions
-            if (duration <= 0f)
-                duration = _secondsPerCoin;
+            if (duration < 0f)
+                return false;
 
             _target = target;
             _duration = duration;
             _elapsed = 0f;
             _isHolding = true;
 
-            OnHoldStarted?.Invoke(_target, _agent as IInteractor);
-
-            // If duration is zero, complete immediately
-            if (_duration <= 0f)
+            try
             {
-                CompleteHold();
+                OnHoldStarted?.Invoke(_target, _agent);
             }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex, this);
+            }
+
+            if (_duration <= 0f)
+                CompleteHold();
 
             return true;
         }
@@ -138,42 +110,127 @@ namespace KingdomLike.Interactables
             CancelHold();
         }
 
+        private bool CanExecuteTarget(IInteractionTarget target)
+        {
+            IInteractor interactor = _agent;
+
+            IUnlockable unlockable = FindCapability<IUnlockable>(target);
+
+            if (unlockable != null && !unlockable.IsUnlocked)
+                return unlockable.CanUnlock(interactor);
+
+            IInteractable interactable = FindCapability<IInteractable>(target);
+
+            if (interactable != null)
+                return interactable.CanInteract(interactor);
+
+            return false;
+        }
+
+        private float CalculateDuration(IInteractionTarget target)
+        {
+            if (target.InteractorObject != null)
+            {
+                ICurrencyCost currencyCost = target.InteractorObject.GetComponent<ICurrencyCost>();
+
+                if (currencyCost != null)
+                {
+                    EntityCurrencyComponent currencyComp = FindCurrencyComponentOnAgent();
+
+                    if (currencyComp == null)
+                    {
+                        Debug.LogWarning("Interactor has no EntityCurrencyComponent; cannot start currency-based hold.", this);
+
+                        return -1f;
+                    }
+
+                    if (currencyComp.CurrencyData != currencyCost.CurrencyType)
+                    {
+                        Debug.LogWarning("Interactor currency type doesn't match target cost type.", this);
+
+                        return -1f;
+                    }
+
+                    if (currencyComp.Currency == null || !currencyComp.Currency.Has(currencyCost.RequiredAmount))
+                    {
+                        Debug.LogWarning("Interactor does not have enough currency to start hold.", this);
+
+                        return -1f;
+                    }
+
+                    return Mathf.Max(0f, _secondsPerCoin * currencyCost.RequiredAmount);
+                }
+            }
+
+            return _secondsPerCoin;
+        }
+
         private void CancelHold()
         {
+            if (!_isHolding)
+                return;
+
             _isHolding = false;
+
             try
             {
-                OnHoldCancelled?.Invoke(_target, _agent as IInteractor);
+                OnHoldCancelled?.Invoke(_target, _agent);
             }
             catch (Exception ex)
             {
                 Debug.LogException(ex, this);
             }
 
+            ResetState();
+        }
+
+        private void CompleteHold()
+        {
+            if (!_isHolding)
+                return;
+
+            _isHolding = false;
+
+            IInteractionTarget completedTarget = _target;
+
+            try
+            {
+                /*
+                 * The agent owns the actual interaction flow.
+                 *
+                 * It decides:
+                 * - locked IUnlockable -> Unlock()
+                 * - unlocked IInteractable -> ExecuteInteraction()
+                 */
+                _agent.Interact();
+
+                OnHoldCompleted?.Invoke(completedTarget, _agent);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex, this);
+            }
+
+            ResetState();
+        }
+
+        private void ResetState()
+        {
             _target = null;
             _elapsed = 0f;
             _duration = 0f;
         }
 
-        private void CompleteHold()
+        private static T FindCapability<T>(IInteractionTarget target)
+            where T : class
         {
-            _isHolding = false;
+            if (target is T capability)
+                return capability;
 
-            try
-            {
-                // perform the interaction (interactable will deduct currency and trigger events)
-                _target?.Interact(_agent);
+            if (target?.InteractorObject == null)
+                return null;
 
-                OnHoldCompleted?.Invoke(_target, _agent);
-            }
-            catch (Exception ex)
-            {
-                Debug.LogException(ex, this);
-            }
-
-            _target = null;
-            _elapsed = 0f;
-            _duration = 0f;
+            return target.InteractorObject.GetComponent<T>();
         }
 
         private EntityCurrencyComponent FindCurrencyComponentOnAgent()
@@ -181,20 +238,24 @@ namespace KingdomLike.Interactables
             if (_agent == null || _agent.InteractorObject == null)
                 return null;
 
-            var go = _agent.InteractorObject;
+            GameObject go = _agent.InteractorObject;
 
-            var comp = go.GetComponentInParent<EntityCurrencyComponent>();
-            if (comp != null)
-                return comp;
+            EntityCurrencyComponent component = go.GetComponentInParent<EntityCurrencyComponent>();
 
-            comp = go.GetComponentInChildren<EntityCurrencyComponent>();
-            if (comp != null)
-                return comp;
+            if (component != null)
+                return component;
+
+            component = go.GetComponentInChildren<EntityCurrencyComponent>();
+
+            if (component != null)
+                return component;
 
             if (go.transform.parent != null)
-                return go.transform.parent.GetComponentInChildren<EntityCurrencyComponent>();
+            {
+                component = go.transform.parent.GetComponentInChildren<EntityCurrencyComponent>();
+            }
 
-            return null;
+            return component;
         }
     }
 }

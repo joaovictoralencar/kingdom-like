@@ -22,7 +22,7 @@ namespace KingdomLike.Interactables
     [Serializable]
     public struct InteractionPayload
     {
-        public IInteractable Interactable;
+        public IInteractionTarget Target;
         public IInteractor Interactor;
         public bool IsInteracting;
         public bool IsFocused;

@@ -3,42 +3,49 @@ using UnityEngine;
 
 namespace KingdomLike.Interactables
 {
-    [CreateAssetMenu(fileName = "SO_ClosestInteractionSelector", menuName = "KingdomLike/Scriptable Objects/Interactables/ClosestInteractionSelector", order = 0)]
+    [CreateAssetMenu(
+        fileName = "SO_ClosestInteractionSelector",
+        menuName = "KingdomLike/Scriptable Objects/Interactables/ClosestInteractionSelector",
+        order = 0)]
     public class ClosestInteractionSelector : InteractionSelectorSO
     {
-        public override IInteractable Select(IInteractor interactor, IReadOnlyList<IInteractable> interactables)
+        public override IInteractionTarget Select(IInteractor interactor, IReadOnlyList<IInteractionTarget> targets)
         {
             if (interactor == null || interactor.InteractorObject == null)
                 return null;
 
-            if (interactables == null || interactables.Count == 0)
+            if (targets == null || targets.Count == 0)
                 return null;
 
             Vector3 interactorPosition = interactor.InteractorObject.transform.position;
 
-            IInteractable closestInteractable = null;
+            IInteractionTarget closestTarget = null;
             float closestDistanceSqr = float.MaxValue;
 
-            for (int i = 0; i < interactables.Count; i++)
+            for (int i = 0; i < targets.Count; i++)
             {
-                IInteractable interactable = interactables[i];
+                IInteractionTarget target = targets[i];
 
-                if (interactable == null)
+                if (target == null)
                     continue;
 
-                if (interactable is not Component component)
+                if (target.InteractorObject == null)
                     continue;
 
-                float distanceSqr = (component.transform.position - interactorPosition).sqrMagnitude;
+                if (!target.CanFocus(interactor))
+                    continue;
+
+                float distanceSqr =
+                    (target.InteractorObject.transform.position - interactorPosition).sqrMagnitude;
 
                 if (distanceSqr >= closestDistanceSqr)
                     continue;
 
                 closestDistanceSqr = distanceSqr;
-                closestInteractable = interactable;
+                closestTarget = target;
             }
 
-            return closestInteractable;
+            return closestTarget;
         }
     }
 }

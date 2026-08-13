@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,16 +5,19 @@ namespace KingdomLike.Interactables
 {
     public class PlayerInteractionAgent : InteractionAgentBase
     {
-        [SerializeField] private InteractionEventSO InteractableFocusedEvent;
-        [SerializeField] private InteractionEventSO InteractableUnfocusedEvent;
+        [Header("Interaction Events")]
+        [SerializeField] private InteractionEventSO _interactableFocusedEvent;
+        [SerializeField] private InteractionEventSO _interactableUnfocusedEvent;
+
+        [Header("Input")]
+        [SerializeField] private InputActionReference _interactAction;
 
         private InteractionHoldController _holdController;
-
-        [SerializeField] private InputActionReference _interactAction;
 
         protected override void Awake()
         {
             base.Awake();
+
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = false;
 
@@ -24,12 +26,12 @@ namespace KingdomLike.Interactables
 
         private void OnEnable()
         {
-            if (_interactAction != null && _interactAction.action != null)
-            {
-                _interactAction.action.started += OnInteractStarted;
-                _interactAction.action.canceled += OnInteractCanceled;
-                _interactAction.action.Enable();
-            }
+            if (_interactAction == null || _interactAction.action == null)
+                return;
+
+            _interactAction.action.started += OnInteractStarted;
+            _interactAction.action.canceled += OnInteractCanceled;
+            _interactAction.action.Enable();
         }
 
         protected override void OnDisable()
@@ -40,34 +42,44 @@ namespace KingdomLike.Interactables
                 _interactAction.action.canceled -= OnInteractCanceled;
                 _interactAction.action.Disable();
             }
+
+            _holdController?.StopHold();
+
+            base.OnDisable();
         }
 
-        protected override void OnInteractableFocused(IInteractable interactable)
+        protected override void OnInteractionTargetFocused(IInteractionTarget target)
         {
-            base.OnInteractableFocused(interactable);
-            
-            if (InteractableFocusedEvent == null)
+            base.OnInteractionTargetFocused(target);
+
+            if (_interactableFocusedEvent == null)
                 return;
-            
-            InteractableFocusedEvent.Raise(new InteractionPayload
+
+            if (target is null)
+                return;
+
+            _interactableFocusedEvent.Raise(new InteractionPayload
             {
-                Interactable = interactable,
+                Target = target,
                 Interactor = this,
                 IsFocused = true,
                 IsInteracting = false
             });
         }
 
-        protected override void OnInteractableUnfocused(IInteractable interactable)
+        protected override void OnInteractionTargetUnfocused(IInteractionTarget target)
         {
-            base.OnInteractableUnfocused(interactable);
-            
-            if (InteractableUnfocusedEvent == null)
+            base.OnInteractionTargetUnfocused(target);
+
+            if (_interactableUnfocusedEvent == null)
                 return;
-            
-            InteractableUnfocusedEvent.Raise(new InteractionPayload
+
+            if (target is null)
+                return;
+
+            _interactableUnfocusedEvent.Raise(new InteractionPayload
             {
-                Interactable = interactable,
+                Target = target,
                 Interactor = this,
                 IsFocused = false,
                 IsInteracting = false
@@ -76,21 +88,29 @@ namespace KingdomLike.Interactables
 
         private void OnInteractStarted(InputAction.CallbackContext context)
         {
-            // Prefer hold controller if present. If not present, fall back to immediate interact.
+            IInteractionTarget target = FocusedTarget;
+
+            if (target == null)
+                return;
+
+            /*
+             * Hold interaction currently belongs to the IInteractable side.
+             *
+             * Unlock-only objects bypass the hold controller and use the
+             * regular interaction flow directly.
+             */
             if (_holdController != null)
             {
-                _holdController.TryStartHold(FocusedInteractable);
+                _holdController.TryStartHold(target);
+                return;
             }
-            else
-            {
-                Interact();
-            }
+
+            Interact();
         }
 
         private void OnInteractCanceled(InputAction.CallbackContext context)
         {
-            if (_holdController != null)
-                _holdController.StopHold();
+            _holdController?.StopHold();
         }
     }
 }

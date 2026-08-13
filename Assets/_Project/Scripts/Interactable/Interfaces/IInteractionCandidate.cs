@@ -2,8 +2,10 @@ namespace KingdomLike.Interactables
 {
     public interface IInteractionCandidate
     {
-        void AddInteractionCandidate(IInteractable interactable);
-        void RemoveInteractionCandidate(IInteractable interactable);
+        void AddInteractionTarget(IInteractionTarget target);
+
+        void RemoveInteractionTarget(IInteractionTarget target);
+
         void RefreshInteractionCandidates();
     }
 }

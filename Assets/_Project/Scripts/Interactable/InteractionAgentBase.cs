@@ -5,20 +5,28 @@ namespace KingdomLike.Interactables
 {
     /// <summary>
     /// Base class for entities capable of detecting, selecting,
-    /// focusing, and interacting with interactables.
+    /// focusing and executing interaction targets.
+    ///
+    /// The agent owns the interaction flow:
+    ///
+    /// Locked target:
+    ///     Unlock()
+    ///
+    /// Unlocked target:
+    ///     ExecuteInteraction()
     /// </summary>
     public abstract class InteractionAgentBase : MonoBehaviour, IInteractionCandidate, IFocusableInteractor
     {
-        [Header("Interaction")] [SerializeField]
-        private InteractionSelectorSO _interactionSelector;
+        [Header("Interaction")]
+        [SerializeField] private InteractionSelectorSO _interactionSelector;
 
-        private readonly List<IInteractable> _interactionCandidates = new();
+        private readonly List<IInteractionTarget> _interactionCandidates = new();
 
-        private IInteractable _focusedInteractable;
+        private IInteractionTarget _focusedTarget;
 
         public GameObject InteractorObject => gameObject;
 
-        public IInteractable FocusedInteractable => _focusedInteractable;
+        public IInteractionTarget FocusedTarget => _focusedTarget;
 
         protected virtual void Awake()
         {
@@ -30,107 +38,166 @@ namespace KingdomLike.Interactables
 
         public void AddInteractionCandidate(IInteractable interactable)
         {
-            if (interactable == null)
+            if (interactable is not IInteractionTarget target)
                 return;
 
-            if (_interactionCandidates.Contains(interactable))
-                return;
-
-            _interactionCandidates.Add(interactable);
-
-            RefreshInteractionCandidates();
+            AddInteractionTarget(target);
         }
 
         public void RemoveInteractionCandidate(IInteractable interactable)
         {
-            if (interactable == null)
+            if (interactable is not IInteractionTarget target)
                 return;
 
-            if (!_interactionCandidates.Remove(interactable))
-                return;
-
-            if (_focusedInteractable == interactable)
-                ClearFocusedInteractable(interactable);
-
-            RefreshInteractionCandidates();
+            RemoveInteractionTarget(target);
         }
 
         public void RefreshInteractionCandidates()
         {
             if (_interactionSelector == null)
             {
-                ClearFocusedInteractable(_focusedInteractable);
+                ClearFocusedTarget(_focusedTarget);
                 return;
             }
 
-            IInteractable selectedInteractable = _interactionSelector.Select(this, _interactionCandidates);
+            IInteractionTarget selectedTarget = _interactionSelector.Select(this, _interactionCandidates);
 
-            if (selectedInteractable == _focusedInteractable) return;
+            if (selectedTarget == _focusedTarget)
+                return;
 
-            if (_focusedInteractable != null) ClearFocusedInteractable(_focusedInteractable);
+            if (_focusedTarget != null)
+                ClearFocusedTarget(_focusedTarget);
 
-            if (selectedInteractable != null) SetFocusedInteractable(selectedInteractable);
+            if (selectedTarget != null)
+                SetFocusedTarget(selectedTarget);
         }
 
-        public void SetFocusedInteractable(IInteractable interactable)
+        public void AddInteractionTarget(IInteractionTarget target)
         {
-            if (interactable == null)
+            if (target == null)
                 return;
 
-            if (_focusedInteractable == interactable) return;
-            
-            if (!interactable.CanFocus(this)) return;
+            if (_interactionCandidates.Contains(target))
+                return;
 
-            if (_focusedInteractable != null) ClearFocusedInteractable(_focusedInteractable);
+            _interactionCandidates.Add(target);
 
-            _focusedInteractable = interactable;
-
-            _focusedInteractable.OnFocus(this);
-            OnInteractableFocused(_focusedInteractable);
+            RefreshInteractionCandidates();
         }
 
-        public void ClearFocusedInteractable(IInteractable interactable)
+        public void RemoveInteractionTarget(IInteractionTarget target)
         {
-            if (interactable == null)
+            if (target == null)
                 return;
 
-            if (_focusedInteractable != interactable)
+            if (!_interactionCandidates.Remove(target))
                 return;
 
-            _focusedInteractable.OnUnfocus(this);
+            if (_focusedTarget == target)
+                ClearFocusedTarget(target);
 
-            OnInteractableUnfocused(_focusedInteractable);
+            RefreshInteractionCandidates();
+        }
 
-            _focusedInteractable = null;
+        public void SetFocusedTarget(IInteractionTarget target)
+        {
+            if (target == null)
+                return;
+
+            if (_focusedTarget == target)
+                return;
+
+            if (!target.CanFocus(this))
+                return;
+
+            if (_focusedTarget != null)
+                ClearFocusedTarget(_focusedTarget);
+
+            _focusedTarget = target;
+
+            _focusedTarget.OnFocus(this);
+            OnInteractionTargetFocused(_focusedTarget);
+        }
+
+        public void ClearFocusedTarget(IInteractionTarget target)
+        {
+            if (target == null)
+                return;
+
+            if (_focusedTarget != target)
+                return;
+
+            target.OnUnfocus(this);
+
+            OnInteractionTargetUnfocused(target);
+
+            _focusedTarget = null;
         }
 
         public virtual void Interact()
         {
-            if (_focusedInteractable == null)
+            IInteractionTarget target = _focusedTarget;
+
+            if (target == null)
                 return;
 
-            _focusedInteractable.Interact(this);
-            ClearFocusedInteractable(_focusedInteractable);
+            bool actionExecuted = TryExecuteTarget(target);
+
+            if (!actionExecuted)
+                return;
+
+            ClearFocusedTarget(target);
             RefreshInteractionCandidates();
+        }
+
+        private bool TryExecuteTarget(IInteractionTarget target)
+        {
+            IUnlockable unlockable = FindCapability<IUnlockable>(target);
+
+            if (unlockable != null && !unlockable.IsUnlocked)
+            {
+                return unlockable.Unlock(this);
+            }
+
+            IInteractable interactable = FindCapability<IInteractable>(target);
+
+            if (interactable != null)
+            {
+                if (unlockable != null && !unlockable.IsUnlocked)
+                    return false;
+
+                interactable.ExecuteInteraction(this);
+                return true;
+            }
+
+            return false;
+        }
+
+        private static T FindCapability<T>(IInteractionTarget target)
+            where T : class
+        {
+            if (target is T directCapability)
+                return directCapability;
+
+            if (target.InteractorObject == null)
+                return null;
+
+            return target.InteractorObject.GetComponent<T>();
         }
 
         protected virtual void OnDisable()
         {
-            ClearAllInteractionCandidates();
-        }
-
-        private void ClearAllInteractionCandidates()
-        {
-            if (_focusedInteractable != null) ClearFocusedInteractable(_focusedInteractable);
+            if (_focusedTarget != null)
+                ClearFocusedTarget(_focusedTarget);
 
             _interactionCandidates.Clear();
         }
 
-        protected virtual void OnInteractableFocused(IInteractable interactable)
+        protected virtual void OnInteractionTargetFocused(IInteractionTarget target)
         {
         }
 
-        protected virtual void OnInteractableUnfocused(IInteractable interactable)
+        protected virtual void OnInteractionTargetUnfocused(IInteractionTarget target)
         {
         }
     }

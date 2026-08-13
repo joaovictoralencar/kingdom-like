@@ -1,17 +1,15 @@
-using UnityEngine;
-
 namespace KingdomLike.Interactables
 {
+    /// <summary>
+    /// Represents the actual gameplay action performed by an object
+    /// after any required unlocking has been completed.
+    ///
+    /// This interface is intentionally independent from IUnlockable.
+    /// </summary>
     public interface IInteractable
     {
-        GameObject InteractorObject { get; }
-        
-        bool CanFocus(IInteractor interactor);
         bool CanInteract(IInteractor interactor);
 
-        void Interact(IInteractor interactor);
-
-        void OnFocus(IInteractor interactor);
-        void OnUnfocus(IInteractor interactor);
+        void ExecuteInteraction(IInteractor interactor);
     }
 }

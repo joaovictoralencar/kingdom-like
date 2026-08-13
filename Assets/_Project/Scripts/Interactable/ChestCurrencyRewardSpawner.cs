@@ -10,9 +10,8 @@ using UnityEngine;
 namespace KingdomLike.Interactables
 {
     /// <summary>
-    /// Listens to a ChestInteractable's OnInteractEvent and spawns a burst
-    /// of reward currency around the chest, each piece arcing out from the
-    /// chest to a ground point found via a downward raycast.
+    /// Listens to a ChestInteractable's unlock event and spawns
+    /// a burst of reward currency around the chest.
     /// </summary>
     [RequireComponent(typeof(ChestInteractable))]
     public class ChestCurrencyRewardSpawner : MonoBehaviour
@@ -39,6 +38,7 @@ namespace KingdomLike.Interactables
         private LayerMask _groundLayerMask;
 
         [MinValue(0)] [SerializeField] private float _raycastHeight = 5f;
+
         [MinValue(0)] [SerializeField] private float _raycastDistance = 20f;
 
         #endregion
@@ -49,7 +49,9 @@ namespace KingdomLike.Interactables
         private float _arcDuration = 0.6f;
 
         [MinValue(0)] [SerializeField] private float _arcHeight = 2f;
+
         [SerializeField] private Ease _ease = Ease.OutQuad;
+
         [MinValue(0)] [SerializeField] private float _delayBetweenSpawns = 0.03f;
 
         #endregion
@@ -72,25 +74,26 @@ namespace KingdomLike.Interactables
         private void OnEnable()
         {
             if (_chest != null)
-                _chest.OnInteractEvent.AddListener(HandleChestInteracted);
+                _chest.OnUnlocked += HandleChestUnlocked;
         }
 
         private void OnDisable()
         {
             if (_chest != null)
-                _chest.OnInteractEvent.RemoveListener(HandleChestInteracted);
+                _chest.OnUnlocked -= HandleChestUnlocked;
         }
 
-        private void HandleChestInteracted(IInteractor interactor)
+        private void HandleChestUnlocked()
         {
             SpawnRewardAsync().Forget();
         }
 
         private async UniTask SpawnRewardAsync()
         {
-            if (_currencyPoolManagerLocator == null || _chest.CurrencyType == null)
+            if (_currencyPoolManagerLocator == null || _chest == null || _chest.CurrencyType == null)
             {
                 Debug.LogError($"[{nameof(ChestCurrencyRewardSpawner)}] Missing CurrencyPoolManager or reward CurrencyDataSO.", this);
+
                 return;
             }
 
@@ -101,16 +104,30 @@ namespace KingdomLike.Interactables
                 _destroyCancellationToken.ThrowIfCancellationRequested();
 
                 Vector2 randomOffset = UnityEngine.Random.insideUnitCircle * _radius;
-                Vector3 candidatePoint = new(originPosition.x + randomOffset.x, originPosition.y, originPosition.z + randomOffset.y);
+
+                Vector3 candidatePoint = new(
+                    originPosition.x + randomOffset.x,
+                    originPosition.y,
+                    originPosition.z + randomOffset.y);
 
                 Vector3 targetPosition = ResolveGroundPosition(candidatePoint, originPosition.y);
 
-                CurrencyComponent currency = await _currencyPoolManagerLocator.Get().SpawnAsync(_chest.CurrencyType, originPosition, Quaternion.identity, _destroyCancellationToken);
+                CurrencyComponent currency = await _currencyPoolManagerLocator.Get().SpawnAsync(
+                    _chest.CurrencyType,
+                    originPosition,
+                    Quaternion.identity,
+                    _destroyCancellationToken);
 
                 if (currency == null)
                     continue;
 
-                _ = CurrencyArcMotion.PlayArc(currency.transform, originPosition, targetPosition, _arcDuration, _arcHeight, _ease);
+                _ = CurrencyArcMotion.PlayArc(
+                    currency.transform,
+                    originPosition,
+                    targetPosition,
+                    _arcDuration,
+                    _arcHeight,
+                    _ease);
 
                 if (_delayBetweenSpawns > 0f)
                 {
@@ -121,9 +138,12 @@ namespace KingdomLike.Interactables
             await _currencyPoolManagerLocator.Get().SaveAsync(_destroyCancellationToken);
         }
 
-        private Vector3 ResolveGroundPosition(Vector3 candidatePoint, float fallbackY)
+        private Vector3 ResolveGroundPosition(
+            Vector3 candidatePoint,
+            float fallbackY)
         {
-            Vector3 rayOrigin = candidatePoint + Vector3.up * _raycastHeight;
+            Vector3 rayOrigin =
+                candidatePoint + Vector3.up * _raycastHeight;
 
             if (Physics.Raycast(rayOrigin, Vector3.down, out RaycastHit hit, _raycastDistance, _groundLayerMask))
             {
