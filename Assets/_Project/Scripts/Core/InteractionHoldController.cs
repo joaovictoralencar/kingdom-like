@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using KingdomLike.Core;
 using KingdomLike.Core.Components;
 using UnityEngine;
 
@@ -129,9 +131,12 @@ namespace KingdomLike.Interactables
         {
             if (target.InteractorObject != null)
             {
-                ICurrencyCost currencyCost = target.InteractorObject.GetComponent<ICurrencyCost>();
+                var costDisplayers = target.InteractorObject.GetComponents<IInteractionCostDisplayer>();
+                ICurrencyCost currencyCost = null;
 
-                if (currencyCost != null)
+                var costDisplayer = costDisplayers.FirstOrDefault(cd => cd.TryGetInteractionCost(_agent, out currencyCost));
+
+                if (costDisplayer != null && currencyCost != null)
                 {
                     EntityCurrencyComponent currency = FindCurrencyComponentOnAgent();
 
@@ -141,8 +146,7 @@ namespace KingdomLike.Interactables
                         return -1f;
                     }
 
-                    if (currency.CurrencyData !=
-                        currencyCost.CurrencyType)
+                    if (currency.CurrencyData != currencyCost.CurrencyType)
                     {
                         Debug.LogWarning("Interactor currency type does not match target cost type.", this);
 

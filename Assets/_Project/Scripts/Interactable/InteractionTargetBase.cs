@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using HelloDev.Saving.Core;
 using UnityEngine;
 
 namespace KingdomLike.Interactables
@@ -15,10 +17,9 @@ namespace KingdomLike.Interactables
     /// No unlock or gameplay-action logic belongs here.
     /// </summary>
     [RequireComponent(typeof(Collider))]
-    public abstract class InteractionTargetBase : MonoBehaviour, IInteractionTarget
+    public abstract class InteractionTargetBase : SavableMonoBehaviour<InteractionTargetState>, IInteractionTarget
     {
-        [Header("Filtering")]
-        [SerializeField] private LayerMask _interactionLayer = ~0;
+        [Header("Filtering")] [SerializeField] private LayerMask _interactionLayer = ~0;
 
         private readonly List<IInteractor> _interactorsInRange = new();
 
@@ -26,8 +27,9 @@ namespace KingdomLike.Interactables
 
         public GameObject InteractorObject => gameObject;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             TryGetComponent(out _collider);
         }
 
@@ -147,5 +149,13 @@ namespace KingdomLike.Interactables
         }
 
         protected Collider InteractionCollider => _collider;
+    }
+
+    [Serializable]
+    public class InteractionTargetState
+    {
+        public InteractionTargetState()
+        {
+        }
     }
 }

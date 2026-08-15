@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using KingdomLike.Core;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,20 +10,20 @@ namespace KingdomLike.Interactables
 {
     public abstract class InteractableBase : InteractionTargetBase, IInteractable, IInteractionCostDisplayer
     {
-        [Header("References")]
-        [SerializeField] private Transform _costDisplayTarget;
+        [TabGroup("Interactable", "InteractableBase")] [Header("References")] [SerializeField]
+        private Transform _costDisplayTarget;
 
-        [Header("Focus Conditions")]
-        [SerializeField] private List<InteractionConditionSO> _focusConditions = new();
+        [TabGroup("Interactable", "InteractableBase")] [Header("Focus Conditions")] [SerializeField]
+        private List<InteractionConditionSO> _focusConditions = new();
 
-        [Header("Interaction Conditions")]
-        [SerializeField] private List<InteractionConditionSO> _interactConditions = new();
+        [TabGroup("Interactable", "InteractableBase")] [Header("Interaction Conditions")] [SerializeField]
+        private List<InteractionConditionSO> _interactConditions = new();
 
-        [Header("Behavior")]
-        [SerializeField] private bool _useOnce;
+        [TabGroup("Interactable", "InteractableBase")] [Header("Behavior")] [SerializeField]
+        private bool _useOnce;
 
-        [Header("Events")]
-        [SerializeField] private UnityEvent _onExecute = new();
+        [TabGroup("Interactable", "InteractableBase")] [Header("Events")] [SerializeField]
+        private UnityEvent _onExecute = new();
 
         private bool _hasBeenUsed;
 
@@ -97,6 +100,31 @@ namespace KingdomLike.Interactables
             }
 
             return true;
+        }
+
+        protected override InteractionTargetState SaveState()
+        {
+            return new InteractableBaseState(_hasBeenUsed);
+        }
+
+        protected override UniTask LoadState(InteractionTargetState state)
+        {
+            if (state is not InteractableBaseState interactableBaseSnapShot)
+                return UniTask.CompletedTask;
+
+            _hasBeenUsed = interactableBaseSnapShot._hasBeenUsed;
+            return UniTask.CompletedTask;
+        }
+    }
+
+    [Serializable]
+    public class InteractableBaseState : InteractionTargetState
+    {
+        public bool _hasBeenUsed;
+
+        public InteractableBaseState(bool hasBeenUsed) : base()
+        {
+            _hasBeenUsed = hasBeenUsed;
         }
     }
 }

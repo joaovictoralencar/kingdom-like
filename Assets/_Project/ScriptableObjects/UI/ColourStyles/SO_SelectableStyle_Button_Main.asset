@@ -27,6 +27,6 @@ MonoBehaviour:
   disabled:
     Background: {fileID: 0}
     Text: {fileID: 0}
-  scaleOnSelect: 1
+  scaleOnSelect: 0
   scaledSize: 1.05
   scaleTime: 0.15

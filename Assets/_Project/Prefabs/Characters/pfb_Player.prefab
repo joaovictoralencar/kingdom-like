@@ -108,6 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.Components.CurrencyComponent
   _saveId: 8914ce9fcf994638a583b1c69ef62a1a
+  _saveLoadEnabled: 1
   _loadAfterRegister: 1
   _currencyData: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
   _currencyVariableSO: {fileID: 11400000, guid: 409e31641a0efb9458228ff6d70e4e2c, type: 2}

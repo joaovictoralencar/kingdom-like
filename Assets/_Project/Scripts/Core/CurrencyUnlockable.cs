@@ -1,3 +1,5 @@
+using HelloDev.Saving.Core;
+using HelloDev.Saving.Interfaces;
 using KingdomLike.Core.Components;
 using KingdomLike.Currency.Data;
 using UnityEngine;
@@ -21,6 +23,12 @@ namespace KingdomLike.Interactables
         public CurrencyDataSO CurrencyType => _currencyType;
 
         public int RequiredAmount => _requiredAmount;
+
+        public override bool CanFocus(IInteractor interactor)
+        {
+            if (IsUnlocked) return false;
+            return base.CanFocus(interactor);
+        }
 
         public override bool CanUnlock(IInteractor interactor)
         {
@@ -90,5 +98,8 @@ namespace KingdomLike.Interactables
 
             return currency;
         }
+
+        public override string ModuleId { get; protected set; } = "CurrencyUnlockable";
+        public override IUnifiedSaveManager SaveManager => UnifiedSaveManager.Instance;
     }
 }

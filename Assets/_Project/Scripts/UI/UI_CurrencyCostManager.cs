@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using HelloDev.Loader;
 using KingdomLike.Core;
 using KingdomLike.Interactables;
@@ -37,21 +38,23 @@ namespace KingdomLike.UI
 
         private void OnInteractableUnfocused(InteractionPayload payload)
         {
-            int index = _spawnedCostDisplays.FindIndex(data => data.Interactable == payload.Target && data.Interactor == payload.Interactor);
-            if (index < 0) return;
-            InteractionCostData costData = _spawnedCostDisplays[index];
+            var matches = _spawnedCostDisplays
+                .Where(d => d.Interactable == payload.Target && d.Interactor == payload.Interactor)
+                .ToList();
 
-            // Unsubscribe any hold event handlers
-            if (costData.HoldController != null)
+            foreach (var costData in matches)
             {
-                if (costData.ProgressHandler != null) costData.HoldController.OnHoldProgress -= costData.ProgressHandler;
-                if (costData.CancelHandler != null) costData.HoldController.OnHoldCancelled -= costData.CancelHandler;
-                if (costData.CompleteHandler != null) costData.HoldController.OnHoldCompleted -= costData.CompleteHandler;
-                if (costData.StartHandler != null) costData.HoldController.OnHoldStarted -= costData.StartHandler;
-            }
+                if (costData.HoldController != null)
+                {
+                    if (costData.ProgressHandler != null) costData.HoldController.OnHoldProgress -= costData.ProgressHandler;
+                    if (costData.CancelHandler != null) costData.HoldController.OnHoldCancelled -= costData.CancelHandler;
+                    if (costData.CompleteHandler != null) costData.HoldController.OnHoldCompleted -= costData.CompleteHandler;
+                    if (costData.StartHandler != null) costData.HoldController.OnHoldStarted -= costData.StartHandler;
+                }
 
-            _spawnedCostDisplays.Remove(costData);
-            costData.CostDisplay.HideAndDestroy();
+                _spawnedCostDisplays.Remove(costData);
+                costData.CostDisplay.HideAndDestroy();
+            }
         }
 
         private async void OnInteractableFocused(InteractionPayload payload)
@@ -66,15 +69,33 @@ namespace KingdomLike.UI
             if (target == null || target.InteractorObject == null)
                 return;
 
-            IInteractionCostDisplayer costDisplayer = target.InteractorObject.GetComponent<IInteractionCostDisplayer>();
+            IInteractionCostDisplayer[] costDisplayers = target.InteractorObject.GetComponents<IInteractionCostDisplayer>();
+            ICurrencyCost currencyCost = null;
+
+            IInteractionCostDisplayer costDisplayer = costDisplayers.FirstOrDefault(cd => cd.TryGetInteractionCost(payload.Interactor, out currencyCost));
+
+            int existingIndex = _spawnedCostDisplays.FindIndex(data => data.Interactable == target && data.Interactor == payload.Interactor);
+
+            if (existingIndex >= 0)
+            {
+                InteractionCostData existing = _spawnedCostDisplays[existingIndex];
+
+                if (costDisplayer == null)
+                {
+                    // Target can no longer be interacted with (e.g. maxed out) - hide it.
+                    UnsubscribeHoldEvents(existing);
+                    _spawnedCostDisplays.RemoveAt(existingIndex);
+                    existing.CostDisplay.HideAndDestroy();
+                    return;
+                }
+
+                // Same target, still valid - just refresh the displayed cost, don't respawn.
+                existing.CostDisplay.SetCurrencyCost(currencyCost, costDisplayer.UICostDisplayTarget);
+                return;
+            }
 
             if (costDisplayer == null)
                 return;
-
-            if (!costDisplayer.TryGetInteractionCost(payload.Interactor, out ICurrencyCost currencyCost))
-            {
-                return;
-            }
 
             GameObject costDisplayGameObject = await Loader.InstantiateAsync(_currencyCostPrefab, _currencyCostContainer);
 
@@ -127,25 +148,10 @@ namespace KingdomLike.UI
                 if (ia != target || inter != payload.Interactor)
                     return;
 
-                int index = _spawnedCostDisplays.FindIndex(d => d.Interactable == ia && d.Interactor == inter);
-
-                if (index < 0)
-                    return;
-
-                InteractionCostData data =
-                    _spawnedCostDisplays[index];
-
-                _spawnedCostDisplays.RemoveAt(index);
-
-                data.CostDisplay.HideAndDestroy();
-
-                if (data.HoldController != null)
-                {
-                    if (data.ProgressHandler != null) data.HoldController.OnHoldProgress -= data.ProgressHandler;
-                    if (data.CancelHandler != null) data.HoldController.OnHoldCancelled -= data.CancelHandler;
-                    if (data.CompleteHandler != null) data.HoldController.OnHoldCompleted -= data.CompleteHandler;
-                    if (data.StartHandler != null) data.HoldController.OnHoldStarted -= data.StartHandler;
-                }
+                // No removal here anymore: Interact() now re-raises Focused (refresh path above)
+                // if the target is still valid, or ClearFocusedTarget fires a real Unfocused
+                // event (handled by OnInteractableUnfocused) if it's not. Either way this
+                // display's fate is decided by one of those two paths.
             };
 
             costData.StartHandler = (ia, inter) =>
@@ -160,6 +166,17 @@ namespace KingdomLike.UI
             holdController.OnHoldCancelled += costData.CancelHandler;
             holdController.OnHoldCompleted += costData.CompleteHandler;
             holdController.OnHoldStarted += costData.StartHandler;
+        }
+        
+        private void UnsubscribeHoldEvents(InteractionCostData costData)
+        {
+            if (costData.HoldController == null)
+                return;
+
+            if (costData.ProgressHandler != null) costData.HoldController.OnHoldProgress -= costData.ProgressHandler;
+            if (costData.CancelHandler != null) costData.HoldController.OnHoldCancelled -= costData.CancelHandler;
+            if (costData.CompleteHandler != null) costData.HoldController.OnHoldCompleted -= costData.CompleteHandler;
+            if (costData.StartHandler != null) costData.HoldController.OnHoldStarted -= costData.StartHandler;
         }
     }
 

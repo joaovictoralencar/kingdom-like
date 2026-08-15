@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using KingdomLike.Core;
 using UnityEngine;
 using UnityEngine.Events;
@@ -7,13 +8,11 @@ namespace KingdomLike.Interactables
 {
     public abstract class UnlockableBase : InteractionTargetBase, IUnlockable, IInteractionCostDisplayer
     {
-        [Header("Unlock")]
-        [SerializeField] private bool _initiallyUnlocked;
+        [Header("Unlock")] [SerializeField] private bool _initiallyUnlocked;
 
         [SerializeField] private Transform _costDisplayTarget;
 
-        [Header("Events")]
-        [SerializeField] private UnityEvent _onUnlocked = new();
+        [Header("Events")] [SerializeField] private UnityEvent _onUnlocked = new();
 
         public bool IsUnlocked { get; private set; }
 
@@ -21,15 +20,6 @@ namespace KingdomLike.Interactables
 
         public Transform UICostDisplayTarget => _costDisplayTarget;
 
-        protected override void Awake()
-        {
-            base.Awake();
-
-            IsUnlocked = _initiallyUnlocked;
-
-            if (IsUnlocked)
-                OnRestoredAsUnlocked();
-        }
 
         public virtual bool CanUnlock(IInteractor interactor)
         {
@@ -83,36 +73,39 @@ namespace KingdomLike.Interactables
 
             RefreshInteractorCandidates();
         }
-
-        protected virtual void OnRestoredAsUnlocked()
+        
+        protected override UniTask LoadState(InteractionTargetState state)
         {
+            if (state is not UnlockableState unlockableState)
+                return UniTask.CompletedTask;
+
+            IsUnlocked = unlockableState.IsUnlocked;
+            return UniTask.CompletedTask;
         }
 
-        public UnlockableState CaptureUnlockState()
+        protected override InteractionTargetState SaveState()
         {
-            return new UnlockableState
-            {
-                IsUnlocked = IsUnlocked
-            };
+            return new UnlockableState(IsUnlocked);
         }
 
-        public void RestoreUnlockState(UnlockableState state)
+        protected override void OnAfterLoadState()
         {
-            bool wasUnlocked = IsUnlocked;
+            base.OnAfterLoadState();
 
-            IsUnlocked = state.IsUnlocked;
-
-            if (!wasUnlocked && IsUnlocked)
-            {
-                OnRestoredAsUnlocked();
-                RefreshInteractorCandidates();
-            }
+            if (IsUnlocked || !_initiallyUnlocked) return;
+            IsUnlocked = true;
         }
+        
     }
 
     [Serializable]
-    public struct UnlockableState
+    public class UnlockableState : InteractionTargetState
     {
         public bool IsUnlocked;
+
+        public UnlockableState(bool isUnlocked) : base()
+        {
+            IsUnlocked = isUnlocked;
+        }
     }
 }

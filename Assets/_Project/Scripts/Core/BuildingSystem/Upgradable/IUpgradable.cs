@@ -1,6 +1,6 @@
 using System;
 
-namespace KingdomLike.Building
+namespace  KingdomLike.Core.Upgradable
 {
     public interface IUpgradable
     {

@@ -82,7 +82,7 @@ namespace KingdomLike.UI
         {
             float clampedProgress = Mathf.Clamp01(progress);
             fillImage.fillAmount = clampedProgress;
-
+            
             // update cost countdown based on remaining amount
             if (_requiredAmount > 0)
             {
@@ -199,6 +199,7 @@ namespace KingdomLike.UI
             Tween.Scale(tf, tf.localScale, _visualOriginalScale * _costTextPulseScale, _costTextPulseDuration, Ease.OutQuad)
                 .OnComplete(() =>
                 {
+                    StopHoldVisuals(); // ensure visuals are not stuck in hold state
                     Tween.Scale(tf, tf.localScale, _visualOriginalScale, _costTextPulseDuration, Ease.InQuad);
                 });
         }
@@ -223,7 +224,8 @@ namespace KingdomLike.UI
 
         public void HideAndDestroy()
         {
-            Tween.Scale(transform, Vector3.zero, 0.2f, Ease.InBack).OnComplete(() => { Destroy(gameObject); });
+            Tween.StopAll(transform);
+            Tween.Scale(transform, Vector3.zero, .2f, Ease.InBack).OnComplete(() => { Destroy(gameObject); });
         }
     }
 }

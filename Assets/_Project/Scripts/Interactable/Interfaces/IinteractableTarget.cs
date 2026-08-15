@@ -12,7 +12,7 @@ namespace KingdomLike.Interactables
     {
         GameObject InteractorObject { get; }
 
-        bool CanFocus(IInteractor interactor);
+        bool  CanFocus(IInteractor interactor);
 
         void OnFocus(IInteractor interactor);
 

@@ -1,20 +1,24 @@
 using System;
-using KingdomLike.Building;
+using Cysharp.Threading.Tasks;
+using HelloDev.Saving.Core;
+using HelloDev.Saving.Interfaces;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace KingdomLike.Upgradable
+namespace KingdomLike.Core.Upgradable
 {
-    public class UpgradableBuilding : MonoBehaviour, IUpgradable
+    public class UpgradableBuilding : SavableMonoBehaviour<UpgradableBuildingState>, IUpgradable
     {
         [field: SerializeField] public int CurrentLevel { get; set; }
 
-        [field: SerializeField] public int MaxLevel { get; set; }
+        [field: SerializeField] public int MaxLevel { get; set; } = 1;
 
         public event Action<int> OnUpgrade;
         public event Action<int> OnDowngrade;
         public event Action OnReset;
         public event Action OnUpgradeMax;
 
+        [Button]
         public void Upgrade()
         {
             if (!CanUpgrade())
@@ -23,8 +27,14 @@ namespace KingdomLike.Upgradable
             CurrentLevel++;
 
             OnUpgrade?.Invoke(CurrentLevel);
+            
+            if (CurrentLevel == MaxLevel)
+            {
+                OnUpgradeMax?.Invoke();
+            }
         }
-
+        
+        [Button]
         public void Downgrade()
         {
             if (!CanDowngrade())
@@ -40,23 +50,60 @@ namespace KingdomLike.Upgradable
             return CurrentLevel > 0;
         }
 
+        [Button]
         public void Reset()
         {
-            CurrentLevel = 0;
-
-            OnReset?.Invoke();
+            bool hasReset = false;
+            while (CurrentLevel > 0)
+            {
+                Downgrade();
+                hasReset = true;
+            }
+            if (hasReset) OnReset?.Invoke();
         }
 
+        [Button]
         public void UpgradeMax()
         {
-            CurrentLevel = MaxLevel;
-
-            OnUpgradeMax?.Invoke();
+            for (int i = 0; i < CurrentLevel - MaxLevel; i++)
+            {
+                Upgrade();                
+            }
         }
 
-        public bool CanUpgrade()
+        public virtual bool CanUpgrade()
         {
             return CurrentLevel < MaxLevel;
         }
+
+        #region Save
+
+        protected override UpgradableBuildingState SaveState()
+        {
+            return new UpgradableBuildingState()
+            {
+                CurrentLevel = CurrentLevel,
+                MaxLevel = MaxLevel,
+            };
+        }
+
+        protected override UniTask LoadState(UpgradableBuildingState state)
+        {
+            CurrentLevel = state.CurrentLevel;
+            MaxLevel = state.MaxLevel;
+            return UniTask.CompletedTask;
+        }
+        
+
+        public override string ModuleId { get; protected set; } = "UpgradableBuilding";
+        public override IUnifiedSaveManager SaveManager => UnifiedSaveManagerBehaviour.Instance.Manager;
+
+        #endregion
+    }
+
+    public class UpgradableBuildingState
+    {
+        public int CurrentLevel;
+        public int MaxLevel;
     }
 }

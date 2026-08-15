@@ -1,3 +1,5 @@
+using System;
+
 namespace KingdomLike.Interactables
 {
     /// <summary>
@@ -12,5 +14,7 @@ namespace KingdomLike.Interactables
         bool CanUnlock(IInteractor interactor);
 
         bool Unlock(IInteractor interactor);
+
+        event Action OnUnlocked;
     }
 }

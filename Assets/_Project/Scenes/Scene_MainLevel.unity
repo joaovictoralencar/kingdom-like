@@ -1818,6 +1818,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3465273787504873611, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
+      propertyPath: _saveId
+      value: 07413d36e3274b73aa801688e86d165a
+      objectReference: {fileID: 0}
     - target: {fileID: 8868818745410728954, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
       propertyPath: m_Name
       value: pfb_Interactable_Chest (3)
@@ -6207,6 +6211,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3465273787504873611, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
+      propertyPath: _saveId
+      value: f23258c36343470780d438b7d89ed7dd
+      objectReference: {fileID: 0}
     - target: {fileID: 8868818745410728954, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
       propertyPath: m_Name
       value: pfb_Interactable_Chest (1)
@@ -6993,6 +7001,10 @@ PrefabInstance:
     - target: {fileID: 2045337414940209477, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465273787504873611, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
+      propertyPath: _saveId
+      value: bf5f5b8f9e4d4a58a10bff2cc17ed3fc
       objectReference: {fileID: 0}
     - target: {fileID: 8868818745410728954, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
       propertyPath: m_Name
@@ -7821,6 +7833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.Currency.CurrencyPoolManager
   _saveId: 47c29df416f94e628fb863ddc50b674e
+  _saveLoadEnabled: 1
   _loadAfterRegister: 1
   _currencyPools:
   - CurrencyData: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
@@ -14728,6 +14741,10 @@ PrefabInstance:
     - target: {fileID: 2045337414940209477, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465273787504873611, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
+      propertyPath: _saveId
+      value: 7df6161bad8b4c3c91180ee0cf07e639
       objectReference: {fileID: 0}
     - target: {fileID: 8868818745410728954, guid: 9744865cc706a164aa8a0a439f2b9b2c, type: 3}
       propertyPath: m_Name

@@ -16,8 +16,8 @@ namespace KingdomLike.Interactables
     /// </summary>
     public abstract class InteractionAgentBase : MonoBehaviour, IInteractionCandidate, IFocusableInteractor
     {
-        [Header("Interaction")]
-        [SerializeField] private InteractionSelectorSO _interactionSelector;
+        [Header("Interaction")] [SerializeField]
+        private InteractionSelectorSO _interactionSelector;
 
         private readonly List<IInteractionTarget> _interactionCandidates = new();
 
@@ -59,6 +59,18 @@ namespace KingdomLike.Interactables
             if (_focusedTarget == target)
                 ClearFocusedTarget(target);
 
+            RefreshInteractionCandidates(target);
+        }
+
+        private void RefreshInteractionCandidates(IInteractionTarget toExclude)
+        {
+            if (_interactionSelector == null)
+            {
+                ClearFocusedTarget(_focusedTarget);
+                return;
+            }
+            IInteractionTarget selectedTarget = _interactionSelector.Select(this, _interactionCandidates);
+            if (selectedTarget == null || selectedTarget.InteractorObject == toExclude.InteractorObject) return;
             RefreshInteractionCandidates();
         }
 
@@ -127,8 +139,19 @@ namespace KingdomLike.Interactables
             if (!TryExecuteTarget(target))
                 return;
 
-            ClearFocusedTarget(target);
-            RefreshInteractionCandidates();
+            if (target.CanFocus(this))
+            {
+                // Still a valid target after interacting (e.g. can be interacted with again).
+                // Re-raise focus so listeners refresh their state instead of us tearing
+                // down and re-establishing focus on the same target.
+                OnInteractionTargetFocused(target);
+            }
+            else
+            {
+                // No longer interactable. Drop focus for real.
+                ClearFocusedTarget(target);
+                RefreshInteractionCandidates();
+            }
         }
 
         private bool TryExecuteTarget(IInteractionTarget target)
