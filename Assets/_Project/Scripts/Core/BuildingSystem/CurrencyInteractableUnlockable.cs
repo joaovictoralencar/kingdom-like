@@ -17,7 +17,7 @@ namespace KingdomLike.Core.Interactables
         }
 
         public override string ModuleId { get; protected set; } = "CurrencyInteractableUnlockable";
-        public override IUnifiedSaveManager SaveManager => UnifiedSaveManager.Instance;
+        public override IUnifiedSaveManager SaveManager => UnifiedSaveManagerBehaviour.Instance.Manager;
 
         public override bool CanFocus(IInteractor interactor)
         {

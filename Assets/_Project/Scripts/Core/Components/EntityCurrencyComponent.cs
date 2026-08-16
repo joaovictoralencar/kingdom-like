@@ -121,6 +121,7 @@ namespace KingdomLike.Core.Components
 
         public bool CanReceive(CurrencyDataSO currencyData) => currencyData == _currencyData;
 
+        [Button]
         public void Add(int amount)
         {
             _currency.Add(amount);

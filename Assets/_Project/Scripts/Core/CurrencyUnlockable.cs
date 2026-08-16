@@ -100,6 +100,6 @@ namespace KingdomLike.Interactables
         }
 
         public override string ModuleId { get; protected set; } = "CurrencyUnlockable";
-        public override IUnifiedSaveManager SaveManager => UnifiedSaveManager.Instance;
+        public override IUnifiedSaveManager SaveManager => UnifiedSaveManagerBehaviour.Instance.Manager;
     }
 }
