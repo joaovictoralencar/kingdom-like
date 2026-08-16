@@ -92,17 +92,20 @@ namespace KingdomLike.Interactables
         private void OnEnable()
         {
             if (_chest != null)
-                _chest.OnUnlocked += HandleChestUnlocked;
+                _chest.OnUnlockedStateChanged += HandleChestUnlocked;
         }
 
         private void OnDisable()
         {
             if (_chest != null)
-                _chest.OnUnlocked -= HandleChestUnlocked;
+                _chest.OnUnlockedStateChanged -= HandleChestUnlocked;
         }
 
-        private void HandleChestUnlocked()
+        private void HandleChestUnlocked(bool unlocked)
         {
+            if (!unlocked)
+                return;
+
             SpawnRewardAsync().Forget();
         }
 

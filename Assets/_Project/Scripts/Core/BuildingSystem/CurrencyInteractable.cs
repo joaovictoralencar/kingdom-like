@@ -12,9 +12,10 @@ namespace KingdomLike.Core.Interactables
     /// </summary>
     public abstract class CurrencyInteractable : InteractableBase, ICurrencyCost
     {
+        [TabGroup("Cost")]
         [Header("Currency Cost")] [SerializeField]
         private CurrencyDataSO _currencyType;
-
+        [TabGroup("Cost")]
         [Min(1)] [SerializeField] protected int requiredAmount = 1;
 
         public CurrencyDataSO CurrencyType => _currencyType;

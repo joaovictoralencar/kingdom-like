@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using HelloDev.Saving.Core;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace KingdomLike.Interactables
@@ -19,7 +20,8 @@ namespace KingdomLike.Interactables
     [RequireComponent(typeof(Collider))]
     public abstract class InteractionTargetBase : SavableMonoBehaviour<InteractionTargetState>, IInteractionTarget
     {
-        [Header("Filtering")] [SerializeField] private LayerMask _interactionLayer = ~0;
+        [TabGroup("Interactable", "Interaction")] [Header("Filtering")] [SerializeField]
+        private LayerMask _interactionLayer = ~0;
 
         private readonly List<IInteractor> _interactorsInRange = new();
 

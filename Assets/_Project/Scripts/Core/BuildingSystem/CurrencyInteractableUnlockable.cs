@@ -8,12 +8,21 @@ namespace KingdomLike.Core.Interactables
     [RequireComponent(typeof(CurrencyUnlockable))]
     public class CurrencyInteractableUnlockable : CurrencyInteractable
     {
-        private CurrencyUnlockable _currencyUnlockable;
+        protected CurrencyUnlockable currencyUnlockable;
 
         protected override void Awake()
         {
             base.Awake();
-            _currencyUnlockable = GetComponent<CurrencyUnlockable>();
+            currencyUnlockable = GetComponent<CurrencyUnlockable>();
+            currencyUnlockable.OnUnlockedStateChanged += HandleUnlockedStateChanged;
+        }
+
+        private void HandleUnlockedStateChanged(bool unlocked)
+        {
+            if (unlocked)
+                OnUnlock();
+            else
+                OnLock();
         }
 
         public override string ModuleId { get; protected set; } = "CurrencyInteractableUnlockable";
@@ -21,16 +30,24 @@ namespace KingdomLike.Core.Interactables
 
         public override bool CanFocus(IInteractor interactor)
         {
-            if (_currencyUnlockable == null)
+            if (currencyUnlockable == null)
                 return false;
 
-            if (!_currencyUnlockable.IsUnlocked)
+            if (!currencyUnlockable.IsUnlocked)
                 return false;
 
             return base.CanFocus(interactor);
         }
 
         protected override void OnInteract(IInteractor interactor)
+        {
+        }
+
+        protected virtual void OnLock()
+        {
+        }
+
+        protected virtual void OnUnlock()
         {
         }
     }

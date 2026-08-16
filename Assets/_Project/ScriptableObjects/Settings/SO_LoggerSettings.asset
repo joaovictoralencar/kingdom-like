@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SO_LoggerSettings
   m_EditorClassIdentifier: HelloDev.Utils::HelloDev.Logging.LoggerSettings_SO
   isEnabled: 1
-  isVerboseEnabled: 1
+  isVerboseEnabled: 0
   generatedOutputFolder: Assets/_Project/Scripts/Utils
   generatedFileName: LogIds
   generatedNamespace: HelloDev.Logging

@@ -10,19 +10,19 @@ namespace KingdomLike.Interactables
 {
     public abstract class InteractableBase : InteractionTargetBase, IInteractable, IInteractionCostDisplayer
     {
-        [TabGroup("Interactable", "InteractableBase")] [Header("References")] [SerializeField]
+        [TabGroup("Interactable", "Interaction")] [Header("References")] [SerializeField]
         private Transform _costDisplayTarget;
 
-        [TabGroup("Interactable", "InteractableBase")] [Header("Focus Conditions")] [SerializeField]
+        [TabGroup("Interactable", "Interaction")] [Header("Focus Conditions")] [SerializeField]
         private List<InteractionConditionSO> _focusConditions = new();
 
-        [TabGroup("Interactable", "InteractableBase")] [Header("Interaction Conditions")] [SerializeField]
+        [TabGroup("Interactable", "Interaction")] [Header("Interaction Conditions")] [SerializeField]
         private List<InteractionConditionSO> _interactConditions = new();
 
-        [TabGroup("Interactable", "InteractableBase")] [Header("Behavior")] [SerializeField]
+        [TabGroup("Interactable", "Interaction")] [Header("Behavior")] [SerializeField]
         private bool _useOnce;
 
-        [TabGroup("Interactable", "InteractableBase")] [Header("Events")] [SerializeField]
+        [TabGroup("Interactable", "Interaction")] [Header("Events")] [SerializeField]
         private UnityEvent _onExecute = new();
 
         private bool _hasBeenUsed;

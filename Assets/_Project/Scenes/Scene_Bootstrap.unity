@@ -424,6 +424,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PrimeTweenInitializer
       objectReference: {fileID: 0}
+    - target: {fileID: 1338533564901502996, guid: a33f525af1eadab4e8801e548beb2e68, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4081240682891697533, guid: a33f525af1eadab4e8801e548beb2e68, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -521,6 +525,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AppStart
       objectReference: {fileID: 0}
+    - target: {fileID: 4406498287976307816, guid: dbddfc53dceb16c4b8c195b3ac6e0544, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -581,6 +589,10 @@ PrefabInstance:
     - target: {fileID: 8120261351905724521, guid: 619b9065212b70f4cb5df166545e49f1, type: 3}
       propertyPath: m_Name
       value: Bootstrap
+      objectReference: {fileID: 0}
+    - target: {fileID: 8120261351905724521, guid: 619b9065212b70f4cb5df166545e49f1, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

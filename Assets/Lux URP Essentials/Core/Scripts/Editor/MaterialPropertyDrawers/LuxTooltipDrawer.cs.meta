@@ -1,0 +1,9 @@
+fileFormatVersion: 2
+guid: dbc747fbe3aae4149a1059b7756335b1
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150355
+  packageName: Lux URP Essentials
+  packageVersion: 2.07
+  assetPath: Assets/Lux URP Essentials/Core/Scripts/Editor/MaterialPropertyDrawers/LuxTooltipDrawer.cs
+  uploadId: 960992

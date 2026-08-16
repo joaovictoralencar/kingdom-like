@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using KingdomLike.Core;
 using UnityEngine;
 using UnityEngine.Events;
+using Logger = HelloDev.Logging.Logger;
 
 namespace KingdomLike.Interactables
 {
@@ -13,10 +14,11 @@ namespace KingdomLike.Interactables
         [SerializeField] private Transform _costDisplayTarget;
 
         [Header("Events")] [SerializeField] private UnityEvent _onUnlocked = new();
+        [SerializeField] private UnityEvent _onLocked = new();
 
         public bool IsUnlocked { get; private set; }
 
-        public event Action OnUnlocked;
+        public event Action<bool> OnUnlockedStateChanged;
 
         public Transform UICostDisplayTarget => _costDisplayTarget;
 
@@ -31,7 +33,12 @@ namespace KingdomLike.Interactables
 
             return true;
         }
-
+        
+        public void Lock()
+        {
+            SetUnlockedState(false);
+        }
+        
         public bool Unlock(IInteractor interactor)
         {
             if (!CanUnlock(interactor))
@@ -40,7 +47,7 @@ namespace KingdomLike.Interactables
             if (!TryUnlock(interactor))
                 return false;
 
-            SetUnlocked();
+            SetUnlockedState(true);
 
             return true;
         }
@@ -61,19 +68,20 @@ namespace KingdomLike.Interactables
 
         protected abstract bool TryUnlock(IInteractor interactor);
 
-        protected void SetUnlocked()
+        protected void SetUnlockedState(bool unlocked)
         {
-            if (IsUnlocked)
+            if (IsUnlocked == unlocked)
                 return;
 
-            IsUnlocked = true;
-
-            OnUnlocked?.Invoke();
-            _onUnlocked.Invoke();
+            IsUnlocked = unlocked;
+            if (unlocked) _onUnlocked?.Invoke();
+            else _onLocked?.Invoke();
+            OnUnlockedStateChanged?.Invoke(unlocked);
+            Logger.Log("Unlockable", $"Unlocked {unlocked} for [{gameObject.name}]");
 
             RefreshInteractorCandidates();
         }
-        
+
         protected override UniTask LoadState(InteractionTargetState state)
         {
             if (state is not UnlockableState unlockableState)
@@ -93,9 +101,8 @@ namespace KingdomLike.Interactables
             base.OnAfterLoadState();
 
             if (IsUnlocked || !_initiallyUnlocked) return;
-            IsUnlocked = true;
+            SetUnlockedState(true);
         }
-        
     }
 
     [Serializable]

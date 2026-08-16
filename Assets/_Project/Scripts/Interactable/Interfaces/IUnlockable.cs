@@ -15,6 +15,6 @@ namespace KingdomLike.Interactables
 
         bool Unlock(IInteractor interactor);
 
-        event Action OnUnlocked;
+        event Action<bool> OnUnlockedStateChanged;
     }
 }

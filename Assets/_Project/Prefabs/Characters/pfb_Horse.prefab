@@ -269,12 +269,24 @@ PrefabInstance:
       value: -0.17579335
       objectReference: {fileID: 0}
     - target: {fileID: 1872839034774772321, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
-      propertyPath: Editor_Tabs1
+      propertyPath: MountOnly
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872839034774772321, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
+      propertyPath: DismountOnly
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1872839034774772321, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
-      propertyPath: Editor_Tabs2
+      propertyPath: Editor_Tabs1
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872839034774772321, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
+      propertyPath: Editor_Tabs2
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1872839034774772321, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
+      propertyPath: ForceDismount
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2205460524867687991, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
       propertyPath: m_LocalPosition.y
@@ -567,6 +579,14 @@ PrefabInstance:
     - target: {fileID: 7174699478138265631, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
       propertyPath: stats.Array.data[0].maxValue.ConstantValue
       value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 7175180477090272577, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
+      propertyPath: states_C.Array.data[1].active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7175180477090272577, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
+      propertyPath: states_C.Array.data[2].active
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8663927420873536780, guid: aec39908c6f0b8e4e882d49039c80a24, type: 3}
       propertyPath: m_Layer

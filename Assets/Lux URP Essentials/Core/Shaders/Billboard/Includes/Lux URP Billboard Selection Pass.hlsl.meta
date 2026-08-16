@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+guid: 33605bd8b26033f4fa4cc54945e2dc90
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 150355
+  packageName: Lux URP Essentials
+  packageVersion: 2.07
+  assetPath: Assets/Lux URP Essentials/Core/Shaders/Billboard/Includes/Lux URP Billboard
+    Selection Pass.hlsl
+  uploadId: 960992

@@ -127,26 +127,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08cc3ae70019984a8919587663b12b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Interactables::KingdomLike.Interactables.ChestInteractable
-  _costDisplayTarget: {fileID: 4434775007909693549}
+  _saveId: ed00fbe61fcb4f828ec471dc43310478
+  _saveLoadEnabled: 1
+  _loadAfterRegister: 1
   _interactionLayer:
     serializedVersion: 2
     m_Bits: 1048576
-  _focusConditions: []
-  _interactConditions: []
-  _autoInteract: 0
-  _useOnce: 1
-  _onFocus:
+  _initiallyUnlocked: 0
+  _costDisplayTarget: {fileID: 4434775007909693549}
+  _onUnlocked:
     m_PersistentCalls:
       m_Calls: []
-  _onUnfocus:
-    m_PersistentCalls:
-      m_Calls: []
-  _onInteract:
+  _onLocked:
     m_PersistentCalls:
       m_Calls: []
   _currencyType: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
   _requiredAmount: 10
-  _rewardAmount: 20
+  _animator: {fileID: 1993071972145274416}
   _focusSoundID:
     _entity: {fileID: 11400000, guid: 42da324cdc620c24ba82cb89a6ee6849, type: 2}
     ID: 0
@@ -155,7 +152,7 @@ MonoBehaviour:
     _entity: {fileID: 11400000, guid: 4cc4a245f6d1f21418a7e546d9f01f06, type: 2}
     ID: 0
     <DebugObject>k__BackingField: {fileID: 8868818745410728954}
-  _animator: {fileID: 1993071972145274416}
+  _rewardAmount: 20
 --- !u!114 &8162151645892909884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +245,14 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: cb7b1eb932689754b970a1c57bacfba5, type: 2}
+    - target: {fileID: 7336519198999164808, guid: 49683178c275fd447a8c671d6e6b12b1, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300002, guid: 524f830455f8deb4995ba948829f5e91, type: 3}
+    - target: {fileID: 7967686746468856035, guid: 49683178c275fd447a8c671d6e6b12b1, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300000, guid: 524f830455f8deb4995ba948829f5e91, type: 3}
     - target: {fileID: 9073119367461731561, guid: 49683178c275fd447a8c671d6e6b12b1, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
