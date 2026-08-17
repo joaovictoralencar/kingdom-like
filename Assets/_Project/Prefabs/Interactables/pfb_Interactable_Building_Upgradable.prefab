@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98a4785a12b4997ad6d94697fd86015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Interactables.CurrencyUnlockable
-  _saveId: 638e02e894af4ac39bfa72dc00f47555
+  _saveId: e41de666e7374a76be2bf12ba26c7c92
   _saveLoadEnabled: 1
   _loadAfterRegister: 1
   _interactionLayer:
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b645caa43645e09eb7442252716664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Upgradable.UpgradableBuildingInteractable
-  _saveId: 54d4a9e4a76e4c3d9539a937d212c6f1
+  _saveId: c18efbc2288e444b8ee7298171c24b7a
   _saveLoadEnabled: 1
   _loadAfterRegister: 1
   _interactionLayer:
@@ -203,7 +203,7 @@ MonoBehaviour:
       m_Calls: []
   _lockedPrefabHolder: {fileID: 4113751302493678134}
   _lockedPrefab:
-    m_AssetGUID: 3266f90e81ad6384eaaf2d4413294c14
+    m_AssetGUID: 90ff0c3c2344448458033c9caebd8c9a
     m_SubObjectName: 
     m_SubObjectType: 
     m_SubObjectGUID: 
@@ -220,25 +220,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40de086fe1cc43abb035aa76583f6070, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.Upgradable.CurrencyUpgradableBuilding
-  _saveId: e5ae935604cc44eea8c7ba002c7dc027
+  _saveId: 35deb37f73dc465e85da7a3159386844
   _saveLoadEnabled: 1
   _loadAfterRegister: 1
   <CurrentLevel>k__BackingField: 0
-  <MaxLevel>k__BackingField: 5
+  <MaxLevel>k__BackingField: 3
   _upgrades:
-  - Visual: {fileID: 2148241911485043939, guid: beade62f65dbe224fb9463c758540ebe, type: 3}
+  - Visual: {fileID: 4190913884188900404, guid: 748efaad5ea7008429bd53629246eb22, type: 3}
     Cost: 5
     Currency: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
-  - Visual: {fileID: 4981605229155238505, guid: 6ae8c8744f6e54e4d87d55332f8bc0d3, type: 3}
+  - Visual: {fileID: 4190913884188900404, guid: 748efaad5ea7008429bd53629246eb22, type: 3}
     Cost: 15
     Currency: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
-  - Visual: {fileID: 3229948741715936616, guid: 28dd4475d4bcb434ebd420ceef19aefa, type: 3}
+  - Visual: {fileID: 4190913884188900404, guid: 748efaad5ea7008429bd53629246eb22, type: 3}
     Cost: 45
-    Currency: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
-  - Visual: {fileID: 3496639092493106190, guid: e99a53128d8e15c4d9cdd5fa37e83775, type: 3}
-    Cost: 100
-    Currency: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
-  - Visual: {fileID: 6763341723337922801, guid: fcfef0fe65a2c214186d372d6f705138, type: 3}
-    Cost: 250
     Currency: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
   VisualsHolder: {fileID: 4113751302493678134}
