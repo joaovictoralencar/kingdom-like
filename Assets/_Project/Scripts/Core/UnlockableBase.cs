@@ -10,6 +10,9 @@ namespace KingdomLike.Interactables
 {
     public abstract class UnlockableBase : InteractionTargetBase, IUnlockable, IInteractionCostDisplayer
     {
+        [FoldoutGroup("Unlockable")]
+        [ShowInInspector, ReadOnly] private bool _isUnlocked;
+
         [FoldoutGroup("Unlockable")] [Header("Unlock")] [SerializeField]
         private bool _initiallyUnlocked;
 
@@ -22,27 +25,29 @@ namespace KingdomLike.Interactables
         [FoldoutGroup("Unlockable")] [SerializeField]
         private UnityEvent _onLocked = new();
 
-        public bool IsUnlocked { get; private set; }
+        public bool IsUnlocked { get => _isUnlocked; private set => _isUnlocked = value; }
 
         public event Action<bool> OnUnlockedStateChanged;
 
         public Transform UICostDisplayTarget => _costDisplayTarget;
 
-        protected virtual void Start()
+        protected override void Awake()
         {
-            if (loaded)
-            {
-                return;
-            }
+            base.Awake();
+            SaveManager.LoadCompleted += OnLoadCompleted;
+        }
 
-            SetUnlockedState(_initiallyUnlocked, true);
+        private void OnLoadCompleted(string slot, bool success)
+        {
+            if (!loaded) SetUnlockedState(_initiallyUnlocked, true);
+            SaveManager.LoadCompleted -= OnLoadCompleted;
         }
 
         public virtual bool CanUnlock(IInteractor interactor)
         {
             if (interactor == null)
                 return false;
-
+        
             if (IsUnlocked)
                 return false;
 
@@ -107,7 +112,7 @@ namespace KingdomLike.Interactables
             if (state is not UnlockableState unlockableState)
                 return UniTask.CompletedTask;
 
-            IsUnlocked = unlockableState.IsUnlocked;
+            SetUnlockedState(unlockableState.IsUnlocked || _initiallyUnlocked, true);
             return UniTask.CompletedTask;
         }
 
@@ -115,14 +120,7 @@ namespace KingdomLike.Interactables
         {
             return new UnlockableState(IsUnlocked);
         }
-
-        protected override void OnAfterLoadState()
-        {
-            base.OnAfterLoadState();
-
-            if (IsUnlocked || !_initiallyUnlocked) return;
-            SetUnlockedState(true);
-        }
+        
     }
 
     [Serializable]

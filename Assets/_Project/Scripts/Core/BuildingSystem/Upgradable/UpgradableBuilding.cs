@@ -9,14 +9,10 @@ namespace KingdomLike.Core.Upgradable
 {
     public class UpgradableBuilding : SavableMonoBehaviour<UpgradableBuildingState>, IUpgradable
     {
+        [FoldoutGroup("Upgradable")] [Header("Level")]
+        [field: ShowInInspector, ReadOnly] public int CurrentLevel { get; set; } = 1;
         [FoldoutGroup("Upgradable")]
-        [Header("Level")]
-        [SerializeField, ReadOnly] private int currentLevel = 1;
-        public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
-
-        [FoldoutGroup("Upgradable")]
-        [SerializeField] private int maxLevel = 1;
-        public int MaxLevel { get => maxLevel; set => maxLevel = value; }
+        [field: SerializeField] public int MaxLevel { get; set; } = 1;
 
         public event Action<int> OnUpgrade;
         public event Action<int> OnDowngrade;
@@ -32,13 +28,13 @@ namespace KingdomLike.Core.Upgradable
             CurrentLevel++;
 
             OnUpgrade?.Invoke(CurrentLevel);
-
+            
             if (CurrentLevel == MaxLevel)
             {
                 OnUpgradeMax?.Invoke();
             }
         }
-
+        
         [Button]
         public void Downgrade()
         {
@@ -70,9 +66,9 @@ namespace KingdomLike.Core.Upgradable
         [Button]
         public void UpgradeMax()
         {
-            while (CanUpgrade())
+            for (int i = 0; i < CurrentLevel - MaxLevel; i++)
             {
-                Upgrade();
+                Upgrade();                
             }
         }
 
@@ -98,6 +94,7 @@ namespace KingdomLike.Core.Upgradable
             MaxLevel = state.MaxLevel;
             return UniTask.CompletedTask;
         }
+        
 
         public override string ModuleId { get; protected set; } = "UpgradableBuilding";
         public override IUnifiedSaveManager SaveManager => UnifiedSaveManagerBehaviour.Instance.Manager;

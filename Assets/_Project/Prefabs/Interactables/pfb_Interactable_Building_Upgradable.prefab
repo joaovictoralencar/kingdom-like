@@ -223,8 +223,8 @@ MonoBehaviour:
   _saveId: 43c35cbeebe14f1da862c1808f046e7f
   _saveLoadEnabled: 1
   _loadAfterRegister: 1
-  <CurrentLevel>k__BackingField: 1
   <MaxLevel>k__BackingField: 3
+  VisualsHolder: {fileID: 4113751302493678134}
   _upgrades:
   - Visual: {fileID: 4190913884188900404, guid: 748efaad5ea7008429bd53629246eb22, type: 3}
     Cost: 5
@@ -235,4 +235,3 @@ MonoBehaviour:
   - Visual: {fileID: 4190913884188900404, guid: 748efaad5ea7008429bd53629246eb22, type: 3}
     Cost: 45
     Currency: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
-  VisualsHolder: {fileID: 4113751302493678134}

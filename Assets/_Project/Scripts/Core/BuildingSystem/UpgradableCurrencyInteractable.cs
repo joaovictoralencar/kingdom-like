@@ -34,9 +34,7 @@ namespace KingdomLike.Core.Interactables
 
         public override bool CanFocus(IInteractor interactor)
         {
-            if (_upgradableBuilding.CurrentLevel == _upgradableBuilding.MaxLevel)
-                return false;
-            return base.CanFocus(interactor);
+            return base.CanFocus(interactor) && _upgradableBuilding.CanUpgrade(interactor);
         }
 
         protected override void OnInteract(IInteractor interactor)
