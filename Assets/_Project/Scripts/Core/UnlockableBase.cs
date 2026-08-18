@@ -22,7 +22,15 @@ namespace KingdomLike.Interactables
 
         public Transform UICostDisplayTarget => _costDisplayTarget;
 
-
+        protected virtual void Start()
+        {
+            if (loaded)
+            {
+                return;
+            }
+            SetUnlockedState(_initiallyUnlocked, true);
+        }
+        
         public virtual bool CanUnlock(IInteractor interactor)
         {
             if (interactor == null)
@@ -70,9 +78,14 @@ namespace KingdomLike.Interactables
 
         protected void SetUnlockedState(bool unlocked)
         {
-            if (IsUnlocked == unlocked)
-                return;
+            SetUnlockedState(unlocked, false);
+        }
 
+        private void SetUnlockedState(bool unlocked, bool force)
+        {
+            if (IsUnlocked == unlocked && !force)
+                return;
+            
             IsUnlocked = unlocked;
             if (unlocked) _onUnlocked?.Invoke();
             else _onLocked?.Invoke();

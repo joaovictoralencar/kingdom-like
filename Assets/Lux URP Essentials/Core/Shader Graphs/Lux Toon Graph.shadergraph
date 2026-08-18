@@ -950,8 +950,8 @@
     "m_ObjectId": "00f8fa6c9381439faca6ea5e3034874c",
     "m_Title": "Toggle SSAO and  Reflections at compile time",
     "m_Position": {
-        "x": -630.4000244140625,
-        "y": 1076.0
+        "x": -630.39990234375,
+        "y": 1075.9998779296875
     }
 }
 
@@ -1013,7 +1013,7 @@
     "m_ZTestMode": 4,
     "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_RenderFace": 2,
+    "m_RenderFace": 0,
     "m_AlphaClip": false,
     "m_CastShadows": true,
     "m_ReceiveShadows": true,
@@ -4416,8 +4416,8 @@
     "m_ObjectId": "8426af0e460a4c07bb5cff9e6ea8b89c",
     "m_Title": "Custom Inputs",
     "m_Position": {
-        "x": -936.7999877929688,
-        "y": -916.0000610351563
+        "x": -935.999755859375,
+        "y": -916.0
     }
 }
 

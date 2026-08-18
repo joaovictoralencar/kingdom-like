@@ -44,7 +44,7 @@ namespace KingdomLike.Core.Upgradable
             SetupUpgradable();
         }
 
-        void SetupUpgradable()
+        public void SetupUpgradable()
         {
             if (_currencyInteractable == null)
                 return;

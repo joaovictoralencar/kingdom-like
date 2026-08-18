@@ -26,7 +26,8 @@ namespace KingdomLike.Interactables
         private readonly List<IInteractor> _interactorsInRange = new();
 
         private Collider _collider;
-
+        protected bool loaded;
+        
         public GameObject InteractorObject => gameObject;
 
         protected override void Awake()
@@ -148,6 +149,12 @@ namespace KingdomLike.Interactables
             }
 
             _interactorsInRange.Clear();
+        }
+
+        protected override void OnAfterLoadState()
+        {
+            base.OnAfterLoadState();
+            loaded = true;
         }
 
         protected Collider InteractionCollider => _collider;

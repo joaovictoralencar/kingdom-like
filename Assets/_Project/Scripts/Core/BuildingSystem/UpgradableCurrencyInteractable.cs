@@ -54,13 +54,18 @@ namespace KingdomLike.Core.Interactables
         {
             base.OnLock();
             _lockedPrefabHolder.DestroyAllChildren();
-            Loader.Instantiate(_lockedPrefab, _lockedPrefabHolder, onComplete: (obj) => _lockedGameObject = obj);
+            Loader.Instantiate(_lockedPrefab, _lockedPrefabHolder, onComplete: (obj) =>
+            {
+                obj.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                _lockedGameObject = obj;
+            });
         }
         
         protected override void OnUnlock()
         {
             base.OnUnlock();
             Destroy(_lockedGameObject);
+            _upgradableBuilding.SetupUpgradable();
         }
     }
 }

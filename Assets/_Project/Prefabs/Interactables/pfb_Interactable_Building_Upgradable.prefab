@@ -45,15 +45,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5989711488550662663, guid: 64f3b513fa000a0498393e22641ab142, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -22.296293
+      value: 2.55177
       objectReference: {fileID: 0}
     - target: {fileID: 5989711488550662663, guid: 64f3b513fa000a0498393e22641ab142, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.0000019985205
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5989711488550662663, guid: 64f3b513fa000a0498393e22641ab142, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -23.539331
+      value: 5.2741
       objectReference: {fileID: 0}
     - target: {fileID: 5989711488550662663, guid: 64f3b513fa000a0498393e22641ab142, type: 3}
       propertyPath: m_LocalRotation.w
@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e98a4785a12b4997ad6d94697fd86015, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Interactables.CurrencyUnlockable
-  _saveId: e41de666e7374a76be2bf12ba26c7c92
+  _saveId: 623afeb04f9b45e697bebaf0cfbbd0e7
   _saveLoadEnabled: 1
   _loadAfterRegister: 1
   _interactionLayer:
@@ -183,7 +183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b645caa43645e09eb7442252716664, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Upgradable.UpgradableBuildingInteractable
-  _saveId: c18efbc2288e444b8ee7298171c24b7a
+  _saveId: a76bc7550c83495ca6c34404a3ddf45d
   _saveLoadEnabled: 1
   _loadAfterRegister: 1
   _interactionLayer:
@@ -220,7 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40de086fe1cc43abb035aa76583f6070, type: 3}
   m_Name: 
   m_EditorClassIdentifier: KingdomLike.Core::KingdomLike.Core.Upgradable.CurrencyUpgradableBuilding
-  _saveId: 35deb37f73dc465e85da7a3159386844
+  _saveId: 43c35cbeebe14f1da862c1808f046e7f
   _saveLoadEnabled: 1
   _loadAfterRegister: 1
   <CurrentLevel>k__BackingField: 0

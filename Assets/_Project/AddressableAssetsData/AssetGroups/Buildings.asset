@@ -15,8 +15,43 @@ MonoBehaviour:
   m_GroupName: Buildings
   m_GUID: feaa858d22535f14b8bba6ccfb5b2a2a
   m_SerializeEntries:
+  - m_GUID: 137eca516757ab84b9353be23803e120
+    m_Address: Assets/_Project/Prefabs/Buildings/pfb_Building_Tower_0.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 29d13263485d56a4295a9ab594637f49
     m_Address: Assets/_Project/Prefabs/Buildings
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 748efaad5ea7008429bd53629246eb22
+    m_Address: Assets/_Project/Prefabs/Buildings/pfb_Building_House_0.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 86bb5e857af66944c945d7cc8b68bc47
+    m_Address: Assets/_Project/Prefabs/Buildings/pfb_Building_Tower_Empty.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 90ff0c3c2344448458033c9caebd8c9a
+    m_Address: Assets/_Project/Prefabs/Buildings/pfb_Building_House_Empty.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9d33884cd5fa7b94faa46a6b27b9f34b
+    m_Address: Assets/_Project/Prefabs/Buildings/pfb_Building_Tower_1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cf0cd3ea4fdc6d8438b9e98ce711cf07
+    m_Address: Assets/_Project/Prefabs/Buildings/pfb_Building_House_1.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc0897f6867336f478cbb13c3e494ea3
+    m_Address: Assets/_Project/Prefabs/Buildings/pfb_Building_Tower_2.prefab
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
