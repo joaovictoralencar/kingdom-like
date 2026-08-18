@@ -65,6 +65,14 @@ PrefabInstance:
       value: 7bdef420c4fd4e08a94a482a80c1e83e
       objectReference: {fileID: 0}
     - target: {fileID: 7420918947659834040, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
+      propertyPath: maxLevel
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7420918947659834040, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
+      propertyPath: _upgrades.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7420918947659834040, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
       propertyPath: _upgrades.Array.data[0].Cost
       value: 10
       objectReference: {fileID: 0}
@@ -74,7 +82,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7420918947659834040, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
       propertyPath: _upgrades.Array.data[2].Cost
-      value: 70
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 7420918947659834040, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
       propertyPath: _upgrades.Array.data[0].Visual

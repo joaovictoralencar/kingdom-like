@@ -2,6 +2,7 @@ using HelloDev.Saving.Core;
 using HelloDev.Saving.Interfaces;
 using KingdomLike.Core.Components;
 using KingdomLike.Currency.Data;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace KingdomLike.Interactables
@@ -14,11 +15,11 @@ namespace KingdomLike.Interactables
     /// </summary>
     public class CurrencyUnlockable : UnlockableBase, ICurrencyCost
     {
-        [Header("Currency Cost")]
-        [SerializeField] private CurrencyDataSO _currencyType;
+        [FoldoutGroup("Cost")] [Header("Currency Cost")] [SerializeField]
+        private CurrencyDataSO _currencyType;
 
-        [Min(1)]
-        [SerializeField] private int _requiredAmount = 1;
+        [FoldoutGroup("Cost")] [Min(1)] [SerializeField]
+        private int _requiredAmount = 1;
 
         public CurrencyDataSO CurrencyType => _currencyType;
 

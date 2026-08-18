@@ -13,9 +13,11 @@ namespace KingdomLike.Core.Upgradable
     {
         private CurrencyInteractable _currencyInteractable;
 
+        [FoldoutGroup("Upgradable")] 
+        [SerializeField] private Transform VisualsHolder;
+        [FoldoutGroup("Upgradable")]
         [Required(InfoMessageType.Error)]
         [SerializeField] private UpgradeData[] _upgrades;
-        [SerializeField] private Transform VisualsHolder;
 
         protected override void Awake()
         {
@@ -49,14 +51,15 @@ namespace KingdomLike.Core.Upgradable
             if (_currencyInteractable == null)
                 return;
 
-            _currencyInteractable.UpdateRequiredAmount(_upgrades[CurrentLevel].Cost);
+            _currencyInteractable.UpdateRequiredAmount(_upgrades[CurrentLevel - 1].Cost);
             UpdateVisuals();
         }
 
         private void UpdateVisuals()
         {
             VisualsHolder.DestroyAllChildren();
-            GameObject newVisual = Instantiate(_upgrades[CurrentLevel].Visual, VisualsHolder);
+            GameObject newVisual = Instantiate(_upgrades[CurrentLevel - 1].Visual, VisualsHolder);
+            newVisual.transform.localPosition = Vector3.zero;
             Tween.PunchScale(newVisual.transform, Vector3.one * 0.2f, 0.5f, 2);
         }
 

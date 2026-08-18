@@ -56,7 +56,7 @@ namespace KingdomLike.Core.Interactables
             _lockedPrefabHolder.DestroyAllChildren();
             Loader.Instantiate(_lockedPrefab, _lockedPrefabHolder, onComplete: (obj) =>
             {
-                obj.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+                obj.transform.localPosition = Vector3.zero;
                 _lockedGameObject = obj;
             });
         }

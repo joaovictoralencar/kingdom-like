@@ -223,7 +223,7 @@ MonoBehaviour:
   _saveId: 43c35cbeebe14f1da862c1808f046e7f
   _saveLoadEnabled: 1
   _loadAfterRegister: 1
-  <CurrentLevel>k__BackingField: 0
+  <CurrentLevel>k__BackingField: 1
   <MaxLevel>k__BackingField: 3
   _upgrades:
   - Visual: {fileID: 4190913884188900404, guid: 748efaad5ea7008429bd53629246eb22, type: 3}

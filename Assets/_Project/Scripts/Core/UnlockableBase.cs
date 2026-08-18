@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using KingdomLike.Core;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using Logger = HelloDev.Logging.Logger;
@@ -9,12 +10,17 @@ namespace KingdomLike.Interactables
 {
     public abstract class UnlockableBase : InteractionTargetBase, IUnlockable, IInteractionCostDisplayer
     {
-        [Header("Unlock")] [SerializeField] private bool _initiallyUnlocked;
+        [FoldoutGroup("Unlockable")] [Header("Unlock")] [SerializeField]
+        private bool _initiallyUnlocked;
 
-        [SerializeField] private Transform _costDisplayTarget;
+        [FoldoutGroup("Unlockable")] [SerializeField]
+        private Transform _costDisplayTarget;
 
-        [Header("Events")] [SerializeField] private UnityEvent _onUnlocked = new();
-        [SerializeField] private UnityEvent _onLocked = new();
+        [FoldoutGroup("Unlockable")] [Header("Events")] [SerializeField]
+        private UnityEvent _onUnlocked = new();
+
+        [FoldoutGroup("Unlockable")] [SerializeField]
+        private UnityEvent _onLocked = new();
 
         public bool IsUnlocked { get; private set; }
 
@@ -28,9 +34,10 @@ namespace KingdomLike.Interactables
             {
                 return;
             }
+
             SetUnlockedState(_initiallyUnlocked, true);
         }
-        
+
         public virtual bool CanUnlock(IInteractor interactor)
         {
             if (interactor == null)
@@ -41,12 +48,12 @@ namespace KingdomLike.Interactables
 
             return true;
         }
-        
+
         public void Lock()
         {
             SetUnlockedState(false);
         }
-        
+
         public bool Unlock(IInteractor interactor)
         {
             if (!CanUnlock(interactor))
@@ -85,7 +92,7 @@ namespace KingdomLike.Interactables
         {
             if (IsUnlocked == unlocked && !force)
                 return;
-            
+
             IsUnlocked = unlocked;
             if (unlocked) _onUnlocked?.Invoke();
             else _onLocked?.Invoke();

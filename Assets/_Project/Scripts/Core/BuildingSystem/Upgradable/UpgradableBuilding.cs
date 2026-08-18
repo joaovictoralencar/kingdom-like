@@ -9,9 +9,14 @@ namespace KingdomLike.Core.Upgradable
 {
     public class UpgradableBuilding : SavableMonoBehaviour<UpgradableBuildingState>, IUpgradable
     {
-        [field: SerializeField] public int CurrentLevel { get; set; }
+        [FoldoutGroup("Upgradable")]
+        [Header("Level")]
+        [SerializeField, ReadOnly] private int currentLevel = 1;
+        public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
 
-        [field: SerializeField] public int MaxLevel { get; set; } = 1;
+        [FoldoutGroup("Upgradable")]
+        [SerializeField] private int maxLevel = 1;
+        public int MaxLevel { get => maxLevel; set => maxLevel = value; }
 
         public event Action<int> OnUpgrade;
         public event Action<int> OnDowngrade;
@@ -27,13 +32,13 @@ namespace KingdomLike.Core.Upgradable
             CurrentLevel++;
 
             OnUpgrade?.Invoke(CurrentLevel);
-            
+
             if (CurrentLevel == MaxLevel)
             {
                 OnUpgradeMax?.Invoke();
             }
         }
-        
+
         [Button]
         public void Downgrade()
         {
@@ -47,14 +52,14 @@ namespace KingdomLike.Core.Upgradable
 
         public bool CanDowngrade()
         {
-            return CurrentLevel > 0;
+            return CurrentLevel > 1;
         }
 
         [Button]
         public void Reset()
         {
             bool hasReset = false;
-            while (CurrentLevel > 0)
+            while (CurrentLevel > 1)
             {
                 Downgrade();
                 hasReset = true;
@@ -65,9 +70,9 @@ namespace KingdomLike.Core.Upgradable
         [Button]
         public void UpgradeMax()
         {
-            for (int i = 0; i < CurrentLevel - MaxLevel; i++)
+            while (CanUpgrade())
             {
-                Upgrade();                
+                Upgrade();
             }
         }
 
@@ -93,7 +98,6 @@ namespace KingdomLike.Core.Upgradable
             MaxLevel = state.MaxLevel;
             return UniTask.CompletedTask;
         }
-        
 
         public override string ModuleId { get; protected set; } = "UpgradableBuilding";
         public override IUnifiedSaveManager SaveManager => UnifiedSaveManagerBehaviour.Instance.Manager;

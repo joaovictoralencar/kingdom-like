@@ -61,6 +61,10 @@ PrefabInstance:
       value: 82cc62dba14c46ae8cf3b28193df98e9
       objectReference: {fileID: 0}
     - target: {fileID: 7420918947659834040, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
+      propertyPath: maxLevel
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7420918947659834040, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
       propertyPath: _upgrades.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -80,6 +84,14 @@ PrefabInstance:
       propertyPath: _upgrades.Array.data[1].Visual
       value: 
       objectReference: {fileID: 7999473814205958297, guid: cf0cd3ea4fdc6d8438b9e98ce711cf07, type: 3}
+    - target: {fileID: 7420918947659834040, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
+      propertyPath: _upgrades.Array.data[0].Currency
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7420918947659834040, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
+      propertyPath: _upgrades.Array.data[1].Currency
+      value: 
+      objectReference: {fileID: 11400000, guid: 0bd3fd2faa48bf6458494152ee7c7fa1, type: 2}
     - target: {fileID: 7824333275059235281, guid: d6bdafd92a201ba4da4436ec9b5de041, type: 3}
       propertyPath: m_Name
       value: pfb_Interactable_Building_Upgradable_House
