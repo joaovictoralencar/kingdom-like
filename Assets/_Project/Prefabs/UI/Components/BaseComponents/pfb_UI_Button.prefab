@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -141,6 +141,8 @@ MonoBehaviour:
   currentState: 0
   debugMode: 0
   originalScale: {x: 1, y: 1, z: 1}
+  selectOnHighlight: 1
+  targetSelectable: {fileID: 4789619540153120963}
   NormalStateEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -157,6 +159,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   ChangedStateEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  EndPressing:
     m_PersistentCalls:
       m_Calls: []
   DeselectOnClick: 0
